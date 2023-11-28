@@ -1,0 +1,122 @@
+.buttonClassContainer{
+  display: flex;
+  margin-top: 1% !important;
+  /* margin-left: 1% !important; */
+  /* width: 50%; */
+  /* padding: 0% 5%; */
+  position: absolute;
+  /* transform: translate(0%, 0%); */
+  /* align-items: center;
+  justify-content: center; */
+}
+
+.Cbutton {
+    font-family: "Roboto", sans-serif;
+    /* text-transform: uppercase; */
+    /* outline: 0; */
+    /* width: 100%; */
+    /* border: 0; */
+    /* padding: 15px; */
+    text-decoration: none !important;
+    color: #FFFFFF !important;
+    /* font-size: 14px; */
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+    font-weight: bolder;
+
+  }
+  
+  
+.Cbutton-reset-password {
+  font-weight: 1000;
+  text-align: left;
+  /* font-style: normal; */
+  /* width: 100% !important; */
+  /* margin-bottom: 60%; */
+}
+
+
+
+.CCommonnButton {
+  /* box-sizing: border-box; */
+  /* gap: 8px; */
+  /* position: absolute; */
+  /* width: 53%; */
+  height: 45px;
+  /* padding: 0px; */
+  /* left: calc(50% - 174px / 2 + 1px); */
+  /* top: 1025px; */
+  /* text-align: left !important; */
+  /* padding-left:10px; */
+  /* font-size: 16px; */
+  /* background: #52796f !important; */
+  
+  border: 4px solid #daf0ee !important;
+  box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  
+}
+
+.CCommonnButton_purple{
+  height: 45px;
+  /* left: calc(50% - 174px / 2 + 1px); */
+  /* top: 1025px; */
+  /* text-align: left !important; */
+  /* padding-left:10px; */
+  /* font-size: 16px; */
+  background: #3F007F !important;
+  
+  border: 3px solid #daf0ee !important;
+  box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  margin: 50%;
+}
+
+.buttonClass{
+  display: flex;
+  justify-content: center;
+
+}
+
+.CvectorResetPasswordVec{
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  /* width: 2em; */
+  height: 1.5em;
+  border-radius: 40%;
+  /* margin-left: 1px; */
+  /* margin-bottom: 30% !important; */
+  margin-top: 50%;
+  margin-left: -35%;
+}
+
+.CvectorResetPasswordVecBack{
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  /* width: 2em; */
+  height: 1.5em;
+  border-radius: 40%;
+  /* margin-left: 1px; */
+  /* margin-bottom: 30% !important; */
+  margin-top: 50%;
+  margin-left: 50%;
+}
+
+.buttonClassBtn{
+  white-space:nowrap;
+}
+
+.cBtn{
+  background: none;
+	color: inherit;
+	border: none;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+  font-weight: bolder  !important;
+  padding: 14px 35px !important;
+
+}

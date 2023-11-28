@@ -1,0 +1,147 @@
+.mainDashboardContainer{
+    display: flex;
+    flex-direction: row;
+    /* background-color: red; */
+    justify-content: space-between;
+    padding: 10% 5%;
+}
+
+.lMenusHead, .rMenusHead{
+    display: flex;
+    flex-direction: row !important;
+    justify-content: space-between;
+    align-items: center;
+    width: 30%;
+    padding: 10%;
+    /* margin-top: 10%; */
+}
+
+.lMenusHead > label {
+    padding: 0 10px 5px;
+    font-size: 20px;
+}
+
+.rMenusHead > .labelH{
+    padding: 0 10px 5px;
+    font-size: 20px;
+    color: black !important;
+    margin-top: 10%;
+}
+.menuIng{
+ height: 50%;
+ padding: 20% 0;
+ margin-left: 10% ;
+}
+
+
+.Litems{
+    background-color: white;
+    padding: 0%;
+    /* margin: -1%; */
+    /* margin-top: -10px; */
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    height: 14%;
+    border-radius: 10%;
+    box-shadow: 1px 5px 10px rgba(0, 0, 0, 0.2);
+    height: 80px !important;
+
+}
+
+.menuContent{
+    font-weight: bolder;
+    font-size: 13px;
+    text-align: center;
+}
+
+.menuContent > p:first-child{
+    font-weight: bolder;
+    font-size: 18px;
+    margin: 10px 0 0 0;
+}
+
+.menuContent > p{
+    text-align: center;
+}
+.rMenus{
+    display: flex;
+    flex-direction: column !important;
+    justify-content: space-between;
+
+}
+
+
+.newboxSizingr > .Link >  .Litems , .newboxSizingr  >  .Litems{
+    background-color: white;
+    /* padding: -100%; */
+    margin: 5%;
+    display: flex;
+    flex-direction: row;
+    width: 95%;
+    height: 75px !important;
+    color: black !important;
+    /* height: 75#px !important; */
+}
+
+.newboxSizingl > .leftlink{
+    color: black !important;
+
+
+}
+
+
+.bigbox{
+    height: 253px;
+    width:433px;
+    color: #DAF0EE;
+    border-radius: 15px ;
+
+
+}
+/* .boxSizingl{
+    height: 550px;
+    width: 140px;
+    background-color: #DAF0EE;
+    border-radius: 20px;
+    padding: 1% 2% 5% 2%;
+
+} */
+
+.newboxSizingl{
+    height: 500px;
+    width: 140px;
+    background-color: #DAF0EE;
+    border-radius: 20px;
+    padding: 8%;
+
+}
+
+.newboxSizingr{
+    height: 350px;
+    width: 140px;
+    background-color: #E8E7E7;
+    border-radius: 20px;
+    padding: 5%;
+
+}
+
+/* .boxSizingr{
+    height: 350px;
+    width: 140px;
+    background-color: #E8C5ED;
+    border-radius: 20px;
+    padding: 1% 2%;
+} */
+
+.btnGroup{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.btnGroupTwoCss{
+    background-color: red;
+    padding: 100px;
+
+}

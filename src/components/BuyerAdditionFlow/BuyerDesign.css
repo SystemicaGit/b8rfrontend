@@ -1,0 +1,34 @@
+.fieldTitle{
+    font-family: "Inter", sans-serif;
+    font-style: normal;
+    font-size: 15px;
+    color: #5D6560;
+    /* background-color: #000000; */
+
+}
+
+.fieldInput-add{
+    width: 300px;
+    height: 44px;
+    background-color: #F5F5F5;
+    border: 1px solid #52796F !important;
+    padding: 5px;
+    border-radius: 10px !important;
+    font-size: 16px;
+    color: #000000;
+    box-shadow: none !important;
+
+}
+
+.inner-background-add{
+    background-color: linear-gradient(180deg, #5e5b5b 10%, rgba(245, 245, 245, 0) 100%);
+    /* background-color: #ff0000; */
+    padding: 4%;
+    z-index: 5;
+    border-radius:  30px;
+    margin-top: 20%;
+  }
+
+/* .moveIn{
+    
+} */

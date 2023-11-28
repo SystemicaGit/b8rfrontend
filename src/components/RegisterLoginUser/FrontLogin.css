@@ -1,0 +1,234 @@
+.fulldiv{
+    /* margin-top: 50% !important; */
+    height: 100vh !important;
+    /* margin: 0 auto; */
+    font-family: Poppins, sans-serif;
+    font-size: 16px;
+}
+
+.loginform > label , input {
+    margin: 10px 20px;
+
+}
+.loginform{
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.3);
+    background-color: rgb(219, 221, 223);
+    border: 1px solid black;
+    padding: 10%;
+}
+
+.loginform > input {
+    height: 4vh;
+    width: 80%;
+    border: none;
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.3);
+}
+
+label {
+    font-weight: 700;
+}
+
+.loginform > button
+{
+    background-color: rgb(201, 208, 199);
+    width: 60%;
+    border: 0ex;
+    padding: 5%;
+    margin: 5%;
+    margin-left: 10%;
+
+    display: flex;
+    justify-content: baseline;
+
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.3);
+    
+    
+}
+.loginform > button:hover{
+    background-color: #9DB5B2;
+    zoom: 1.2;
+}
+
+
+
+
+  @import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+
+
+.form input {
+  font-family: "Poppins", sans-serif;
+  outline: 0;
+  background: #efeeee;
+  width: 90%;
+  border: 0;
+  margin: 0 0 15px;
+  /* padding: 15px; */
+  /* box-sizing: border-box; */
+  font-size: 14px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+
+}
+
+.form .message {
+  margin: 15px 0;
+  color: #b3b3b3;
+  font-size: 16px;
+  font-weight: 600;
+  text-underline-offset: 0px;
+}
+.form .message a {
+  color: #af604c !important;
+  text-decoration: none;
+}
+.form .register-form {
+  display: none;
+}
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 300px;
+  margin: 0 auto;
+}
+.container:before, .container:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.container .info {
+  margin: 50px auto;
+  text-align: center;
+}
+.container .info h1 {
+  margin: 0 0 15px;
+  padding: 0;
+  font-size: 36px;
+  font-weight: 300;
+  color: #1a1a1a;
+}
+.container .info span {
+  color: #4d4d4d;
+  font-size: 12px;
+}
+.container .info span a {
+  color: #000000;
+  text-decoration: none;
+}
+.container .info span .fa {
+  color: #EF3B3A;
+}
+
+
+
+
+.fulldiv {
+  background: #f7f8f7; /* fallback for old browsers */
+  background: rgb(253, 253, 253);
+  /* background: linear-gradient(90deg, rgb(255, 255, 255), rgba(118,184,82,1) 90%); */
+  background: #DAF0EE;
+  /* background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e); */
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;      
+}
+
+.GoogleSignIn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.vectorSignIn{
+  display: inline-block;
+  /* width: 2em; */
+  height: 1.9em;
+  border-radius: 40%;
+  /* margin-left: 1.5em; */
+  margin-bottom: 30% !important;
+  margin-top: -30%;
+  margin-left: 80%;
+
+ 
+}
+
+.login-form label {
+  text-align: left;
+  display: block;
+  font-weight: 300;
+  padding: 0.5% 4%;
+}
+
+.login-form .message {
+  color: #52796F;
+}
+
+.login-form .CommonnButton {
+  font-weight: 1000;
+  text-align: left;
+  font-style: normal;
+  width: 35%;
+}
+
+
+.login-form label {
+  text-align: left;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 300;
+  float: left;
+}
+
+.login-form input {
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid #52796F !important;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+
+
+.reset-link {
+  color: #52796F;
+}
+
+.Htitle{
+  color: #52796F !important;
+}
+
+.messageUnderline{
+
+  text-decoration: underline;
+  /* margin-bottom: 1px; */
+  text-underline-offset: auto;
+}
+
+.login-form input[type="checkbox"] {
+  
+  /* background-color: none !important;
+  padding: 1px ;
+  border: none !important;
+  border-radius: none !important;
+  box-shadow: none !important;
+  width: none !important;
+  margin: none !important; */
+  /* display: flex; */
+  /* all: none !important;  */
+  /* all: unset; */
+  /* all: initial; */
+/* display: inline; */
+}
+
+
+.checkbox-container {
+  /* display: flex; */
+  align-items: center;
+}
+
+.checkbox-container input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+

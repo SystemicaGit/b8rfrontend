@@ -1,0 +1,41 @@
+.startPage {
+    background-image: url("");
+    /* Add other styles for the start page */
+  }
+  
+ 
+  
+  .form {
+    border-radius: 16px;
+    /* margin-top: 40%; */
+    background-repeat: no-repeat;
+    background-image: url("../Assets/Images/RegisterLoginUser/other_bg.png");
+    background-size: 100% 100%;
+    /* Add other styles for the form */
+  }
+  
+ 
+  
+ 
+  
+  .login-form label {
+    text-align: left;
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 300;
+  }
+  
+  
+  
+  .CommonnButton {
+    font-weight: 1000;
+    text-align: left;
+    font-style: normal;
+    width: 55%;
+    /* Add styles for the common button */
+  }
+  
+ 
+  
+  /* Add more CSS rules as needed */
+  

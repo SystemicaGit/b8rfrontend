@@ -1,0 +1,37 @@
+.Inputfield{
+    color:"#5D6560" !important;
+    font-family:"Inter" !important;
+    font-style: "Regular" !important;
+    margin-left: 30px;
+
+}
+.InputF{
+    border-radius: 10%;
+    border-color: #52796F;
+    
+}
+.SpaceAbove{
+    margin-top: 70px;
+}
+
+.TenantSideF{
+    height: 170px;
+    width: 355px;
+    background-color: #F0FBF8;
+    border-radius: 15px;
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+.TenantSideF .titleF{
+    margin-top: 5%;
+}
+
+.newBtn{
+    height: 50px;
+    width: 250px;
+    background-color: #3B413D;
+    font-family:"Glida Display";
+    color: #F0FBF8;
+    font-size: larger;
+    border-radius: 10px;
+}

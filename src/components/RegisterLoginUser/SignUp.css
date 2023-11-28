@@ -1,0 +1,226 @@
+
+
+.SignInContainer {
+  display: flex;
+  /* flex-direction: column-reverse; */
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding: 25%;
+  margin-left: 5%;
+  margin-right: 5%;
+  background: #f0fbf8 !important;
+  border-radius: 15px;
+}
+.SignInContainer .para {
+  position: absolute;
+  /* left: calc(50% - 190px / 2 + 8px); */
+  
+  font-size: 20px;
+  color: #000000;
+  margin-bottom: 15%;
+  font-weight: bold;
+  /* text-shadow: 1px 0 black, 0px -1px black, 1px 1px black; */
+}
+
+.CommonnButton {
+  box-sizing: border-box;
+  gap: 5px;
+  /* position: absolute; */
+  width: 100px;
+  height: 45px;
+  left: calc(50% - 174px / 2 + 1px);
+  /* top: 1025px; */
+  /* text-align: left !important; */
+  padding-left:8px;
+  font-size: 16px;
+  background: #52796f !important;
+  border: 3px solid #daf0ee !important;
+  box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+}
+
+.CommonnButtonNew {
+  box-sizing: border-box;
+
+  gap: 8px;
+  left: calc(50% - 174px / 2 + 1px);
+ 
+  font-size: 13px !important;
+  padding-left:10px;
+  color: #77A8A4 !important;
+  background: #D2D7D6 !important;
+  border: 3px solid #A9C0BA !important;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  
+}
+
+.vectorSignUp{
+  display: inline-block;
+  /* width: 2em; */
+  height: 1.8em;
+  border-radius: 40%;
+  /* margin-left: 1.5em; */
+  margin-bottom: 30% !important;
+  margin-top: -15%;
+  margin-left: 85%;
+}
+.vector {
+  display: inline-block;
+  /* width: 2em; */
+  height: 2em;
+  border-radius: 40%;
+  /* margin-left: 1.5em; */
+  margin-bottom: 30% !important;
+  margin-top: -30%;
+  margin-left: 75%;
+
+}
+
+
+/* .form input,
+.form select {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.form button:hover,
+.form button:active,
+.form button:focus {
+  background: #43a047;
+} */
+.form .message {
+  margin: 15px 0 0;
+  color: #52796f !important;
+  font-size: 16px;
+  font-weight: 600;
+  text-underline-offset: 0px;
+  margin-bottom: 5% !important;
+}
+.form .message a {
+  color: #3b413c !important;
+  text-decoration: none;
+}
+.form .register-form {
+  display: none;
+}
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 300px;
+  margin: 0 auto;
+}
+.container:before,
+.container:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.container .info {
+  margin: 50px auto;
+  text-align: center;
+}
+.container .info h1 {
+  margin: 0 0 15px;
+  padding: 0;
+  font-size: 36px;
+  font-weight: 300;
+  color: #1a1a1a;
+}
+.container .info span {
+  color: #4d4d4d;
+  font-size: 12px;
+}
+.container .info span a {
+  color: #000000;
+  text-decoration: none;
+}
+
+body {
+  /* background-color: #daf0ee !important; */
+
+  margin: none;
+  font-family: "Poppins", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+/* startPage.css */
+
+/* Add other styles */
+.label-email {
+  text-align: left;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 300;
+  float: left;
+}
+
+.label-full-name {
+  text-align: left;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 300;
+}
+
+.label-password {
+  text-align: left;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 300;
+}
+
+.label-confirm-password {
+  text-align: left;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 300;
+}
+
+.label-invitation-code {
+  text-align: left;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 300;
+}
+
+.label-phone {
+  text-align: left;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 300;
+}
+
+.button-create-account {
+  font-weight: 1000;
+  text-align: left;
+  font-style: normal;
+  width: 55%;
+}
+
+.form {
+  border-radius: 16px;
+  /* margin-top: 10%; */
+  background-repeat: no-repeat;
+  background-image: url('../Assets/Images/RegisterLoginUser/main_bg.png');
+  background-size: 100% 100%;
+}
+
+.header {
+  /* Add the styles here */
+}
+
+.SignInContainer {
+  background-color: #f0fbf7;
+  margin-top: 10%;
+}
