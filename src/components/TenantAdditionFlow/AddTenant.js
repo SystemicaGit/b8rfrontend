@@ -394,8 +394,11 @@ function AddTenant() {
               <input
                 type="number"
                 id="numberOfMonth"
+                min="1"
+                max="12"
                 value={formData.numberOfMonth}
                 onChange={handleChange}
+                maxLength="2"
                 name="numberOfMonth"
                 placeholder="-number only*-"
                 style={{
