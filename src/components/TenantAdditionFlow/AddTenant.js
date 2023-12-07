@@ -98,10 +98,52 @@ function AddTenant() {
     setCheckedStateTwo((current) => !current);
   };
 
-  const handleChangeTwo = () => {
-    setCheckedStateTwo((current) => !current);
-    setCheckedStateThree((current) => !current);
-    console.log("Received from TenantPref In state:", formData);
+  const validateStageTwo = () => {
+    if (formData.tenantData.stayDuration == "") {
+      alert("Please select stay duration ");
+      return false;
+    }
+    if (
+      formData.tenantData.numberOfMonth == "" ||
+      formData.tenantData.numberOfMonth > 12
+    ) {
+      alert("Please select preferred deposite month or select less than 12");
+      return false;
+    }
+    if (formData.tenantData.houseConfiguration == "") {
+      alert("Please select house configuration ");
+      return false;
+    }
+    if (formData.tenantData.furnishingType == "") {
+      alert("Please select furnishing type");
+      return false;
+    }
+    if (formData.tenantData.houseType == "") {
+      alert("Please select house type");
+      return false;
+    }
+    if (formData.tenantData.preferredLocation == "") {
+      alert("Please select preferred location");
+      return false;
+    }
+    if (formData.tenantData.moveIn == "") {
+      alert("Please select availability date");
+      return false;
+    }
+    if (formData.tenantData.rent == "") {
+      alert("Please select preferred rent");
+      return false;
+    }
+    return true;
+  };
+
+  const handleChangeTwo = (event) => {
+    event.preventDefault();
+    if (validateStageTwo()) {
+      setCheckedStateTwo((current) => !current);
+      setCheckedStateThree((current) => !current);
+      console.log("Received from TenantPref In state:", formData);
+    }
   };
 
   const token = localStorage.getItem("token");
@@ -121,29 +163,53 @@ function AddTenant() {
     navigate(-1);
   };
 
+  const validateSubmit = () => {
+    if (
+      (formData.tenantData.gatedSecurity ||
+        formData.tenantData.powerBackup ||
+        formData.tenantData.groceryStore ||
+        formData.tenantData.swimmingPool ||
+        formData.tenantData.gym ||
+        formData.tenantData.clubHouse ||
+        formData.tenantData.carParking ||
+        formData.tenantData.bikeParking ||
+        formData.tenantData.bathroom ||
+        formData.tenantData.ac ||
+        formData.tenantData.nonVeg) == false
+    ) {
+      alert("Please select atleast one");
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     // const Jdata =  JSON.stringify(formData, null, 2);
     // console.log("JSON VARIABLE",Jdata);
     // console.log(JSON.stringify(formData));
-    axios
-      .post("https://b8rliving.com/tenant", formData, axiosConfig)
-      .then((response) => {
-        // console.log(response.data.userID);
-        alert("Your Tenant details has been submitted");
-        //redirect user to Dashboard
-        window.location.href = `/TenantCreated?name=${formData.tenantData.name}&budget=${formData.tenantData.rent}`;
-        // do something with the response
-      })
-      .catch((error) => {
-        alert(error);
-        console.log(error);
-        // handle the error
-      });
-    console.log("Finale In state:", formData);
-    // alert("Tenant Created!");
+    if (validateSubmit()) {
+      axios
+        .post("https://b8rliving.com/tenant", formData, axiosConfig)
+        .then((response) => {
+          // console.log("Inside this");
+          // console.log(response.data.userID);
+          alert("Your Tenant details has been submitted");
+          // console.log(response.data);
+          //redirect user to Dashboard
+          window.location.href = `/TenantCreated?name=${formData.tenantData.name}&budget=${formData.tenantData.rent}`;
+          // do something with the response
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+          // console.log(err)
+          console.log(error.response.data.message);
+          // handle the error
+        });
+      console.log("Finale In state:", formData);
+      // alert("Tenant Created!");
+    }
   };
-
   //STYLES
 
   const styles = {
@@ -183,8 +249,8 @@ function AddTenant() {
                   float: "left",
                 }}
               >
-                {" "}
-                Tenant Name
+                Tenant Name{" "}
+                <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
               </label>
               <input
                 type="text"
@@ -207,11 +273,14 @@ function AddTenant() {
                 }}
               >
                 Tenant Mobile Number{" "}
+                <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
               </label>
               <input
-                type="number"
+                type="tel"
                 id="phoneNumber"
                 name="phoneNumber"
+                pattern="[0-9]{10}"
+                maxLength="10"
                 value={formData.phoneNumber}
                 onChange={handleChange}
                 required
@@ -228,7 +297,8 @@ function AddTenant() {
                   float: "left",
                 }}
               >
-                Tenant Email
+                Tenant Email{" "}
+                <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
               </label>
               <input
                 type="email"
@@ -283,7 +353,8 @@ function AddTenant() {
                   float: "left",
                 }}
               >
-                Duration of stay
+                Duration of stay{" "}
+                <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
               </label>
               <select
                 name="stayDuration"
@@ -316,7 +387,8 @@ function AddTenant() {
                   float: "left",
                 }}
               >
-                Deposit amount prefered(in Months)
+                Deposit amount prefered(in Months){" "}
+                <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
               </label>
 
               <input
@@ -348,7 +420,8 @@ function AddTenant() {
                   float: "left",
                 }}
               >
-                Preference of House Configuration
+                Preference of House Configuration{" "}
+                <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
               </label>
 
               <select
@@ -389,7 +462,8 @@ function AddTenant() {
                   float: "left",
                 }}
               >
-                Type of Furnishing
+                Type of Furnishing{" "}
+                <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
               </label>
               <select
                 name="furnishingType"
@@ -423,7 +497,8 @@ function AddTenant() {
                 }}
               >
                 {/* houseType" must be one of [Flat (in Gated Society…r Floor, Standalone Individual House, 0, 1, 2, 3] */}
-                What is the House type?
+                What is the House type?{" "}
+                <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
               </label>
               <select
                 id="houseType"
@@ -465,7 +540,8 @@ function AddTenant() {
                   float: "left",
                 }}
               >
-                Preferred Location
+                Preferred Location{" "}
+                <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
               </label>
               <input
                 type="text"
@@ -495,7 +571,10 @@ function AddTenant() {
                 >
                   {/* <div class="grid-item"  style={{marginTop:"20px",width:"150px",marginBottom:"10px",boxShadow:"0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24", border:"none",background:"linear-gradient(180deg, rgba(207, 211, 210, 0.5) 0%, rgba(232, 231, 231, 0) 100%)", boxShadow:" 0px 4px 4px rgba(0, 0, 0, 0.25)",boxShadow:"5px"}}> */}
                   <img src={key_1} alt="Icon description" />
-                  <h5 style={{ marginTop: "-5px" }}>Available from</h5>
+                  <h5 style={{ marginTop: "-5px" }}>
+                    Available from{" "}
+                    <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
+                  </h5>
                   <input
                     type="date"
                     id="moveIn"
@@ -529,7 +608,10 @@ function AddTenant() {
                 >
                   {/* <div class="grid-item" style={{width:"150px", border:"1px solid #CFD3D2",background: "linear-gradient(180deg, rgba(232, 231, 231, 0.5) 0%, rgba(232, 231, 231, 0) 100%)",borderRadius:"5px"}}> */}
                   <img src={rent_1} alt="Icon description" />
-                  <h5 style={{ marginTop: "2px" }}>Prefered Rent(per month)</h5>
+                  <h5 style={{ marginTop: "2px" }}>
+                    Prefered Rent(per month){" "}
+                    <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
+                  </h5>
                   <h6 style={{ marginTop: "-20px" }}>(with Maintenance)</h6>
                   <input
                     type="number"
@@ -560,9 +642,12 @@ function AddTenant() {
 
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <div>
-
-                
-                <BackButton title="Back" margin="" fontweight="bolder" onClick={handleClick}/>
+                  <BackButton
+                    title="Back"
+                    margin=""
+                    fontweight="bolder"
+                    onClick={handleClick}
+                  />
                 </div>
                 <CommonBtn title="Submit" margin="50%" fontweight="bolder" />
               </div>
@@ -602,6 +687,9 @@ function AddTenant() {
                 }}
               >
                 What all facilitites are must for tenant?
+                <br />
+                (select atleast one)
+                <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
               </h6>
               <form className="login-form" onSubmit={handleSubmit}>
                 <div
