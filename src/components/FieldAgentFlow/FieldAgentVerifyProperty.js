@@ -56,7 +56,8 @@ function FieldAgentVerifyProperty() {
   const queryParameters = new URLSearchParams(window.location.search);
   const idProperty = queryParameters.get("propertyId");
   // console.log("id" + idProperty);
-
+  const [isHomeArranged, setisHomeArranged] = useState(false);
+  const [isBedroomArranged, setisBedroomArranged] = useState(false);
   const [checkedStateOne, setCheckedStateOne] = useState(true);
   const [checkedStateTwo, setCheckedStateTwo] = useState(false);
   const [checkedStateThree, setCheckedStateThree] = useState(false);
@@ -93,9 +94,9 @@ function FieldAgentVerifyProperty() {
         city: "",
       },
       featureInfo: {
-        gatedSecurity: true,
-        powerBackup: true,
-        groceryStore: true,
+        gatedSecurity: false,
+        powerBackup: false,
+        groceryStore: false,
         swimmingPool: false,
         gym: false,
         clubHouse: false,
@@ -113,7 +114,7 @@ function FieldAgentVerifyProperty() {
         bathrooms: "",
         balconies: "",
         furnishingType: "",
-        ac: true,
+        ac: false,
         nonVeg: false,
         constructionYear: "",
         availableFrom: "",
@@ -127,9 +128,9 @@ function FieldAgentVerifyProperty() {
         moveInFrom: 0,
       },
       verifyInfo: {
-        liftLobby: true,
-        entryDoor: true,
-        homeEntry: true,
+        liftLobby: false,
+        entryDoor: false,
+        homeEntry: false,
         livingRoom: false,
         tvArea: false,
         kitchen: false,
@@ -152,21 +153,19 @@ function FieldAgentVerifyProperty() {
 
   // Define a JSON object with fields and their values
   const [featureData, setfeatureData] = useState({
-  bed_one: false,
-  bath_one: false,
-  balcony: false,
-  bedroom_two: false,
-  bath_two: false,
-  balcony_two: false,
-  bedroom_three: false,
-  bath_three: false,
-  balcony_three: false,
-  servant_room: false,
-  servant_washroom: false
-  // Add other fields and set their values as needed
+    bed_one: false,
+    bath_one: false,
+    balcony: false,
+    bedroom_two: false,
+    bath_two: false,
+    balcony_two: false,
+    bedroom_three: false,
+    bath_three: false,
+    balcony_three: false,
+    servant_room: false,
+    servant_washroom: false,
+    // Add other fields and set their values as needed
   });
-
-
 
   let axiosConfig = {
     headers: {
@@ -327,18 +326,18 @@ function FieldAgentVerifyProperty() {
   //   }));
   // };
 
-// Create an object to store toggle states for different buttons
-const [buttonToggles, setButtonToggles] = useState({});
+  // Create an object to store toggle states for different buttons
+  const [buttonToggles, setButtonToggles] = useState({});
 
-const handleToggle = (btnId) => {
-  // Update the toggle state for the button with the specified btnId
-  setButtonToggles((prevState) => ({
-    ...prevState,
-    [btnId]: !prevState[btnId] || false,
-  }));
-};
+  const handleToggle = (btnId) => {
+    // Update the toggle state for the button with the specified btnId
+    setButtonToggles((prevState) => ({
+      ...prevState,
+      [btnId]: !prevState[btnId] || false,
+    }));
+  };
 
-const handleChangeOne = (event) => {
+  const handleChangeOne = (event) => {
     event.preventDefault();
 
     setCheckedStateOne((current) => !current);
@@ -362,61 +361,118 @@ const handleChangeOne = (event) => {
     console.log("Received from PrpertyInfo - 1s In state 2:", formData);
   };
 
+  const validateStageThree = () => {
+    // console.log(formData.propertyInfo.verifyInfo.entryDoor)
+    if (!isHomeArranged) {
+      alert("Please arrange all things");
+      return false;
+    }
+    if (!formData.propertyDetails.verifyInfo.entryDoor) {
+      alert("Please capture door photo");
+      return false;
+    }
+    if (formData.propertyDetails.verifyInfo.homeEntry == false) {
+      alert("Please capture home entry photo");
+      return false;
+    }
+    if (formData.propertyDetails.verifyInfo.livingRoom == false) {
+      alert("Please capture livingRoom photo");
+      return false;
+    }
+    if (formData.propertyDetails.verifyInfo.kitchen == false) {
+      alert("Please capture kitchen photo");
+      return false;
+    }
+    if (formData.propertyDetails.verifyInfo.commonWashroom == false) {
+      alert("Please capture common washroom  photo");
+      return false;
+    }
+    return true;
+  };
+
   const handleChangeThree = (event) => {
     event.preventDefault();
-    setCheckedStateThree((current) => !current);
-    setCheckedStateFour((current) => !current);
-    console.log("Received from PrpertyInfo - 1s In state 3:", formData);
+    if (validateStageThree()) {
+      setCheckedStateThree((current) => !current);
+      setCheckedStateFour((current) => !current);
+      console.log("Received from PrpertyInfo - 1s In state 3:", formData);
+    }
+  };
+
+  const validateStageFour = () => {
+    if (!isBedroomArranged) {
+      alert("please arrange bedrooms");
+      return false;
+    }
+    if (
+      (featureData.bed_one ||
+        featureData.bedroom_two ||
+        featureData.bedroom_three) == false
+    ) {
+      alert("please capture bedrooms photo");
+      return false;
+    }
+    return true;
   };
 
   const handleChangeFour = (event) => {
     event.preventDefault();
-    setCheckedStateFour((current) => !current);
-    setCheckedStateFive((current) => !current);
-
-    console.log("Received from PrpertyInfo - 1s In state 4:", formData);
+    if (validateStageFour()) {
+      setCheckedStateFour((current) => !current);
+      setCheckedStateFive((current) => !current);
+      console.log("Received from PrpertyInfo - 1s In state 4:", formData);
+    }
   };
-
-
+  const validateSubmit = () => {
+    const isMainGate = formData.propertyDetails.verifyInfo.mainGate;
+    if (isMainGate == false) {
+      alert("Please Capture Main Gate Photo");
+      return false;
+    }
+    return true;
+  };
   //SUBMIT DATA
   const handleChangeSubmit = async (event) => {
     event.preventDefault();
-    console.log("Received from Final In state:", formData);
+    if (validateSubmit()) {
+      console.log("Received from Final In state:", formData);
 
-    
-    // Extract feature1 and stringify it
-  const feature1String = JSON.stringify(formData.propertyDetails.verifyInfo.feature1);
-
-  // Create a copy of the formData and set the stringified feature1
-  const updatedFormData = { ...formData };
-  updatedFormData.propertyDetails.verifyInfo.feature1 = feature1String;
-  console.log(feature1String);
-
-    try {
-      const response = await axios.put(
-        `https://b8rliving.com/field-agent/verify/${idProperty}`,
-        formData,
-        axiosConfig
+      // Extract feature1 and stringify it
+      const feature1String = JSON.stringify(
+        formData.propertyDetails.verifyInfo.feature1
       );
 
-      // setformData(response.data.data.property);
-      // Assuming you have your response data stored in a variable called 'response'
-      // const responseData = response.data.data.property;
+      // Create a copy of the formData and set the stringified feature1
+      const updatedFormData = { ...formData };
+      updatedFormData.propertyDetails.verifyInfo.feature1 = feature1String;
+      console.log(feature1String);
 
-      // Update the formData state with the response data
-      // setFormData(responseData);
-      // setFormDataNew(response.data.data.property);
+      try {
+        const response = await axios.put(
+          `https://b8rliving.com/field-agent/verify/${idProperty}`,
+          formData,
+          axiosConfig
+        );
 
-      // Log the updated state
-      console.log(response);
-      alert(response.data.message);
-      window.location.href = "/fieldAgentHomeN";
-      // console.log(JSON.stringify(formData));
-    } catch (error) {
-      // Handle any errors that occur during the API request
-      console.error("Error fetching data:", error);
-    } finally {
-      setLoading(false); // Set loading to false when the request is complete
+        // setformData(response.data.data.property);
+        // Assuming you have your response data stored in a variable called 'response'
+        // const responseData = response.data.data.property;
+
+        // Update the formData state with the response data
+        // setFormData(responseData);
+        // setFormDataNew(response.data.data.property);
+
+        // Log the updated state
+        console.log(response);
+        alert(response.data.message);
+        window.location.href = "/fieldAgentHomeN";
+        // console.log(JSON.stringify(formData));
+      } catch (error) {
+        // Handle any errors that occur during the API request
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false); // Set loading to false when the request is complete
+      }
     }
   };
 
@@ -485,12 +541,14 @@ const handleChangeOne = (event) => {
                       float: "left",
                     }}
                   >
-                    Select Map Location
+                    Select Map Location{" "}
+                    <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
                   </label>
                   <input
                     type="text"
                     id="mapLocation"
                     name="mapLocation"
+                    required
                     value={formData.propertyDetails.propertyInfo.mapLocation}
                     onChange={handleChange}
                     style={{
@@ -511,7 +569,8 @@ const handleChangeOne = (event) => {
                       float: "left",
                     }}
                   >
-                    What is the House type?
+                    What is the House type?{" "}
+                    <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
                   </label>
                   <select
                     id="houseType"
@@ -560,6 +619,7 @@ const handleChangeOne = (event) => {
                     }}
                   >
                     What is the house configuration?{" "}
+                    <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
                   </label>
                   <select
                     id="houseConfig"
@@ -603,11 +663,13 @@ const handleChangeOne = (event) => {
                       float: "left",
                     }}
                   >
-                    House Number/ Flat Number/ Name
+                    House Number/ Flat Number/ Name{" "}
+                    <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
                   </label>
                   <input
                     type="text"
                     id="houseName"
+                    required
                     value={formData.houseName}
                     onChange={handleChange}
                     name="houseName"
@@ -632,11 +694,13 @@ const handleChangeOne = (event) => {
                       float: "left",
                     }}
                   >
-                    What is the Society?
+                    What is the Society?{" "}
+                    <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
                   </label>
                   <input
                     type=""
                     id="societyName"
+                    required
                     value={formData.societyName}
                     onChange={handleChange}
                     name="societyName"
@@ -661,12 +725,14 @@ const handleChangeOne = (event) => {
                       float: "left",
                     }}
                   >
-                    Pin Code
+                    Pin Code{" "}
+                    <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
                   </label>
                   <input
                     type="number"
                     id="pinCode"
                     name="pinCode"
+                    required
                     value={formData.pinCode}
                     onChange={handleChange}
                     onBlur={validatePincode}
@@ -690,13 +756,15 @@ const handleChangeOne = (event) => {
                       float: "left",
                     }}
                   >
-                    Area/Locality
+                    Area/Locality{" "}
+                    <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
                   </label>
 
                   <input
                     type="text"
                     id="area"
                     name="area"
+                    required
                     value={formData.propertyDetails.propertyInfo.area}
                     // value={formData.propertyDetails.version}
 
@@ -711,7 +779,7 @@ const handleChangeOne = (event) => {
                   ></input>
                   <br></br>
 
-                  <div className="checkContainer">
+                  {/* <div className="checkContainer">
                     <label
                       htmlFor="checkboxGroup"
                       style={{
@@ -772,7 +840,7 @@ const handleChangeOne = (event) => {
                       />
                       <label htmlFor="purposeSale">For Sale</label>
                     </div>
-                  </div>
+                  </div> */}
                   {/* <div style={{ marginTop: "-50px" }}> */}
                   {/* <Link to="/FieldAgentVerifyPropertyF"> */}
                   <CommonBtn
@@ -815,7 +883,11 @@ const handleChangeOne = (event) => {
           >
             {formData.houseName}, {formData.societyName}
           </h4>
-
+          <div style={{ padding: "1rem 0 0 0 " }}>
+            <span style={{ color: "red", fontSize: "1rem" }}>
+              asterisk(*) are mandatory inputs
+            </span>
+          </div>
           <div
             className="containered"
             style={{
@@ -853,7 +925,10 @@ const handleChangeOne = (event) => {
                         marginBottom: "5px",
                       }}
                     >
-                      About the society
+                      About the society{" "}
+                      <span style={{ color: "red", fontSize: "1.5rem" }}>
+                        *
+                      </span>
                     </h3>
                     <div class="grid-container" style={{ width: "300px" }}>
                       <div class="grid-item" style={{ border: "none" }}>
@@ -1100,7 +1175,10 @@ const handleChangeOne = (event) => {
                     }}
                   >
                     <h3 style={{ textAlign: "left", marginTop: "-1px" }}>
-                      House Details
+                      House Details{" "}
+                      <span style={{ color: "red", fontSize: "1.5rem" }}>
+                        *
+                      </span>
                     </h3>
 
                     {/* -------------------------FLOOR NUMBER----------------------------- */}
@@ -1134,6 +1212,8 @@ const handleChangeOne = (event) => {
                             }
                             onChange={handleChange}
                             name="your"
+                            max={formData.propertyDetails.featureInfo.floors.total.toString()}
+                            required
                             placeholder="number*"
                             style={{
                               backgroundColor: "#F5F5F5",
@@ -1167,6 +1247,7 @@ const handleChangeOne = (event) => {
                             onChange={handleChange}
                             name="total"
                             placeholder="number*"
+                            required
                             style={{
                               backgroundColor: "#F5F5F5",
 
@@ -1723,7 +1804,7 @@ const handleChangeOne = (event) => {
                   <div style={{ display: "flex", flexDirection: "row" }}>
                     <BackButton title="Back" margin="" fontweight="bolder" />
                     <CommonBtn
-                      title="Upload Photos"
+                      title="Submit & Photos Capture"
                       margin="38%"
                       fontweight="bolder"
                     />
@@ -1786,10 +1867,50 @@ const handleChangeOne = (event) => {
                   7. No random things on floor <br />
                 </text>
               </div>
-              <CommonBtn
+              {/* <CommonBtn
                 title="Yes all the things are arranged"
                 margin="20px"
-              />
+              /> */}
+              <div
+                className=""
+                style={{
+                  display: "flex",
+                  padding: "1rem",
+                  justifyContent: "center",
+                  backgroundColor: "#52796f",
+                  margin: "1rem",
+                  marginTop: "2rem",
+                  alignItems: "center",
+                  borderRadius: "0.8rem",
+                }}
+              >
+                <div
+                  style={{
+                    backgroundColor: "transparent",
+                  }}
+                >
+                  <input
+                    type="checkbox"
+                    style={{
+                      zoom: 2,
+                      margin: "0.1rem 0 0 0 ",
+                    }}
+                    checked={isHomeArranged}
+                    onChange={() => {
+                      setisHomeArranged(!isHomeArranged);
+                    }}
+                  />
+                </div>
+                <span
+                  style={{
+                    marginLeft: "1rem",
+                    fontSize: "1.2rem",
+                    color: "white",
+                  }}
+                >
+                  Yes all the things are arranged
+                </span>
+              </div>
               <div style={{ textAlign: "left" }}>
                 <h3 style={{ textAlign: "left", marginTop: "80px" }}>
                   <u>Basic Home Photos</u>
@@ -1805,6 +1926,9 @@ const handleChangeOne = (event) => {
                   Camera.
                   <br />
                   If it is not relevant or the space does not exist, select no
+                  <p style={{ color: "red", fontSize: "0.9rem" }}>
+                    asterisk(*) are mandatory photos
+                  </p>
                 </text>
               </div>
               {/* BODY */}
@@ -1847,7 +1971,12 @@ const handleChangeOne = (event) => {
                   {/* --------------Entry Door---------------------- */}
                   <div style={{ width: "90px" }}>
                     <img src={Door} style={{ fontSize: "10px" }} alt="Door" />
-                    <h5 style={{ marginTop: "10px" }}>Door</h5>
+                    <h5 style={{ marginTop: "10px" }}>
+                      Door{" "}
+                      <span style={{ color: "red", fontSize: "1.2rem" }}>
+                        *
+                      </span>
+                    </h5>
                     <ReactSwitch
                       checked={formData.propertyDetails.verifyInfo.entryDoor}
                       onChange={() =>
@@ -1880,7 +2009,12 @@ const handleChangeOne = (event) => {
                       style={{ fontSize: "10px" }}
                       alt="LiftLobby"
                     />
-                    <h5 style={{ marginTop: "10px" }}>Home Entry</h5>
+                    <h5 style={{ marginTop: "10px" }}>
+                      Home Entry{" "}
+                      <span style={{ color: "red", fontSize: "1.2rem" }}>
+                        *
+                      </span>
+                    </h5>
                     <ReactSwitch
                       checked={formData.propertyDetails.verifyInfo.homeEntry}
                       onChange={() =>
@@ -1913,6 +2047,7 @@ const handleChangeOne = (event) => {
                       style={{ height: "70px" }}
                       alt="LivingRoom"
                     />
+                    <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
                     <h5 style={{ marginTop: "10px" }}></h5>
                     <ReactSwitch
                       checked={formData.propertyDetails.verifyInfo.livingRoom}
@@ -1978,6 +2113,7 @@ const handleChangeOne = (event) => {
                       style={{ height: "50px" }}
                       alt="Kitchen"
                     />
+                    <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
                     <h5 style={{ marginTop: "10px" }}></h5>
                     <ReactSwitch
                       checked={formData.propertyDetails.verifyInfo.kitchen}
@@ -2081,6 +2217,7 @@ const handleChangeOne = (event) => {
                       style={{ height: "90px" }}
                       alt="CommonWashroom"
                     />
+                    <span style={{ color: "red", fontSize: "1.2rem" }}>*</span>
                     <h5 style={{ marginTop: "10px" }}></h5>
                     <ReactSwitch
                       checked={
@@ -2194,11 +2331,51 @@ const handleChangeOne = (event) => {
                   4. Pillow are well set
                   <br />
                   5. No random things on floor
-                  <div style={{ marginLeft: "40px" }}>
+                  {/* <div style={{ marginLeft: "40px" }}>
                     <CommonBtn
                       title="Yes all the things are arranged"
                       margin="-15px"
                     />
+                  </div> */}
+                  <div
+                    className=""
+                    style={{
+                      display: "flex",
+                      padding: "1rem",
+                      justifyContent: "center",
+                      backgroundColor: "#52796f",
+                      margin: "1rem",
+                      marginTop: "2rem",
+                      alignItems: "center",
+                      borderRadius: "0.8rem",
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: "transparent",
+                      }}
+                    >
+                      <input
+                        type="checkbox"
+                        style={{
+                          zoom: 2,
+                          margin: "0.1rem 0 0 0 ",
+                        }}
+                        checked={isBedroomArranged}
+                        onChange={() => {
+                          setisBedroomArranged(!isBedroomArranged);
+                        }}
+                      />
+                    </div>
+                    <span
+                      style={{
+                        marginLeft: "1rem",
+                        fontSize: "1.2rem",
+                        color: "white",
+                      }}
+                    >
+                      Yes all the things are arranged
+                    </span>
                   </div>
                 </text>
               </div>
@@ -2211,6 +2388,9 @@ const handleChangeOne = (event) => {
                 }}
               >
                 Bedroom & Other Details
+                <p style={{ color: "red", fontSize: "0.9rem" }}>
+                  asterisk(*) are mandatory photos
+                </p>
               </h3>
               <div
                 style={{
@@ -2245,7 +2425,12 @@ const handleChangeOne = (event) => {
                       style={{ height: "20px" }}
                       alt="LivingRoom"
                     />
-                    <h5 style={{ marginTop: "10px" }}>Bedroom 1</h5>
+                    <h5 style={{ marginTop: "10px" }}>
+                      Bedroom 1{" "}
+                      <span style={{ color: "red", fontSize: "1.2rem" }}>
+                        *
+                      </span>
+                    </h5>
                     <ReactSwitch
                       checked={featureData.bed_one}
                       onChange={() =>
@@ -2659,307 +2844,315 @@ const handleChangeOne = (event) => {
               className="login-form inner-background"
               onSubmit={handleChangeSubmit}
             >
-            <div style={{ textAlign: "left" }}>
-              <text>
-                Society Photos Checklist
-                <br />
-                <div style={{ marginTop: "20px" }}></div>
-                1. Below are mandatory pictures
-                <br />
-                2. If there are more places in the society relevant to the
-                tenant, please click all pictures.
-                <br />
-              </text>
-            </div>
+              <div style={{ textAlign: "left" }}>
+                <text>
+                  Society Photos Checklist
+                  <br />
+                  <div style={{ marginTop: "20px" }}></div>
+                  1. Below are mandatory pictures
+                  <br />
+                  2. If there are more places in the society relevant to the
+                  tenant, please click all pictures.
+                  <br />
+                </text>
+              </div>
 
-            {/* -----------------------------society related pressure-------------------------------------- */}
+              {/* -----------------------------society related pressure-------------------------------------- */}
 
-            <h3
-              style={{
-                textAlign: "left",
-                marginBottom: "10px",
-                marginTop: "80px",
-              }}
-            >
-              Society Related Pictures
-            </h3>
-            <div
-              style={{
-                height: "300px",
-                borderRadius: "5px",
-                background:
-                  "linear-gradient(180deg, rgba(232, 231, 231, 0.5) 0%, rgba(232, 231, 231, 0) 100%)",
-                border: "1px solid #CFD3D2",
-              }}
-            >
-              <div
+              <h3
                 style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
+                  textAlign: "left",
+                  marginBottom: "10px",
+                  marginTop: "80px",
                 }}
               >
-                <div class="grid-container" style={{ width: "300px" }}>
-                  <div class="grid-item" style={{ border: "none" }}>
-                    <img src={gated_sec} alt="Icon description" />
-                    <h5
-                      style={{
-                        marginTop: "-2px",
-                        fontSize: "10px",
-                        fontFamily: "sans-serif",
-                      }}
-                    >
-                      Main Gate
-                    </h5>
-                    <h6 style={{ marginTop: "-13px", fontSize: "8px" }}></h6>
-                    <ReactSwitch
-                      checked={formData.propertyDetails.verifyInfo.mainGate}
-                      onChange={() =>
-                        setFormData((prevState) => ({
-                          ...prevState,
-                          propertyDetails: {
-                            ...prevState.propertyDetails,
-                            verifyInfo: {
-                              ...prevState.propertyDetails.verifyInfo,
-                              mainGate:
-                                !formData.propertyDetails.verifyInfo
-                                  .gated_security,
+                Society Related Pictures
+              </h3>
+              <div
+                style={{
+                  height: "300px",
+                  borderRadius: "5px",
+                  background:
+                    "linear-gradient(180deg, rgba(232, 231, 231, 0.5) 0%, rgba(232, 231, 231, 0) 100%)",
+                  border: "1px solid #CFD3D2",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <div class="grid-container" style={{ width: "300px" }}>
+                    <div class="grid-item" style={{ border: "none" }}>
+                      <img src={gated_sec} alt="Icon description" />
+                      <h5
+                        style={{
+                          marginTop: "-2px",
+                          fontSize: "10px",
+                          fontFamily: "sans-serif",
+                        }}
+                      >
+                        Main Gate{" "}
+                        <span style={{ color: "red", fontSize: "1.2rem" }}>
+                          *
+                        </span>
+                      </h5>
+                      <h6 style={{ marginTop: "-13px", fontSize: "8px" }}></h6>
+                      <ReactSwitch
+                        checked={formData.propertyDetails.verifyInfo.mainGate}
+                        onChange={() =>
+                          setFormData((prevState) => ({
+                            ...prevState,
+                            propertyDetails: {
+                              ...prevState.propertyDetails,
+                              verifyInfo: {
+                                ...prevState.propertyDetails.verifyInfo,
+                                mainGate:
+                                  !formData.propertyDetails.verifyInfo
+                                    .gated_security,
+                              },
                             },
-                          },
-                        }))
-                      }
-                      onColor="#DAF0EE"
-                      onHandleColor="#fff"
-                      handleDiameter={20}
-                      uncheckedIcon={false}
-                      checkedIcon={false}
-                      boxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
-                      activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
-                    />
-                  </div>
-                  <div class="grid-item" style={{ border: "none" }}>
-                    <img src={club_house} alt="Icon description" />
-                    <h5
-                      style={{
-                        marginTop: "-5px",
-                        marginBottom: "10px",
-                        fontSize: "10px",
-                      }}
-                    >
-                      Club house
-                    </h5>
-                    <ReactSwitch
-                      checked={formData.propertyDetails.verifyInfo.clubHouse}
-                      onChange={() =>
-                        setFormData((prevState) => ({
-                          ...prevState,
-                          propertyDetails: {
-                            ...prevState.propertyDetails,
-                            verifyInfo: {
-                              ...prevState.propertyDetails.verifyInfo,
-                              clubHouse:
-                                !formData.propertyDetails.verifyInfo.clubHouse,
+                          }))
+                        }
+                        onColor="#DAF0EE"
+                        onHandleColor="#fff"
+                        handleDiameter={20}
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                        boxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
+                        activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
+                      />
+                    </div>
+                    <div class="grid-item" style={{ border: "none" }}>
+                      <img src={club_house} alt="Icon description" />
+                      <h5
+                        style={{
+                          marginTop: "-5px",
+                          marginBottom: "10px",
+                          fontSize: "10px",
+                        }}
+                      >
+                        Club house
+                      </h5>
+                      <ReactSwitch
+                        checked={formData.propertyDetails.verifyInfo.clubHouse}
+                        onChange={() =>
+                          setFormData((prevState) => ({
+                            ...prevState,
+                            propertyDetails: {
+                              ...prevState.propertyDetails,
+                              verifyInfo: {
+                                ...prevState.propertyDetails.verifyInfo,
+                                clubHouse:
+                                  !formData.propertyDetails.verifyInfo
+                                    .clubHouse,
+                              },
                             },
-                          },
-                        }))
-                      }
-                      onColor="#DAF0EE"
-                      onHandleColor="#fff"
-                      handleDiameter={20}
-                      uncheckedIcon={false}
-                      checkedIcon={false}
-                      boxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
-                      activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
-                    />
-                  </div>
-                  <div class="grid-item" style={{ border: "none" }}>
-                    <img src={convenience_store} alt="Icon description" />
-                    <h5 style={{ marginTop: "-5px", fontSize: "10px" }}>
-                      Grocery Store
-                    </h5>
-                    <h5 style={{ marginTop: "-9px", fontSize: "8px" }}></h5>
-                    <ReactSwitch
-                      checked={formData.propertyDetails.verifyInfo.groceryStore}
-                      onChange={() =>
-                        setFormData((prevState) => ({
-                          ...prevState,
-                          propertyDetails: {
-                            ...prevState.propertyDetails,
-                            verifyInfo: {
-                              ...prevState.propertyDetails.verifyInfo,
-                              groceryStore:
-                                !formData.propertyDetails.verifyInfo
-                                  .groceryStore,
+                          }))
+                        }
+                        onColor="#DAF0EE"
+                        onHandleColor="#fff"
+                        handleDiameter={20}
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                        boxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
+                        activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
+                      />
+                    </div>
+                    <div class="grid-item" style={{ border: "none" }}>
+                      <img src={convenience_store} alt="Icon description" />
+                      <h5 style={{ marginTop: "-5px", fontSize: "10px" }}>
+                        Grocery Store
+                      </h5>
+                      <h5 style={{ marginTop: "-9px", fontSize: "8px" }}></h5>
+                      <ReactSwitch
+                        checked={
+                          formData.propertyDetails.verifyInfo.groceryStore
+                        }
+                        onChange={() =>
+                          setFormData((prevState) => ({
+                            ...prevState,
+                            propertyDetails: {
+                              ...prevState.propertyDetails,
+                              verifyInfo: {
+                                ...prevState.propertyDetails.verifyInfo,
+                                groceryStore:
+                                  !formData.propertyDetails.verifyInfo
+                                    .groceryStore,
+                              },
                             },
-                          },
-                        }))
-                      }
-                      onColor="#DAF0EE"
-                      onHandleColor="#fff"
-                      handleDiameter={20}
-                      uncheckedIcon={false}
-                      checkedIcon={false}
-                      boxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
-                      activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
-                    />
-                  </div>
-                  <div class="grid-item" style={{ border: "none" }}>
-                    <img src={swimming_pool} alt="Icon description" />
-                    <h5
-                      style={{
-                        marginTop: "-5px",
-                        marginBottom: "15px",
-                        fontSize: "10px",
-                      }}
-                    >
-                      Swimming Pool
-                    </h5>
-                    <ReactSwitch
-                      checked={formData.propertyDetails.verifyInfo.swimmingPool}
-                      onChange={() =>
-                        setFormData((prevState) => ({
-                          ...prevState,
-                          propertyDetails: {
-                            ...prevState.propertyDetails,
-                            verifyInfo: {
-                              ...prevState.propertyDetails.verifyInfo,
-                              swimmingPool:
-                                !formData.propertyDetails.verifyInfo
-                                  .swimmingPool,
+                          }))
+                        }
+                        onColor="#DAF0EE"
+                        onHandleColor="#fff"
+                        handleDiameter={20}
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                        boxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
+                        activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
+                      />
+                    </div>
+                    <div class="grid-item" style={{ border: "none" }}>
+                      <img src={swimming_pool} alt="Icon description" />
+                      <h5
+                        style={{
+                          marginTop: "-5px",
+                          marginBottom: "15px",
+                          fontSize: "10px",
+                        }}
+                      >
+                        Swimming Pool
+                      </h5>
+                      <ReactSwitch
+                        checked={
+                          formData.propertyDetails.verifyInfo.swimmingPool
+                        }
+                        onChange={() =>
+                          setFormData((prevState) => ({
+                            ...prevState,
+                            propertyDetails: {
+                              ...prevState.propertyDetails,
+                              verifyInfo: {
+                                ...prevState.propertyDetails.verifyInfo,
+                                swimmingPool:
+                                  !formData.propertyDetails.verifyInfo
+                                    .swimmingPool,
+                              },
                             },
-                          },
-                        }))
-                      }
-                      onColor="#DAF0EE"
-                      onHandleColor="#fff"
-                      handleDiameter={20}
-                      uncheckedIcon={false}
-                      checkedIcon={false}
-                      boxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
-                      activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
-                    />
-                  </div>
+                          }))
+                        }
+                        onColor="#DAF0EE"
+                        onHandleColor="#fff"
+                        handleDiameter={20}
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                        boxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
+                        activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
+                      />
+                    </div>
 
-                  <div class="grid-item" style={{ border: "none" }}>
-                    <img src={gym_1} alt="Icon description" />
-                    <h5
-                      style={{
-                        marginTop: "-1px",
-                        marginBottom: "20px",
-                        fontSize: "10px",
-                      }}
-                    >
-                      Gym
-                    </h5>
-                    <ReactSwitch
-                      checked={formData.propertyDetails.verifyInfo.gym}
-                      onChange={() =>
-                        setFormData((prevState) => ({
-                          ...prevState,
-                          propertyDetails: {
-                            ...prevState.propertyDetails,
-                            verifyInfo: {
-                              ...prevState.propertyDetails.verifyInfo,
-                              gym: !formData.propertyDetails.verifyInfo.gym,
+                    <div class="grid-item" style={{ border: "none" }}>
+                      <img src={gym_1} alt="Icon description" />
+                      <h5
+                        style={{
+                          marginTop: "-1px",
+                          marginBottom: "20px",
+                          fontSize: "10px",
+                        }}
+                      >
+                        Gym
+                      </h5>
+                      <ReactSwitch
+                        checked={formData.propertyDetails.verifyInfo.gym}
+                        onChange={() =>
+                          setFormData((prevState) => ({
+                            ...prevState,
+                            propertyDetails: {
+                              ...prevState.propertyDetails,
+                              verifyInfo: {
+                                ...prevState.propertyDetails.verifyInfo,
+                                gym: !formData.propertyDetails.verifyInfo.gym,
+                              },
                             },
-                          },
-                        }))
-                      }
-                      onColor="#DAF0EE"
-                      onHandleColor="#fff"
-                      handleDiameter={20}
-                      uncheckedIcon={false}
-                      checkedIcon={false}
-                      boxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
-                      activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
-                    />
-                  </div>
+                          }))
+                        }
+                        onColor="#DAF0EE"
+                        onHandleColor="#fff"
+                        handleDiameter={20}
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                        boxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
+                        activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
+                      />
+                    </div>
 
-                  <div class="grid-item" style={{ border: "none" }}>
-                    <img src={car_parking} alt="Icon description" />
-                    <h5 style={{ marginTop: "-5px" }}>Parking</h5>
-                    <h5 style={{ marginTop: "-13px", fontSize: "8px" }}></h5>
-                    <ReactSwitch
-                      checked={formData.propertyDetails.verifyInfo.parking}
-                      onChange={() =>
-                        setFormData((prevState) => ({
-                          ...prevState,
-                          propertyDetails: {
-                            ...prevState.propertyDetails,
-                            verifyInfo: {
-                              ...prevState.propertyDetails.verifyInfo,
-                              parking:
-                                !formData.propertyDetails.verifyInfo.parking,
+                    <div class="grid-item" style={{ border: "none" }}>
+                      <img src={car_parking} alt="Icon description" />
+                      <h5 style={{ marginTop: "-5px" }}>Parking</h5>
+                      <h5 style={{ marginTop: "-13px", fontSize: "8px" }}></h5>
+                      <ReactSwitch
+                        checked={formData.propertyDetails.verifyInfo.parking}
+                        onChange={() =>
+                          setFormData((prevState) => ({
+                            ...prevState,
+                            propertyDetails: {
+                              ...prevState.propertyDetails,
+                              verifyInfo: {
+                                ...prevState.propertyDetails.verifyInfo,
+                                parking:
+                                  !formData.propertyDetails.verifyInfo.parking,
+                              },
                             },
-                          },
-                        }))
-                      }
-                      onColor="#DAF0EE"
-                      onHandleColor="#fff"
-                      handleDiameter={20}
-                      uncheckedIcon={false}
-                      checkedIcon={false}
-                      boxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
-                      activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
-                    />
+                          }))
+                        }
+                        onColor="#DAF0EE"
+                        onHandleColor="#fff"
+                        handleDiameter={20}
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                        boxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
+                        activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* -----------------------------------------------Add Features---------------------------------------------- */}
-            <h3 class="heading">
-              Add other Places for which you have <br /> clicked photos
-            </h3>
-            <div class="container">
-              <h4 class="subtitle">Add Features</h4>
-              <div class="input-row">
-                <div class="input-field">
-                  <input type="text" placeholder="Enter Field Name" />
+              {/* -----------------------------------------------Add Features---------------------------------------------- */}
+              <h3 class="heading">
+                Add other Places for which you have <br /> clicked photos
+              </h3>
+              <div class="container">
+                <h4 class="subtitle">Add Features</h4>
+                <div class="input-row">
+                  <div class="input-field">
+                    <input type="text" placeholder="Enter Field Name" />
+                  </div>
+                  <div class="add-button">
+                    <CommonBtn title="Add" margin="15px" width="10px" />
+                  </div>
                 </div>
-                <div class="add-button">
-                  <CommonBtn title="Add" margin="15px" width="10px" />
+
+                <div class="input-row">
+                  <div class="input-field">
+                    <input type="text" placeholder="Enter Field Name" />
+                  </div>
+                  <div class="add-button">
+                    <CommonBtn title="Add" margin="15px" width="10px" />
+                  </div>
                 </div>
+                <div class="input-row">
+                  <div class="input-field">
+                    <input type="text" placeholder="Enter Field Name" />
+                  </div>
+                  <div class="add-button">
+                    <CommonBtn title="Add" margin="15px" width="10px" />
+                  </div>
+                </div>
+                <div class="empty-row"></div>
+                <div class="empty-row"></div>
               </div>
 
-              <div class="input-row">
-                <div class="input-field">
-                  <input type="text" placeholder="Enter Field Name" />
-                </div>
-                <div class="add-button">
-                  <CommonBtn title="Add" margin="15px" width="10px" />
-                </div>
-              </div>
-              <div class="input-row">
-                <div class="input-field">
-                  <input type="text" placeholder="Enter Field Name" />
-                </div>
-                <div class="add-button">
-                  <CommonBtn title="Add" margin="15px" width="10px" />
-                </div>
-              </div>
-              <div class="empty-row"></div>
-              <div class="empty-row"></div>
-            </div>
-
-            {/* <div class="buttonBackNext">
+              {/* <div class="buttonBackNext">
 		                <button className="CommonnBackButton" style={{ fontSize: "16px", fontWeight: "1000" , textAlign: "right", fontStyle: "normal", width: "35%" }}>Back <img className="vectorBack" src={vector} alt="fireSpot"  style={{ float: "left", marginLeft: "-5%" }}/></button>
 		                <button className="CommonnButton" style={{ fontWeight: "1000" , textAlign: "left", fontStyle: "normal", width: "40%" }}>Submit<img className="vectorSignIn" src={vector} alt="fireSpot" style={{ float: "right", marginRight: "-5%",marginTop:"-25px" }}/></button>
 		                </div> */}
-            {/* BODY */}
+              {/* BODY */}
 
-            <div
-              style={{
-                display: "flex",
-                marginTop: "50px",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                marginLeft: "40px",
-              }}
-            >
-              <BackButton title="Back" margin="" fontweight="bolder" />
-              <CommonBtn title="Submit" margin="38%" fontweight="bolder" />
-            </div>
+              <div
+                style={{
+                  display: "flex",
+                  marginTop: "50px",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  marginLeft: "40px",
+                }}
+              >
+                <BackButton title="Back" margin="" fontweight="bolder" />
+                <CommonBtn title="Submit" margin="38%" fontweight="bolder" />
+              </div>
             </form>
           </div>
         </>

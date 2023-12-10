@@ -15,7 +15,7 @@ function FrontLogin() {
     password: "",
   });
   // const [data, setData] = useState(null);
-	const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -50,31 +50,32 @@ function FrontLogin() {
         const phone = response.data.data.agent.phone;
         const inviteCode = response.data.data.agent.inviteCode;
         console.log(inviteCode.substring(0, 2));
+        const usertype = inviteCode.substring(0, 2);
 
         //set JWT token to local
         // if (typeof localStorage !== 'undefined') {
-          // localStorage is available
-          // Your code using localStorage goes here
-          localStorage.setItem("token", token);
-          localStorage.setItem("username", name);
-          localStorage.setItem("phone", phone);
+        // localStorage is available
+        // Your code using localStorage goes here
+        localStorage.setItem("token", token);
+        localStorage.setItem("username", name);
+        localStorage.setItem("phone", phone);
+        localStorage.setItem("usertype", usertype);
         // } else {
         //   // localStorage is not available or disabled
         //   // Handle this situation gracefully
         //    alert("Localstorage");
         // }
 
-
         //set token to axios common header
         //  setAuthToken(token);
 
         alert("You're Logged In");
         //redirect user to Dashboard
-        if(inviteCode.substring(0, 2) == "FA"){
+        if (inviteCode.substring(0, 2) == "FA") {
           window.location.href = "/FieldAgentHomeN";
         }
 
-        if(inviteCode.substring(0, 2) == "PA"){
+        if (inviteCode.substring(0, 2) == "PA") {
           window.location.href = "/dashboard";
         }
       })
@@ -107,7 +108,6 @@ function FrontLogin() {
             backgroundRepeat: "no-repeat",
             backgroundSize: "100% 100%",
             width: "100%",
-            
           }}
         >
           <div className="MainLogoDesign">
@@ -154,7 +154,7 @@ function FrontLogin() {
             </Link>
 
             {/* <button className="CommonnButton">Sign In <img className="vectorSignIn" src={vector} alt="fireSpot"/></button> */}
-              <CommonBtn title="Sign In" margin="25%" fontweight="bolder" />
+            <CommonBtn title="Sign In" margin="25%" fontweight="bolder" />
 
             <Footer />
           </form>
