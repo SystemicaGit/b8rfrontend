@@ -7,17 +7,18 @@ import { Link } from "react-router-dom";
 import logo from "./Assets/Images/Logo.png";
 
 function CommonHeader(props) {
-
   const { title, color } = props;
 
   // console.log(props.title);
   const [isLogin, setIsLogin] = useState(false);
   const [letter, setletter] = useState("");
- 
+
   const username = localStorage.getItem("username");
   // const username = "Aparajita";
 
   const token = localStorage.getItem("token");
+
+  const usertype = localStorage.getItem("usertype");
   // console.log(token);
 
   useEffect(() => {
@@ -37,6 +38,7 @@ function CommonHeader(props) {
     event.preventDefault();
     console.log("Value hit");
     localStorage.removeItem("token");
+    localStorage.removeItem("usertype");
     alert("You have been logged out.");
     //redirect user to UploadPhotos
     window.location.href = "/FrontLogin";
@@ -46,15 +48,23 @@ function CommonHeader(props) {
     <>
       {/* <h1>commonHeader</h1> */}
       <div className="headerClassContainer">
-        
         <div className="MainLogo">
-          <Link to="/dashboard">
-            <img src={logo} height={35} alt="fireSpot" />
-          </Link>
+          {usertype == "PA" ? (
+            <Link to="/dashboard">
+              <img src={logo} height={35} alt="fireSpot" />
+            </Link>
+          ) : (
+            <Link to="/FieldAgentHomeN">
+              <img src={logo} height={35} alt="fireSpot" />
+            </Link>
+          )}
         </div>
 
         <div>
-          <p className="Headtitle" style={{ color : color || 'black'}}> {title} </p>
+          <p className="Headtitle" style={{ color: color || "black" }}>
+            {" "}
+            {title}{" "}
+          </p>
         </div>
 
         <div>
@@ -65,7 +75,9 @@ function CommonHeader(props) {
             {isLogin ? (
               <button className="logbtn-round " onClick={handleLogout}>
                 {/* {username}, Logout */}
-                <p className="letter" style={{ color : color || 'black' }}>{letter}</p>
+                <p className="letter" style={{ color: color || "black" }}>
+                  {letter}
+                </p>
               </button>
             ) : (
               <Link to="/FrontLogin">
