@@ -1,16 +1,15 @@
-
-
 .SignInContainer {
   display: flex;
-  /* flex-direction: column-reverse; */
-  justify-content: space-between;
-  align-items: center;
-  height: 100%;
-  padding: 25%;
-  margin-left: 5%;
-  margin-right: 5%;
+  flex-direction: column-reverse;
+  /* justify-content: space-between; */
+  /* align-items: center; */
+  /* height: 100%; */
+  /* padding: 25%; */
+  /* padding: 1rem; */
+  /* margin-left: 5%;
+  margin-right: 5%; */
   background: #f0fbf8 !important;
-  border-radius: 15px;
+  /* border-radius: 15px; */
 }
 .SignInContainer .para {
   position: absolute;
@@ -220,7 +219,7 @@ body {
   /* Add the styles here */
 }
 
-.SignInContainer {
+/* .SignInContainer {
   background-color: #f0fbf7;
   margin-top: 10%;
-}
+} */

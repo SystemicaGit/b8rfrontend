@@ -13,7 +13,6 @@ import Footer from "../Footer";
 import CommonBtn from "../CommonButton";
 
 function SignUp() {
-
   const [isOTP, setIsOTP] = useState(true);
   const [OTPSESSION, setOTP_SESSION] = useState("");
   const [enter_otp, setEnter_otp] = useState("");
@@ -36,7 +35,6 @@ function SignUp() {
 
   const [timer, setTimer] = useState(60); // Initial timer value in seconds
   const [isTimerRunning, setIsTimerRunning] = useState(false);
-
 
   useEffect(() => {
     let timerInterval;
@@ -91,7 +89,6 @@ function SignUp() {
     // Update the enter_otp state when the input value changes
     setEnter_otp(event.target.value);
     console.log(formData);
-
   };
 
   const [passwordMatch, setPasswordMatch] = useState(true);
@@ -296,32 +293,31 @@ function SignUp() {
               }}
             >
               <form onSubmit={handleSubmit} className="login-form">
-                <div className="header">
-                  <img src={bgm} height={183} alt="headImage" />
+                <div className="flex justify-center items-center ">
+                  <img src={bgm} alt="headImage" />
                 </div>
 
-                <div className="SignInContainer">
-                  <p className="para">Already a member?</p>
-
-                  <Link to="/FrontLogin">
-                    {/* <button className="CommonnButton">
-            Sign In
-            <img className="vector" src={vector} alt="fireSpot" />
-          </button> */}
-                    <CommonBtn
-                      title="Sign In"
-                      margin="5%"
-                      fontweight="bolder"
-                      color="#DAF0EE"
-                    />
-                  </Link>
+                <div className="flex flex-col bg-[#f0fbf8] justify-center items-center py-[2rem] mx-[2rem] my-[1rem] rounded-[0.5rem]">
+                  <div className="md:text-[2rem] text-[1.6rem] font-bold py-[1rem]">
+                    {/* <p className=""></p> */}
+                    Already a member?
+                  </div>
+                  <div>
+                    <Link to="/FrontLogin">
+                      <CommonBtn
+                        title="Sign In"
+                        fontweight="bolder"
+                        color="#DAF0EE"
+                      />
+                    </Link>
+                  </div>
                 </div>
 
-                <Link to="/FrontLogin">
+                {/* <Link to="/FrontLogin">
                   <p className="message">
                     New Here? <a href="#">Create new account</a>
                   </p>
-                </Link>
+                </Link> */}
 
                 <label htmlFor="email" className="label-email">
                   Enter email-ID
@@ -361,17 +357,16 @@ function SignUp() {
                 />
                 <p className="error-message">{formError.password}</p>
                 {formData.password && (
-                <p
-                  style={{
-                    fontSize: "10px",
-                    color: "red",
-                    marginTop: "-10px",
-                    textAlign: "right",
-                  }}
-                >
-                  {passwordStrength}
-                  
-                </p>
+                  <p
+                    style={{
+                      fontSize: "10px",
+                      color: "red",
+                      marginTop: "-10px",
+                      textAlign: "right",
+                    }}
+                  >
+                    {passwordStrength}
+                  </p>
                 )}
                 <label
                   htmlFor="confirmPassword"
@@ -417,16 +412,17 @@ function SignUp() {
                 Create Account
                 <img className="vectorSignUp" src={vector} alt="fireSpot" />
               </button> */}
+                <div className="flex justify-center items-center py-[1rem]">
+                  <CommonBtn
+                    title="Send OTP"
+                    // margin="25%"
+                    // fontweight="bolder"
+                    // color="#DAF0EE"
+                  />
+                </div>
 
-                <CommonBtn
-                  title="Send OTP"
-                  margin="25%"
-                  fontweight="bolder"
-                  color="#DAF0EE"
-                />
-
-                <Footer />
               </form>
+                <Footer />
               <br />
             </div>
           </div>

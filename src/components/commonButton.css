@@ -38,12 +38,12 @@
 
 
 
-.CCommonnButton {
+.commonbtn {
   /* box-sizing: border-box; */
   /* gap: 8px; */
   /* position: absolute; */
   /* width: 53%; */
-  height: 45px;
+  /* height: 45px; */
   /* padding: 0px; */
   /* left: calc(50% - 174px / 2 + 1px); */
   /* top: 1025px; */
@@ -54,9 +54,9 @@
   
   border: 4px solid #daf0ee !important;
   box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
-  
 }
+
+
 
 .CCommonnButton_purple{
   height: 45px;

@@ -18,10 +18,12 @@ import PendingComp from "./PendingComp";
 
 function FieldPending() {
   const [loading, setLoading] = useState(false);
-  const [responsePendingProperties, setresponsePendingProperties] = useState([]);
+  const [responsePendingProperties, setresponsePendingProperties] = useState(
+    []
+  );
 
   const token = localStorage.getItem("token");
-//   console.log(token);
+  //   console.log(token);
 
   let axiosConfig = {
     headers: {
@@ -48,10 +50,10 @@ function FieldPending() {
         setLoading(false);
       }
     };
-  
+
     fetchPosts();
   }, []);
-  
+
   // This useEffect will log the updated state after it has been set.
   useEffect(() => {
     console.log(responsePendingProperties);
@@ -63,11 +65,13 @@ function FieldPending() {
     alert("You have been logged out.");
   };
   const username = localStorage.getItem("username");
-const name = username.substring(0, username.indexOf(' ')); 
+  const name = username.substring(0, username.indexOf(" "));
 
   return (
     <>
-      <div
+      <div className="">
+        <CommonHeader title="Pending Properties" color="#52796F" />
+        {/* <div
         className="form"
         style={{
           borderRadius: "16px",
@@ -77,18 +81,19 @@ const name = username.substring(0, username.indexOf(' '));
           backgroundSize: "100% 100%",
         }}
       >
-        {/* <h2 style={{color:"#52796F"}}>Pending Pipeline</h2> */}
-        <CommonHeader title="Pending Properties" color="#52796F" />
-        <h5 style={{ marginLeft: "-250px" }}>Hey {name},</h5>
-        <h5>
-          Properties show here are pending for verfification and photo
-          submission.
-        </h5>
-
+      </div> */}
+        {/* <h5>Hey {name},</h5> */}
+        <div className="px-[1rem] py-[2rem] text-[1.1rem]">
+          <p className="my-[1rem]">Hey, {name}</p>
+          <p>
+            Properties show here are pending for verfification and photo
+            submission.
+          </p>
+        </div>
         <PendingComp properties={responsePendingProperties} />
-
-        <Footer />
       </div>
+      <Footer />
+      <div className="mb-[1rem]" />
     </>
   );
 }
