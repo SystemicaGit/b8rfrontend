@@ -127,7 +127,16 @@ function OTPscreen() {
     // console.log(`https://2factor.in/API/V1/c68dfb13-f09f-11ed-addf-0200cd936042/SMS/+91.${phone}/AUTOGEN`);
   
   };
-
+  ////////////////////////////
+  const maskPhoneNumber = (phoneNumber) => {
+    if (phoneNumber && phoneNumber.length === 10) {
+      const masked = '******' + phoneNumber.slice(-4);
+      return masked;
+    }
+    return phoneNumber;
+  };
+  
+  /////////////////////////////////
 console.log(OtpSession);
   const handleSubmitVeriy = (event) => {
     event.preventDefault();
@@ -221,14 +230,14 @@ console.log(OtpSession);
           </div>
 
           <div className="TenantSideF">
-            <p className="titleF"><b>
+            <p className="titleF" style = {{marginTop:"1px"}}><strong>
               Welcome to betterhomes
-              </b>
+              </strong>
             </p>
             <br />
-            <p style={{textAlign:"left",marginLeft:"10px",marginRight:"10px"}}>
-              Your agent has shared {responseDataPropertyId} awesome properties. <br />
-              Log in using {responseDataTenantNumber}, mobile number to view details
+            <p style={{textAlign:"left",marginLeft:"10px",marginRight:"10px", marginTop:"0px"}}>
+              Your agent has shared <strong>{responseDataPropertyId}</strong> awesome properties.  <br /> <br />
+              Log in using <strong>{maskPhoneNumber(responseDataTenantNumber)}</strong>, mobile number to view details
             </p>
           </div>
 
@@ -237,7 +246,7 @@ console.log(OtpSession);
             <input
               type="number"
               id="phone"
-              value={formData.phone}
+              value={ formData.phone} 
               onChange={handleChange}
               name="phone"
               required
@@ -248,12 +257,12 @@ console.log(OtpSession);
           
           </form>
           <br></br>
-
+         
         <form className="login-form" onSubmit={handleSubmitVeriy} >
 
 
-          <div className="SpaceAbove" >
-            <label className="Inputfield" htmlFor="enter_otp">Enter OTP</label>
+          <div className="SpaceAbove"  >
+            <label className="Inputfield" htmlFor="enter_otp">   Enter OTP Recieved </label>
             <input 
             className="InputF" 
             type="number" 
@@ -262,7 +271,7 @@ console.log(OtpSession);
             id="enter_otp" 
             value={formData.enter_otp} 
             onChange={handleChange} 
-            style={{height:"40px",width:"311px",borderColor:"#52796F",border:"3px"}}/>
+            style={{height:"40px",width:"311px",borderColor:"#52796F",border:"3px",marginRight : "10px"}}/>
             <CommonBtn title="Confirm OTP" margin="25%" fontweight="bolder" color="#DAF0EE" />
           </div>
 

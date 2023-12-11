@@ -124,17 +124,20 @@ function TenantSideViewComp({ boards, boardId }) {
             style={{
               display: "flex",
               flexDirection: "column",
-              backgroundColor: "#DAF0EE",
+              backgroundColor: "#B6E1DD",
               borderRadius: "20px",
-              margin: "1%",
+              margin: "2%",
+              //height :"350px",
             }}
           >
             <div
               style={{
-                height: "100%",
+                height: "50%",
                 width: "100%",
                 borderRadius: "20px",
-                color: "#DAF0EE",
+                color: "#A4DAD5",
+                
+               
               }}
             >
               <Link
@@ -143,13 +146,23 @@ function TenantSideViewComp({ boards, boardId }) {
                 <Carousel showThumbs={false} showArrows={true}>
                   {property.images.map((image, index) => (
                     <div key={index}>
-                      <img src={image} />
+                      <img src={image} style={ {
+                    width: '95%', // Set your desired width
+                    height: '95%', // Set your desired height
+                    objectFit: 'cover', // Maintain aspect ratio
+                    borderRadius: '10px', 
+                    marginTop : '10px',
+  }}   />
                       <p
                         className="legend"
                         style={{
+                          //width: '100%', // Set your desired width
+                          //height: 'auto', // Maintain aspect ratio
+                        
                           color: "#FFFFF",
                           fontSize: "16px",
                           fontWeight: "bolder",
+                      
                         }}
                       >
                         {property.houseName}
@@ -178,8 +191,8 @@ function TenantSideViewComp({ boards, boardId }) {
                   flexDirection: "row",
                 }}
               >
-                <img style={{ marginTop: "20px" }} src={Rupee} height={19} />
-                <h6
+                <img style={{ marginTop: "21px" , marginRight :"5px", marginLeft :"3px"}} src={Rupee} height={19} />
+                <h4
                   style={{
                     textAlign: "centre",
                     ItemAlign: "centre",
@@ -187,22 +200,28 @@ function TenantSideViewComp({ boards, boardId }) {
                     flexDirection: "row",
                   }}
                 >
-                  {property.propertyDetails.featureInfo.rentAmount}/month
-                  <p style={{ marginTop: "0px" }}>(incl. Maintenance )</p>
-                </h6>
+                  {property.propertyDetails.featureInfo.rentAmount} /month
+                  <h6 style={{ marginTop: "0px",fontSize: '10px',marginLeft: '5px' }}> (incl. Maintenance )</h6>
+                </h4>
               </div>
+              /////
+              <div className="Apps">
+                <Heart isClick={isClick} onClick={() => setClick(!isClick)} />
+              </div>
+              /////
               <div
                 className="Apps"
                 style={{
+                  marginBottom: "1px",
                   display: "flex",
                   flexDirection: "row-reverse",
-                  zoom: "0.5",
+                  zoom: "0.7",
                 }}
               >
                 {/* <div onClick={shortlist(property._id)} > </div> */}
                 {isClickArray[index] ? (
                 <Heart
-                  height={10}
+                 height={10}
                   isClick={isClick}
                   onClick={() => shortlist(property._id)}
                 /> ) :
@@ -210,6 +229,7 @@ function TenantSideViewComp({ boards, boardId }) {
                   <Heart
                   height={10}
                   isClick={isClick}
+                  
                   onClick={() => shortlist(property._id)}
                 /> 
                 )
@@ -251,41 +271,42 @@ function TenantSideViewComp({ boards, boardId }) {
               }}
             >
               <div style={{ display: "flex", flexDirection: "row" }}>
-                <img src={space} height={17} />
-                <h6 style={{ marginTop: "0px" }}>
-                  {" "}
+                <img src={space} height={17}/>
+                <h5 style={{ marginTop: "1px", marginLeft: "4px" }}>
+                  {"  "}
                   {property.propertyDetails.featureInfo.carpetArea} sqft
-                </h6>
+                </h5>
               </div>
 
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <img src={HouseConfig} height={17} />
-                <h6 style={{ marginTop: "0px" }}>
+                <h5 style={{ marginTop: "0px" , marginLeft: "4px"}}>
                   {" "}
                   {property.propertyDetails.propertyInfo.houseConfig}{" "}
-                </h6>
+                </h5>
               </div>
 
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <img src={Sofa} height={17} />
-                <h6 style={{ marginTop: "0px" }}>
+                <h5 style={{ marginTop: "0px", marginLeft: "4px" }}>
                   {" "}
                   {property.propertyDetails.featureInfo.furnishingType}{" "}
-                </h6>
+                </h5>
               </div>
 
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <img src={Parking} height={17} />
-                <h6 style={{ marginTop: "0px" }}>
+                <h5 style={{ marginTop: "0px", marginLeft: "4px" }}>
                   {" "}
                   {property.propertyDetails.featureInfo.parking.car != "" ||
                   property.propertyDetails.featureInfo.parking.bike > 0
                     ? "Available"
                     : "No"}
-                </h6>
+                </h5>
               </div>
             </div>
           </div>
+          <div style={{padding : "3px"}}></div>
         </div>
       ))}
     </>
