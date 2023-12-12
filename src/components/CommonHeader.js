@@ -47,8 +47,8 @@ function CommonHeader(props) {
   return (
     <>
       {/* <h1>commonHeader</h1> */}
-      <div className="headerClassContainer">
-        <div className="MainLogo">
+      <div className="flex justify-between items-center px-[0.5rem] py-[0.5rem]">
+        <div className="w-[15vw]">
           {usertype == "PA" ? (
             <Link to="/dashboard">
               <img src={logo} height={35} alt="fireSpot" />
@@ -61,32 +61,28 @@ function CommonHeader(props) {
         </div>
 
         <div>
-          <p className="Headtitle" style={{ color: color || "black" }}>
-            {" "}
-            {title}{" "}
+          <p className="text-[1.5rem] font-bold" style={{ color: color || "black" }}>
+            
+            {title}
           </p>
         </div>
-
         <div>
-          <div>
-            {/* <img style={{ marginBottom: '-24px' }}
+          {/* <img style={{ marginBottom: '-24px' }}
            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAAXNSR0IArs4c6QAAAZNJREFUaEPtmA1uwyAMhd2TrTtZt5O1PdmqpwUJTQH/PGeECqSoSAXiz34GnItM3i6T2y8LYHQEj4jAVUTwfGxw6H9v/YeI4Elr2QBfInJTrAMMxqW0LAB4GYbj19o+M6KRBfBjtboaBykBgmoZABbZtIyk5cQCQDJ3yoW/UQgnNgvAeL9wU1E4AwCVCyxAJHn/Km4oAPTv2Tpb6RJ2ZHjiZkkGwPQ5MBRg+m0USmK2Usr7eDmbAyUpo7lAv59eoLoye05kbJ3wfvgELp7LAijrWeREy6bei7MBsHYpaNDHFbt4+bn1aa8fDUDe7XzTj4iAzwJy9AIgHUhPZyOw9wXCYlRaYkcBIkW8BhbaXr0ARxheg7khPAAZFzctCuV/c51sBfhP410QVoCM0tHq" /> */}
-
-            {isLogin ? (
-              <button className="logbtn-round " onClick={handleLogout}>
-                {/* {username}, Logout */}
-                <p className="letter" style={{ color: color || "black" }}>
-                  {letter}
-                </p>
+          {isLogin ? (
+            <button className="bg-[#d9d9d9] rounded-full px-[0.7rem] py-[0.2rem] flex justify-center items-center" onClick={handleLogout}>
+              {/* {username}, Logout */}
+              <p className="text-[1.5rem] font-bold" style={{ color: color || "black" }}>
+                {letter}
+              </p>
+            </button>
+          ) : (
+            <Link to="/FrontLogin">
+              <button className="logbtn-round" style={{ fontWeight: "300" }}>
+                Sign-In
               </button>
-            ) : (
-              <Link to="/FrontLogin">
-                <button className="logbtn-round" style={{ fontWeight: "300" }}>
-                  Sign-In
-                </button>
-              </Link>
-            )}
-          </div>
+            </Link>
+          )}
         </div>
       </div>
     </>

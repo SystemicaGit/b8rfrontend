@@ -34,19 +34,21 @@ function Footer() {
     <>
       {/* <logo /> */}
 
-      <div style={{ marginTop: "25%" }}>
-        <div className="MainLogo">
+      {/* <div style={{ marginTop: "25%" }}>
+      </div> */}
+      <div className="flex flex-col justify-center items-center footer">
+        <div className="w-[30vw] py-[2rem]">
           {usertype == "PA" ? (
             <Link to="/dashboard">
-              <img src={logo} height={35} alt="fireSpot" />
+              <img src={logo} alt="fireSpot" />
             </Link>
           ) : (
             <Link to="/FieldAgentHomeN">
               <img src={logo} height={35} alt="fireSpot" />
             </Link>
           )}
-          <p> A better way to manage better homes </p>
         </div>
+        <div>A better way to manage better homes</div>
       </div>
     </>
   );

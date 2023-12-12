@@ -110,14 +110,15 @@ function FrontLogin() {
             width: "100%",
           }}
         >
-          <div className="MainLogoDesign">
-            <Link to="/dashboard">
-              <img src={logo} height={40} alt="fireSpot" />
-            </Link>
+          <div className="w-[20vw] m-[0.5rem]">
+            {/* <Link to="/dashboard">
+            </Link> */}
+            <img src={logo} height={40} alt="fireSpot" />
           </div>
-          <h3 className="Htitle">Agent Sign In</h3>
+          {/* <h3 className="Htitle">Agent Sign In</h3> */}
+          <div className="font-bold text-[1.3rem] py-[1rem]">Agent Sign In</div>
 
-          <form onSubmit={handleSubmit} className="login-form">
+          <form onSubmit={handleSubmit} className="login-form h-[60vh]">
             {/* phone */}
             <label htmlFor="phoneNumber" className="label-phone">
               Mobile Number
@@ -154,10 +155,11 @@ function FrontLogin() {
             </Link>
 
             {/* <button className="CommonnButton">Sign In <img className="vectorSignIn" src={vector} alt="fireSpot"/></button> */}
-            <CommonBtn title="Sign In" margin="25%" fontweight="bolder" />
-
-            <Footer />
+            <div className="flex justify-center items-center py-[1rem]">
+              <CommonBtn title="Sign In" margin="25%" fontweight="bolder" />
+            </div>
           </form>
+          <Footer />
           <br />
         </div>
       </div>

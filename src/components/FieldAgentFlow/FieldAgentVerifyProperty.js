@@ -48,7 +48,39 @@ import bedroom from "../Assets/Images/FieldAgent/Bedroom.png";
 import washroom from "../Assets/Images/FieldAgent/washroom.png";
 import balcony from "../Assets/Images/FieldAgent/Balcony_two.png";
 import broom_clean from "../Assets/Images/FieldAgent/Broom_clean.png";
-// import BackButton from "../CommonButtonBack";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import {
+  MdOutlineSecurity,
+  MdPower,
+  MdOutlineSportsHandball,
+} from "react-icons/md";
+import { FaCartShopping } from "react-icons/fa6";
+import { BiSwim } from "react-icons/bi";
+import { CgGym } from "react-icons/cg";
+import { RxDimensions } from "react-icons/rx";
+import { HiMiniBuildingOffice } from "react-icons/hi2";
+import { RiParkingBoxFill } from "react-icons/ri";
+import { FaBath } from "react-icons/fa6";
+import { MdBalcony, MdOutlineCleaningServices } from "react-icons/md";
+import { LuArmchair } from "react-icons/lu";
+import { TbAirConditioning } from "react-icons/tb";
+import { GiRoastChicken } from "react-icons/gi";
+// photocapture
+import { GiLift } from "react-icons/gi"; //lift lobby
+import { FaDoorOpen } from "react-icons/fa"; //entry door
+import { GiCryptEntrance } from "react-icons/gi"; //home entrance
+import { MdLiving } from "react-icons/md"; //living room
+import { PiTelevisionSimpleBold } from "react-icons/pi"; //tv area
+import { TbToolsKitchen3 } from "react-icons/tb"; //kitchen
+import { BiSolidHomeHeart } from "react-icons/bi"; // utility area
+import { GiWoodenFence } from "react-icons/gi"; //backyard
+import { PiToiletDuotone } from "react-icons/pi"; //common washroom
+import { IoBed } from "react-icons/io5"; //bedroom
+import { GiGate } from "react-icons/gi"; //maingate
+
+// ------------------------------------------------------
+// import BackButton from "../ComMdPowermonButtonBack";
 // import CommonHeader from "../CommonHeader";
 // import CommonBtn from "../CommonButton";
 
@@ -145,8 +177,8 @@ function FieldAgentVerifyProperty() {
         gym: false,
         parking: false,
         feature1: "",
-        // "feature2": "",
-        // "feature3": ""
+        feature2: "",
+        feature3: "",
       },
     },
   });
@@ -164,6 +196,7 @@ function FieldAgentVerifyProperty() {
     balcony_three: false,
     servant_room: false,
     servant_washroom: false,
+    parking: false,
     // Add other fields and set their values as needed
   });
 
@@ -241,6 +274,22 @@ function FieldAgentVerifyProperty() {
   //PUT
   const [isCheckRent, setisCheckRent] = useState(Boolean);
   const [isCheckSale, setisCheckSale] = useState(Boolean);
+
+  const handleAddFeature = (event) => {
+    const { name, value } = event.target;
+
+    console.log(name, value);
+    setFormData((prevState) => ({
+      ...prevState,
+      propertyDetails: {
+        ...prevState.propertyDetails,
+        verifyInfo: {
+          ...prevState.propertyDetails.verifyInfo,
+          [name]: value,
+        },
+      },
+    }));
+  };
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
@@ -337,12 +386,22 @@ function FieldAgentVerifyProperty() {
     }));
   };
 
+  const validatePincode = () => {
+    const pincodeRegex = /^\d{6}$/;
+    if (!pincodeRegex.test(formData.pinCode)) {
+      toast.error("Invalid Pincode");
+      return false;
+    }
+    return true;
+  };
+
   const handleChangeOne = (event) => {
     event.preventDefault();
-
-    setCheckedStateOne((current) => !current);
-    setCheckedStateTwo((current) => !current);
-    console.log("Received from PrpertyInfo - 1s In state 1:", formData);
+    if (validatePincode()) {
+      setCheckedStateOne((current) => !current);
+      setCheckedStateTwo((current) => !current);
+      console.log("Received from PrpertyInfo - 1s In state 1:", formData);
+    }
 
     // formData.propertyData.propertyInfo.purposeRent
     //   ? setisCheckRent(true)
@@ -364,27 +423,27 @@ function FieldAgentVerifyProperty() {
   const validateStageThree = () => {
     // console.log(formData.propertyInfo.verifyInfo.entryDoor)
     if (!isHomeArranged) {
-      alert("Please arrange all things");
+      toast.error("Please arrange all things");
       return false;
     }
     if (!formData.propertyDetails.verifyInfo.entryDoor) {
-      alert("Please capture door photo");
+      toast.error("Please capture door photo");
       return false;
     }
     if (formData.propertyDetails.verifyInfo.homeEntry == false) {
-      alert("Please capture home entry photo");
+      toast.error("Please capture home entry photo");
       return false;
     }
     if (formData.propertyDetails.verifyInfo.livingRoom == false) {
-      alert("Please capture livingRoom photo");
+      toast.error("Please capture livingRoom photo");
       return false;
     }
     if (formData.propertyDetails.verifyInfo.kitchen == false) {
-      alert("Please capture kitchen photo");
+      toast.error("Please capture kitchen photo");
       return false;
     }
     if (formData.propertyDetails.verifyInfo.commonWashroom == false) {
-      alert("Please capture common washroom  photo");
+      toast.error("Please capture common washroom  photo");
       return false;
     }
     return true;
@@ -401,7 +460,7 @@ function FieldAgentVerifyProperty() {
 
   const validateStageFour = () => {
     if (!isBedroomArranged) {
-      alert("please arrange bedrooms");
+      toast.error("please arrange bedrooms");
       return false;
     }
     if (
@@ -409,7 +468,7 @@ function FieldAgentVerifyProperty() {
         featureData.bedroom_two ||
         featureData.bedroom_three) == false
     ) {
-      alert("please capture bedrooms photo");
+      toast.error("please capture bedrooms photo");
       return false;
     }
     return true;
@@ -426,7 +485,7 @@ function FieldAgentVerifyProperty() {
   const validateSubmit = () => {
     const isMainGate = formData.propertyDetails.verifyInfo.mainGate;
     if (isMainGate == false) {
-      alert("Please Capture Main Gate Photo");
+      toast.error("Please Capture Main Gate Photo");
       return false;
     }
     return true;
@@ -464,37 +523,32 @@ function FieldAgentVerifyProperty() {
 
         // Log the updated state
         console.log(response);
-        alert(response.data.message);
+        toast.success(response.data.message);
         window.location.href = "/fieldAgentHomeN";
         // console.log(JSON.stringify(formData));
       } catch (error) {
         // Handle any errors that occur during the API request
         console.error("Error fetching data:", error);
+        toast.error(error.response.data.message);
       } finally {
         setLoading(false); // Set loading to false when the request is complete
       }
     }
   };
 
-  const pincodeRegex = /^\d{6}$/;
-
-  const validatePincode = () => {
-    console.log("blur");
-    if (pincodeRegex.test(formData.pinCode)) {
-      // alert('Valid PIN code');
-    } else {
-      alert("Invalid PIN code");
-    }
-  };
-
   return (
     <>
+      <ToastContainer
+        className="my-[3rem]"
+        autoClose={1000}
+        hideProgressBar={true}
+      />
       {checkedStateOne ? (
         <div
           className="form"
           style={{
             borderRadius: "16px",
-            marginTop: "10%",
+            // marginTop: "10%",
             backgroundRepeat: "no-repeat",
             backgroundRepeat: "no-repeat",
             backgroundSize: "100% 100%",
@@ -502,7 +556,6 @@ function FieldAgentVerifyProperty() {
         >
           {/* <h2 style={{color:"#52796F"}}>Verification</h2> */}
           <CommonHeader title="Property Verification(1/2)" color="#52796F" />
-
           <h4
             style={{
               marginBottom: "-10px",
@@ -531,253 +584,269 @@ function FieldAgentVerifyProperty() {
                   className="login-form inner-background"
                   onSubmit={handleChangeOne}
                 >
-                  <label
-                    for="mapLocation"
-                    style={{
-                      textAlign: "left",
-                      display: "block",
-                      marginBottom: "0.5rem",
-                      fontWeight: "300",
-                      float: "left",
-                    }}
-                  >
-                    Select Map Location{" "}
-                    <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="mapLocation"
-                    name="mapLocation"
-                    required
-                    value={formData.propertyDetails.propertyInfo.mapLocation}
-                    onChange={handleChange}
-                    style={{
-                      backgroundColor: "#F5F5F5",
-                      padding: "10px",
-                      borderRadius: "10pxpx",
-                      border: "1px solid #52796F",
-                    }}
-                  />
-
-                  <label
-                    for="houseType"
-                    style={{
-                      textAlign: "left",
-                      display: "block",
-                      marginBottom: "0.5rem",
-                      fontWeight: "300",
-                      float: "left",
-                    }}
-                  >
-                    What is the House type?{" "}
-                    <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
-                  </label>
-                  <select
-                    id="houseType"
-                    name="houseType"
-                    // value={formData.propertyData.propertyInfo.houseType}
-                    onChange={handleChange}
-                    style={{
-                      backgroundColor: "white",
-                      padding: "10px",
-                      borderRadius: "5px",
-                      border: "1px solid #52796F",
-                    }}
-                  >
-                    <option
-                      selected
-                      value="{formData.propertyDetails.propertyInfo.houseType}"
-                      disabled
+                  <div className="">
+                    <label
+                      for="mapLocation"
+                      style={{
+                        textAlign: "left",
+                        display: "block",
+                        marginBottom: "0.5rem",
+                        fontWeight: "300",
+                        float: "left",
+                      }}
                     >
-                      {formData.propertyDetails.propertyInfo.houseType}
-                    </option>
-                    <option value="Flat (in Gated Society)">
-                      Flat (in Gated Society)
-                    </option>
-                    <option value="Individual Builder Floor">
-                      {" "}
-                      Individual Builder Floor
-                    </option>
-                    <option value="Individual House(in Gated Society)">
-                      Individual House(in Gated Society)
-                    </option>
-                    <option value=" Standalone Individual House">
-                      Standalone Individual House
-                    </option>
-                  </select>
-                  <br></br>
+                      Select Map Location{" "}
+                      <span style={{ color: "red", fontSize: "1.5rem" }}>
+                        *
+                      </span>
+                    </label>
+                    <input
+                      type="text"
+                      id="mapLocation"
+                      name="mapLocation"
+                      required
+                      value={formData.propertyDetails.propertyInfo.mapLocation}
+                      onChange={handleChange}
+                      style={{
+                        backgroundColor: "#F5F5F5",
+                        padding: "10px",
+                        borderRadius: "10pxpx",
+                        border: "1px solid #52796F",
+                      }}
+                    />
+                    <div className="px-[1rem]">
+                      <label
+                        for="houseType"
+                        style={{
+                          textAlign: "left",
+                          display: "block",
+                          marginBottom: "0.5rem",
+                          fontWeight: "300",
+                          float: "left",
+                        }}
+                      >
+                        What is the House type?{" "}
+                        <span style={{ color: "red", fontSize: "1.5rem" }}>
+                          *
+                        </span>
+                      </label>
+                      <select
+                        id="houseType"
+                        name="houseType"
+                        // value={formData.propertyData.propertyInfo.houseType}
+                        onChange={handleChange}
+                        style={{
+                          backgroundColor: "white",
+                          padding: "10px",
+                          borderRadius: "5px",
+                          border: "1px solid #52796F",
+                        }}
+                      >
+                        <option
+                          selected
+                          value="{formData.propertyDetails.propertyInfo.houseType}"
+                          disabled
+                        >
+                          {formData.propertyDetails.propertyInfo.houseType}
+                        </option>
+                        <option value="Flat (in Gated Society)">
+                          Flat (in Gated Society)
+                        </option>
+                        <option value="Individual Builder Floor">
+                          {" "}
+                          Individual Builder Floor
+                        </option>
+                        <option value="Individual House(in Gated Society)">
+                          Individual House(in Gated Society)
+                        </option>
+                        <option value=" Standalone Individual House">
+                          Standalone Individual House
+                        </option>
+                      </select>
+                    </div>
+                    {/* house configuration */}
+                    <div className="px-[1rem]">
+                      <label
+                        for="houseConfig"
+                        style={{
+                          textAlign: "left",
+                          display: "block",
+                          marginBottom: "0.5rem",
+                          fontWeight: "300",
+                          float: "left",
+                        }}
+                      >
+                        What is the house configuration?{" "}
+                        <span style={{ color: "red", fontSize: "1.5rem" }}>
+                          *
+                        </span>
+                      </label>
+                      <select
+                        id="houseConfig"
+                        name="houseConfig"
+                        // value={formData.data.property.propertyInfo.houseConfig}
+                        onChange={handleChange}
+                        style={{
+                          backgroundColor: "white",
+                          padding: "10px",
+                          borderRadius: "5px",
+                          border: "1px solid #52796F",
+                        }}
+                      >
+                        <option
+                          selected
+                          value="{formData.propertyDetails.propertyInfo.houseConfig}"
+                          disabled
+                        >
+                          {formData.propertyDetails.propertyInfo.houseConfig}
+                        </option>
 
-                  {/* house configuration */}
-                  <label
-                    for="houseConfig"
-                    style={{
-                      textAlign: "left",
-                      display: "block",
-                      marginBottom: "0.5rem",
-                      fontWeight: "300",
-                      float: "left",
-                    }}
-                  >
-                    What is the house configuration?{" "}
-                    <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
-                  </label>
-                  <select
-                    id="houseConfig"
-                    name="houseConfig"
-                    // value={formData.data.property.propertyInfo.houseConfig}
-                    onChange={handleChange}
-                    style={{
-                      backgroundColor: "white",
-                      padding: "10px",
-                      borderRadius: "5px",
-                      border: "1px solid #52796F",
-                    }}
-                  >
-                    <option
-                      selected
-                      value="{formData.propertyDetails.propertyInfo.houseConfig}"
-                      disabled
+                        <option value="Studio">Studio</option>
+
+                        <option value="1 BHK">1 BHK</option>
+
+                        <option value="2 BHK">2 BHK</option>
+                        <option value="3 BHK">3 BHK</option>
+                        <option value="4 BHK">4 BHK</option>
+                      </select>
+                    </div>
+
+                    {/* house_num type */}
+
+                    <label
+                      for="houseName"
+                      style={{
+                        textAlign: "left",
+                        display: "block",
+                        marginBottom: "0.5rem",
+                        fontWeight: "300",
+                        float: "left",
+                      }}
                     >
-                      {formData.propertyDetails.propertyInfo.houseConfig}
-                    </option>
+                      House Number/ Flat Number/ Name{" "}
+                      <span style={{ color: "red", fontSize: "1.5rem" }}>
+                        *
+                      </span>
+                    </label>
+                    <input
+                      type="text"
+                      id="houseName"
+                      required
+                      value={formData.houseName}
+                      onChange={handleChange}
+                      name="houseName"
+                      placeholder="Text Input (Do not Enter Block Number)"
+                      style={{
+                        backgroundColor: "white",
+                        padding: "10px",
+                        borderRadius: "5px",
+                        border: "1px solid #52796F",
+                      }}
+                    ></input>
 
-                    <option value="Studio">Studio</option>
+                    {/* Society type */}
 
-                    <option value="1 BHK">1 BHK</option>
+                    <label
+                      for="society_type"
+                      style={{
+                        textAlign: "left",
+                        display: "block",
+                        marginBottom: "0.5rem",
+                        fontWeight: "300",
+                        float: "left",
+                      }}
+                    >
+                      What is the Society?{" "}
+                      <span style={{ color: "red", fontSize: "1.5rem" }}>
+                        *
+                      </span>
+                    </label>
+                    <input
+                      type=""
+                      id="societyName"
+                      required
+                      value={formData.societyName}
+                      onChange={handleChange}
+                      name="societyName"
+                      placeholder="for eg(Oceanus Triton or Sushant Estate)"
+                      style={{
+                        backgroundColor: "white",
+                        padding: "10px",
+                        borderRadius: "5px",
+                        border: "1px solid #52796F",
+                      }}
+                    ></input>
 
-                    <option value="2 BHK">2 BHK</option>
-                    <option value="3 BHK">3 BHK</option>
-                    <option value="4 BHK">4 BHK</option>
-                  </select>
-                  <br></br>
+                    {/* Pin code */}
 
-                  {/* house_num type */}
+                    <label
+                      for="pinCode"
+                      style={{
+                        textAlign: "left",
+                        display: "block",
+                        marginBottom: "0.5rem",
+                        fontWeight: "300",
+                        float: "left",
+                      }}
+                    >
+                      Pin Code{" "}
+                      <span style={{ color: "red", fontSize: "1.5rem" }}>
+                        *
+                      </span>
+                    </label>
+                    <input
+                      type="number"
+                      id="pinCode"
+                      name="pinCode"
+                      required
+                      value={formData.pinCode}
+                      onChange={handleChange}
+                      // onBlur={validatePincode}
+                      placeholder="Pin code"
+                      style={{
+                        backgroundColor: "white",
+                        padding: "10px",
+                        borderRadius: "5px",
+                        border: "1px solid #52796F",
+                      }}
+                    ></input>
+                    <br></br>
+                    {/* Area */}
+                    <label
+                      for="address"
+                      style={{
+                        textAlign: "left",
+                        display: "block",
+                        marginBottom: "0.5rem",
+                        fontWeight: "300",
+                        float: "left",
+                      }}
+                    >
+                      Area/Locality{" "}
+                      <span style={{ color: "red", fontSize: "1.5rem" }}>
+                        *
+                      </span>
+                    </label>
 
-                  <label
-                    for="houseName"
-                    style={{
-                      textAlign: "left",
-                      display: "block",
-                      marginBottom: "0.5rem",
-                      fontWeight: "300",
-                      float: "left",
-                    }}
-                  >
-                    House Number/ Flat Number/ Name{" "}
-                    <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="houseName"
-                    required
-                    value={formData.houseName}
-                    onChange={handleChange}
-                    name="houseName"
-                    placeholder="Text Input (Do not Enter Block Number)"
-                    style={{
-                      backgroundColor: "white",
-                      padding: "10px",
-                      borderRadius: "5px",
-                      border: "1px solid #52796F",
-                    }}
-                  ></input>
+                    <input
+                      type="text"
+                      id="area"
+                      name="area"
+                      required
+                      value={formData.propertyDetails.propertyInfo.area}
+                      // value={formData.propertyDetails.version}
 
-                  {/* Society type */}
-
-                  <label
-                    for="society_type"
-                    style={{
-                      textAlign: "left",
-                      display: "block",
-                      marginBottom: "0.5rem",
-                      fontWeight: "300",
-                      float: "left",
-                    }}
-                  >
-                    What is the Society?{" "}
-                    <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
-                  </label>
-                  <input
-                    type=""
-                    id="societyName"
-                    required
-                    value={formData.societyName}
-                    onChange={handleChange}
-                    name="societyName"
-                    placeholder="for eg(Oceanus Triton or Sushant Estate)"
-                    style={{
-                      backgroundColor: "white",
-                      padding: "10px",
-                      borderRadius: "5px",
-                      border: "1px solid #52796F",
-                    }}
-                  ></input>
-
-                  {/* Pin code */}
-
-                  <label
-                    for="pinCode"
-                    style={{
-                      textAlign: "left",
-                      display: "block",
-                      marginBottom: "0.5rem",
-                      fontWeight: "300",
-                      float: "left",
-                    }}
-                  >
-                    Pin Code{" "}
-                    <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
-                  </label>
-                  <input
-                    type="number"
-                    id="pinCode"
-                    name="pinCode"
-                    required
-                    value={formData.pinCode}
-                    onChange={handleChange}
-                    onBlur={validatePincode}
-                    placeholder="Pin code"
-                    style={{
-                      backgroundColor: "white",
-                      padding: "10px",
-                      borderRadius: "5px",
-                      border: "1px solid #52796F",
-                    }}
-                  ></input>
-                  <br></br>
-                  {/* Area */}
-                  <label
-                    for="address"
-                    style={{
-                      textAlign: "left",
-                      display: "block",
-                      marginBottom: "0.5rem",
-                      fontWeight: "300",
-                      float: "left",
-                    }}
-                  >
-                    Area/Locality{" "}
-                    <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
-                  </label>
-
-                  <input
-                    type="text"
-                    id="area"
-                    name="area"
-                    required
-                    value={formData.propertyDetails.propertyInfo.area}
-                    // value={formData.propertyDetails.version}
-
-                    onChange={handleChange}
-                    placeholder="Area/Locality"
-                    style={{
-                      backgroundColor: "white",
-                      padding: "10px",
-                      borderRadius: "5px",
-                      border: "1px solid #52796F",
-                    }}
-                  ></input>
-                  <br></br>
+                      onChange={handleChange}
+                      placeholder="Area/Locality"
+                      style={{
+                        backgroundColor: "white",
+                        padding: "10px",
+                        borderRadius: "5px",
+                        border: "1px solid #52796F",
+                      }}
+                    ></input>
+                    <br></br>
+                  </div>
 
                   {/* <div className="checkContainer">
                     <label
@@ -843,18 +912,20 @@ function FieldAgentVerifyProperty() {
                   </div> */}
                   {/* <div style={{ marginTop: "-50px" }}> */}
                   {/* <Link to="/FieldAgentVerifyPropertyF"> */}
-                  <CommonBtn
-                    title="Save & Next"
-                    margin="12%"
-                    fontweight="bolder"
-                  />
+                  <div className="flex justify-center items-center py-[1rem]">
+                    <CommonBtn
+                      title="Save & Next"
+                      margin="12%"
+                      fontweight="bolder"
+                    />
+                  </div>
                 </form>
               </div>
               <div></div>
             </div>
           </div>
 
-          <div style={{ marginTop: "150px" }}>
+          <div className="py-[1rem]">
             <Footer />
           </div>
         </div>
@@ -862,99 +933,69 @@ function FieldAgentVerifyProperty() {
 
       {checkedStateTwo ? (
         // FORM TWO
-        <div
-          className="form"
-          style={{
-            borderRadius: "16px",
-            marginTop: "10%",
-            backgroundRepeat: "no-repeat",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "100% 100%",
-          }}
-        >
-          <CommonHeader title="Property Verification(2/2)" color="#52796F" />
-
-          <h4
-            style={{
-              marginBottom: "-10px",
-              fontSize: "25px",
-              color: "#3B413D",
-            }}
-          >
-            {formData.houseName}, {formData.societyName}
-          </h4>
-          <div style={{ padding: "1rem 0 0 0 " }}>
-            <span style={{ color: "red", fontSize: "1rem" }}>
-              asterisk(*) are mandatory inputs
-            </span>
-          </div>
+        <>
           <div
-            className="containered"
+            className=""
             style={{
-              padding: "none",
+              borderRadius: "16px",
+              // marginTop: "10%",
+              backgroundRepeat: "no-repeat",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "100% 100%",
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <div>
-                <form
-                  className="login-form inner-background"
-                  onSubmit={handleChangeTwo}
-                >
+            <CommonHeader title="Property Verification(2/2)" color="#52796F" />
+            <div className="flex justify-center items-center flex-col">
+              <h4
+                className="my-[1rem]"
+                style={{
+                  marginBottom: "-10px",
+                  fontSize: "25px",
+                  color: "#3B413D",
+                }}
+              >
+                {formData.houseName}, {formData.societyName}
+              </h4>
+              <div style={{ padding: "1rem 0 0 0 " }}>
+                <span style={{ color: "red", fontSize: "1rem" }}>
+                  asterisk(*) are mandatory inputs
+                </span>
+              </div>
+            </div>
+
+            <div>
+              <form className="" onSubmit={handleChangeTwo}>
+                <div className="px-[1rem]">
+                  {/* societydetails */}
                   <div
+                    className="p-[1rem]"
                     style={{
-                      marginRight: "10px",
-                      border: "0.5px solid #CFD3D2",
-                      width: "300px",
-                      padding: "10px",
-                      borderRadius: "2%",
+                      border: "1px solid #CFD3D2",
                       background:
-                        "linear-gradient(180deg, rgba(232, 231, 231, 0.5) 0%, rgba(232, 231, 231, 0) 100%)",
+                        "linear-gradient(180deg, rgba(232, 231, 231, 0.50) 0%, rgba(232, 231, 231, 0.00) 100%)  ",
                     }}
                   >
-                    <h3
-                      style={{
-                        textAlign: "left",
-                        marginTop: "20px",
-                        marginLeft: "10px",
-                        marginBottom: "5px",
-                      }}
-                    >
-                      About the society{" "}
+                    <p className="text-[1.3rem] font-bold text-[#3B413D]">
+                      About the Society{" "}
                       <span style={{ color: "red", fontSize: "1.5rem" }}>
                         *
                       </span>
-                    </h3>
-                    <div class="grid-container" style={{ width: "300px" }}>
-                      <div class="grid-item" style={{ border: "none" }}>
-                        <img src={gated_sec} alt="Icon description" />
-                        <h5
-                          style={{
-                            marginTop: "-2px",
-                            fontSize: "10px",
-                            fontFamily: "sans-serif",
-                          }}
+                    </p>
+                    {/* grid */}
+                    <div className="grid grid-cols-3 py-[1rem] gap-y-[2rem]">
+                      <div className="flex justify-center items-center flex-col">
+                        <MdOutlineSecurity className="text-[2rem]" />
+                        <p className="font-semibold">Gated Security</p>
+                        <p
+                          className="text-[#52796F] text-[0.8rem] pb-[0.4rem]
+                  "
                         >
-                          Gated Security
-                        </h5>
-                        <h6 style={{ marginTop: "-13px", fontSize: "8px" }}>
                           always secure
-                        </h6>
+                        </p>
                         <ReactSwitch
                           checked={
                             formData.propertyDetails.featureInfo.gatedSecurity
                           }
-                          // onChange={() =>
-                          //   setFormData({
-                          //     ...formData,
-                          //     gatedSecurity: !formData.propertyDetails.featureInfo.gatedSecurity,
-                          //   })
-                          // }
                           onChange={() =>
                             setFormData((prevState) => ({
                               ...prevState,
@@ -979,12 +1020,12 @@ function FieldAgentVerifyProperty() {
                           activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                         />
                       </div>
-                      <div class="grid-item" style={{ border: "none" }}>
-                        <img src={Power_backup} alt="Icon description" />
-                        <h5 style={{ marginTop: "-5px" }}>24 X 7</h5>
-                        <h5 style={{ marginTop: "-13px", fontSize: "8px" }}>
-                          Power Back-up
-                        </h5>
+                      <div className="flex justify-center items-center flex-col">
+                        <MdPower className="text-[2rem]" />
+                        <p className="font-semibold">24 x 7</p>
+                        <p className="text-[#52796F] text-[0.8rem] pb-[0.4rem]">
+                          Power Back-Up
+                        </p>
                         <ReactSwitch
                           checked={
                             formData.propertyDetails.featureInfo.powerBackup
@@ -1012,14 +1053,12 @@ function FieldAgentVerifyProperty() {
                           activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                         />
                       </div>
-                      <div class="grid-item" style={{ border: "none" }}>
-                        <img src={convenience_store} alt="Icon description" />
-                        <h5 style={{ marginTop: "-5px", fontSize: "10px" }}>
-                          Grocery Store
-                        </h5>
-                        <h5 style={{ marginTop: "-9px", fontSize: "8px" }}>
+                      <div className="flex justify-center items-center flex-col">
+                        <FaCartShopping className="text-[2rem]" />
+                        <p className="font-semibold">Grocery Store</p>
+                        <p className="text-[#52796F] text-[0.8rem] pb-[0.4rem]">
                           In Campus
-                        </h5>
+                        </p>
                         <ReactSwitch
                           checked={
                             formData.propertyDetails.featureInfo.groceryStore
@@ -1047,17 +1086,12 @@ function FieldAgentVerifyProperty() {
                           activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                         />
                       </div>
-                      <div class="grid-item" style={{ border: "none" }}>
-                        <img src={swimming_pool} alt="Icon description" />
-                        <h5
-                          style={{
-                            marginTop: "-5px",
-                            marginBottom: "15px",
-                            fontSize: "10px",
-                          }}
-                        >
+                      <div className="flex justify-center items-center flex-col">
+                        <BiSwim className="text-[2rem]" />
+                        <p className="font-semibold pb-[0.4rem]">
                           Swimming Pool
-                        </h5>
+                        </p>
+                        {/* <p className="text-[#52796F] text-[0.8rem]">Swimming Pool</p> */}
                         <ReactSwitch
                           checked={
                             formData.propertyDetails.featureInfo.swimmingPool
@@ -1085,17 +1119,9 @@ function FieldAgentVerifyProperty() {
                           activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                         />
                       </div>
-                      <div class="grid-item" style={{ border: "none" }}>
-                        <img src={gym_1} alt="Icon description" />
-                        <h5
-                          style={{
-                            marginTop: "-1px",
-                            marginBottom: "20px",
-                            fontSize: "10px",
-                          }}
-                        >
-                          Gym
-                        </h5>
+                      <div className="flex justify-center items-center flex-col">
+                        <CgGym className="text-[2rem]" />
+                        <p className="font-semibold pb-[0.4rem]">Gym</p>
                         <ReactSwitch
                           checked={formData.propertyDetails.featureInfo.gym}
                           onChange={() =>
@@ -1119,18 +1145,11 @@ function FieldAgentVerifyProperty() {
                           boxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                           activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                         />
+                        {/* <p className="text-[#52796F] text-[0.8rem]">Power Back-Up</p> */}
                       </div>
-                      <div class="grid-item" style={{ border: "none" }}>
-                        <img src={club_house} alt="Icon description" />
-                        <h5
-                          style={{
-                            marginTop: "-5px",
-                            marginBottom: "10px",
-                            fontSize: "10px",
-                          }}
-                        >
-                          Club house
-                        </h5>
+                      <div className="flex justify-center items-center flex-col">
+                        <MdOutlineSportsHandball className="text-[2rem]" />
+                        <p className="font-semibold pb-[0.4rem]">Club house</p>
                         <ReactSwitch
                           checked={
                             formData.propertyDetails.featureInfo.clubHouse
@@ -1157,54 +1176,48 @@ function FieldAgentVerifyProperty() {
                           boxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                           activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                         />
+                        {/* <p className="text-[#52796F] text-[0.8rem]">Power Back-Up</p> */}
                       </div>
                     </div>
                   </div>
+                  {/* housedetails */}
+                  <div></div>
+                </div>
+                {/* maincontainer - house Details */}
+                <div className="p-[1rem]">
                   <div
+                    className="p-[1rem]"
                     style={{
-                      padding: "10px",
-                      margin: "20px",
                       border: "1px solid #DAF0EE",
-                      padding: "5px",
-                      marginLeft: "auto",
-                      marginRight: "auto",
-                      width: "327px",
                       background:
-                        "linear-gradient(180deg, rgba(218, 240, 238, 0.5) 0%, rgba(232, 231, 231, 0) 100%)",
-                      borderRadius: "5px",
+                        "linear-gradient(180deg, rgba(218, 240, 238, 0.50) 0%, rgba(232, 231, 231, 0.00) 100%)",
                     }}
                   >
-                    <h3 style={{ textAlign: "left", marginTop: "-1px" }}>
-                      House Details{" "}
-                      <span style={{ color: "red", fontSize: "1.5rem" }}>
-                        *
-                      </span>
-                    </h3>
-
-                    {/* -------------------------FLOOR NUMBER----------------------------- */}
+                    <p className="text-[1.3rem] font-bold text-[#3B413D] py-[1rem]">
+                      Apartment/House Details
+                    </p>
+                    {/* floor container */}
                     <div
-                      class="grid-container"
+                      className="shadow-md grid grid-cols-2 py-[1rem]"
                       style={{
-                        width: "320px",
-                        marginTop: "10px",
-                        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                        border: "none",
                         background:
-                          "linear-gradient(180deg, rgba(207, 211, 210, 0.5) 0%, rgba(232, 231, 231, 0) 100%)",
-                        height: "120px",
-                        borderRadius: "5px",
+                          "linear-gradient(180deg, rgba(207, 211, 210, 0.50) 0%, rgba(232, 231, 231, 0.00) 100%)",
                       }}
                     >
-                      <h5 style={{ marginTop: "55px" }}>Floor Number</h5>
-
-                      <div style={{ display: "flex" }}>
-                        <div style={{ marginTop: "38px", marginRight: "" }}>
-                          <label
-                            style={{ marginTop: "-5px", fontSize: "10px" }}
-                          >
-                            Your Floor
+                      <div className="flex justify-center items-center flex-col">
+                        <HiMiniBuildingOffice className="text-[2rem] my-[0.5rem]" />
+                        <p className="font-semibold">Floor Number</p>
+                      </div>
+                      <div className="">
+                        <div className="py-[0.5rem] flex flex-col">
+                          <label>
+                            Your Floor{" "}
+                            <span style={{ color: "red", fontSize: "1.5rem" }}>
+                              *
+                            </span>
                           </label>
                           <input
+                            className="p-[0.2rem]"
                             type="number"
                             id="your"
                             value={
@@ -1219,26 +1232,22 @@ function FieldAgentVerifyProperty() {
                               backgroundColor: "#F5F5F5",
                               borderRadius: "5px",
                               border: "1px solid #52796F",
-                              width: "80px",
-                              height: "30px",
+                              width: "80%",
+                              height: "50%",
                               boxShadow:
                                 "0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24)",
                             }}
                           />
                         </div>
-
-                        <div
-                          style={{ marginTop: "10px", marginRight: "-100px" }}
-                        >
-                          <img src={floor_number} alt="Icon description" />
-                          <br />
-                          <label
-                            style={{ marginTop: "-1px", fontSize: "10px" }}
-                          >
-                            Total Floor
+                        <div className="py-[0.5rem] flex flex-col">
+                          <label>
+                            Total Floor{" "}
+                            <span style={{ color: "red", fontSize: "1.5rem" }}>
+                              *
+                            </span>
                           </label>
-
                           <input
+                            className="p-[0.2rem]"
                             type="number"
                             id="total"
                             value={
@@ -1250,11 +1259,10 @@ function FieldAgentVerifyProperty() {
                             required
                             style={{
                               backgroundColor: "#F5F5F5",
-
                               borderRadius: "5px",
                               border: "1px solid #52796F",
-                              width: "80px",
-                              height: "30px",
+                              width: "80%",
+                              height: "50%",
                               boxShadow:
                                 "0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24)",
                             }}
@@ -1262,40 +1270,27 @@ function FieldAgentVerifyProperty() {
                         </div>
                       </div>
                     </div>
-
-                    {/* -------------------------FLOOR NUMBER----------------------------- */}
-
-                    {/* -------------------------CAR PARKING----------------------------- */}
+                    {/* car and bike parking */}
                     <div
-                      class="grid-item"
+                      className="shadow-md grid grid-cols-2 py-[1rem] my-[1rem]"
                       style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        marginTop: "30px",
-                        marginBottom: "20px",
                         background:
-                          "linear-gradient(180deg, rgba(207, 211, 210, 0.5) 0%, rgba(232, 231, 231, 0) 100%)",
-                        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                        borderRadius: "5px",
-                        border: "none",
+                          "linear-gradient(180deg, rgba(207, 211, 210, 0.50) 0%, rgba(232, 231, 231, 0.00) 100%)",
                       }}
                     >
-                      <div>
-                        <img
-                          src={car_parking}
-                          style={{ marginLeft: "10px" }}
-                          alt="Icon description"
-                        />
-                        <br />
-                        <label style={{ fontSize: "10px", marginTop: "5px" }}>
+                      <div className="flex justify-center items-center flex-col">
+                        <RiParkingBoxFill className="text-[2rem] my-[0.5rem]" />
+                        <p className="font-semibold text-center">
                           Car & Bike Parking Availability
-                        </label>
+                        </p>
                       </div>
-                      <div>
-                        <div>
-                          <label style={{ fontSize: "10px" }}>
-                            Number of Car Parking
+                      <div className="">
+                        <div className="py-[0.5rem] flex flex-col">
+                          <label className="text-[0.9rem]">
+                            Number of Car Parking{" "}
+                            <span style={{ color: "red", fontSize: "1.2rem" }}>
+                              *
+                            </span>
                           </label>
                           <select
                             id="parking"
@@ -1306,11 +1301,11 @@ function FieldAgentVerifyProperty() {
                             onChange={handleChange}
                             style={{
                               backgroundColor: "white",
-                              padding: "10px",
+                              padding: "0.5rem",
                               borderRadius: "5px",
                               border: "1px solid #52796F",
-                              width: "150px",
-                              marginLeft: "50px",
+                              width: "90%",
+                              // marginLeft: "50px",
                               boxShadow:
                                 "0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24)",
                             }}
@@ -1325,10 +1320,12 @@ function FieldAgentVerifyProperty() {
                               {formData.propertyDetails.featureInfo.parking.car}
                             </option>
                             <option
-                              style={{
-                                textAlign: "center",
-                                backgroundColor: "red",
-                              }}
+                              style={
+                                {
+                                  // textAlign: "center",
+                                  // backgroundColor: "red",
+                                }
+                              }
                               value="1Car"
                             >
                               1 Car
@@ -1338,9 +1335,12 @@ function FieldAgentVerifyProperty() {
                             <option value="4Car">4 Car</option>
                           </select>
                         </div>
-                        <div>
-                          <label style={{ fontSize: "10px" }}>
-                            Number of Bike Parking
+                        <div className="py-[0.5rem] flex flex-col">
+                          <label className="text-[0.9rem]">
+                            Number of Bike Parking{" "}
+                            <span style={{ color: "red", fontSize: "1.2rem" }}>
+                              *
+                            </span>
                           </label>
                           <select
                             id="parking"
@@ -1349,11 +1349,11 @@ function FieldAgentVerifyProperty() {
                             onChange={handleChange}
                             style={{
                               backgroundColor: "white",
-                              padding: "10px",
+                              padding: "0.5rem",
                               borderRadius: "5px",
                               border: "1px solid #52796F",
-                              width: "150px",
-                              marginLeft: "50px",
+                              width: "90%",
+                              // marginLeft: "50px",
 
                               boxShadow:
                                 "0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24)",
@@ -1374,10 +1374,12 @@ function FieldAgentVerifyProperty() {
                             </option>
 
                             <option
-                              style={{
-                                textAlign: "center",
-                                backgroundColor: "red",
-                              }}
+                              style={
+                                {
+                                  // textAlign: "center",
+                                  // backgroundColor: "red",
+                                }
+                              }
                               value="1Bike"
                             >
                               1 Bike
@@ -1388,17 +1390,13 @@ function FieldAgentVerifyProperty() {
                             <option value="Ownedgarage">Owned Garage</option>
                           </select>
                         </div>
-                        <div>
-                          <label
-                            style={{
-                              fontSize: "11px",
-                              textAlign: "left",
-                              marginLeft: "-29px",
-                            }}
-                          >
-                            Parking Type
+                        <div className="py-[0.5rem] flex flex-col">
+                          <label className="text-[0.9rem]">
+                            Parking Type{" "}
+                            <span style={{ color: "red", fontSize: "1.2rem" }}>
+                              *
+                            </span>
                           </label>
-                          <br />
                           <select
                             id="parking"
                             name="parking"
@@ -1406,12 +1404,12 @@ function FieldAgentVerifyProperty() {
                             onChange={handleChange}
                             style={{
                               backgroundColor: "white",
-                              padding: "10px",
+                              padding: "0.5rem",
                               borderRadius: "5px",
                               border: "1px solid #52796F",
-                              width: "150px",
-                              marginTop: "5px",
-                              marginLeft: "50px",
+                              width: "90%",
+                              // marginTop: "5px",
+                              // marginLeft: "50px",
                               boxShadow:
                                 "0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24)",
                             }}
@@ -1431,10 +1429,12 @@ function FieldAgentVerifyProperty() {
                             </option>
 
                             <option
-                              style={{
-                                textAlign: "center",
-                                backgroundColor: "red",
-                              }}
+                              style={
+                                {
+                                  // textAlign: "center",
+                                  // backgroundColor: "red",
+                                }
+                              }
                               value="Covered Roof"
                             >
                               Covered Roof
@@ -1444,99 +1444,22 @@ function FieldAgentVerifyProperty() {
                         </div>
                       </div>
                     </div>
-
-                    {/* -------------------------CAR PARKING----------------------------- */}
-
-                    {/* -----------------------------------------House help--------------------------------------------------------------- */}
-
-                    <div
-                      class="grid-item"
-                      style={{
-                        marginTop: "30px",
-                        marginBottom: "20px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        background:
-                          "linear-gradient(180deg, rgba(207, 211, 210, 0.5) 0%, rgba(232, 231, 231, 0) 100%)",
-                        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                        borderRadius: "5px",
-                        border: "none",
-                        height: "90px",
-                      }}
-                    >
-                      <div>
-                        <img src={broom} alt="Icon description" />
-                        <br />
-                        <label style={{ fontSize: "10px" }}>
-                          House help room
-                        </label>
-                      </div>
-                      <div>
-                        <label style={{ fontSize: "10px" }}>
-                          House Help Room
-                        </label>
-                        <br />
-                        <select
-                          id="houseHelpRoom"
-                          name="houseHelpRoom"
-                          value={formData.houseHelpRoom}
-                          onChange={handleChange}
-                          style={{
-                            backgroundColor: "white",
-                            padding: "10px",
-                            width: "150px",
-                            borderRadius: "5px",
-                            border: "1px solid #52796F",
-                            marginLeft: "60px",
-                            boxShadow:
-                              "0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24)",
-                          }}
-                        >
-                          <option
-                            value={
-                              formData.propertyDetails.featureInfo.houseHelpRoom
-                            }
-                            selected
-                            disabled
-                          >
-                            {formData.propertyDetails.featureInfo.houseHelpRoom}
-                          </option>
-
-                          <option
-                            style={{
-                              textAlign: "center",
-                              backgroundColor: "red",
-                            }}
-                            value="1 Room"
-                          >
-                            1 Room
-                          </option>
-
-                          <option value=" 1 Room + Bathroom">
-                            1 Room + Bathroom
-                          </option>
-                          <option value="None">None</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    {/* -----------------------------------------House help--------------------------------------------------------------- */}
-
-                    <div class="grid-container" style={{}}>
+                    {/* bathroom and balconies */}
+                    <div className="grid grid-cols-2 gap-x-[1rem]">
                       <div
-                        class="grid-item"
+                        className="shadow-md flex justify-center items-center flex-col py-[1rem]"
                         style={{
-                          width: "145px",
                           background:
-                            "linear-gradient(180deg, rgba(207, 211, 210, 0.5) 0%, rgba(232, 231, 231, 0) 100%)",
-                          boxShadow: " 0px 4px 4px rgba(0, 0, 0, 0.25)",
-                          border: "none",
-                          borderRadius: "5px",
+                            "linear-gradient(180deg, rgba(207, 211, 210, 0.50) 0%, rgba(232, 231, 231, 0.00) 100%)",
                         }}
                       >
-                        <img src={num_of_bathrooms} alt="Icon description" />
-                        <h5>Number of Bathrooms</h5>
+                        <FaBath className="text-[2rem] my-[0.5rem]" />
+                        <p className="font-semibold text-center py-[0.5rem]">
+                          Number of Bathrooms
+                          <span style={{ color: "red", fontSize: "1.5rem" }}>
+                            *
+                          </span>
+                        </p>
                         <select
                           id="numofbath"
                           name="bathrooms"
@@ -1544,7 +1467,8 @@ function FieldAgentVerifyProperty() {
                           onChange={handleChange}
                           style={{
                             backgroundColor: "white",
-                            padding: "10px",
+                            padding: "0.5rem",
+                            width: "80%",
                             borderRadius: "5px",
                             border: "1px solid #52796F",
                             boxShadow:
@@ -1562,10 +1486,12 @@ function FieldAgentVerifyProperty() {
                           </option>
 
                           <option
-                            style={{
-                              textAlign: "center",
-                              backgroundColor: "red",
-                            }}
+                            style={
+                              {
+                                // textAlign: "center",
+                                // backgroundColor: "red",
+                              }
+                            }
                             value="1"
                           >
                             1
@@ -1582,18 +1508,19 @@ function FieldAgentVerifyProperty() {
                         </select>
                       </div>
                       <div
-                        class="grid-item"
+                        className="shadow-md flex items-center flex-col py-[1rem]"
                         style={{
-                          width: "150px",
                           background:
-                            "linear-gradient(180deg, rgba(207, 211, 210, 0.5) 0%, rgba(232, 231, 231, 0) 100%)",
-                          boxShadow: " 0px 4px 4px rgba(0, 0, 0, 0.25)",
-                          borderRadius: "5px",
-                          border: "none",
+                            "linear-gradient(180deg, rgba(207, 211, 210, 0.50) 0%, rgba(232, 231, 231, 0.00) 100%)",
                         }}
                       >
-                        <img src={number_of_balcony} alt="Icon description" />
-                        <h5>No of Balconies</h5>
+                        <MdBalcony className="text-[2rem] my-[0.5rem]" />
+                        <p className="font-semibold text-center py-[0.5rem]">
+                          No of Balconies
+                          <span style={{ color: "red", fontSize: "1.5rem" }}>
+                            *
+                          </span>
+                        </p>
                         <select
                           id="balconies"
                           name="balconies"
@@ -1601,7 +1528,8 @@ function FieldAgentVerifyProperty() {
                           onChange={handleChange}
                           style={{
                             backgroundColor: "white",
-                            padding: "10px",
+                            padding: "0.5rem",
+                            width: "80%",
                             borderRadius: "5px",
                             border: "1px solid #52796F",
                             boxShadow:
@@ -1619,10 +1547,12 @@ function FieldAgentVerifyProperty() {
                           </option>
                           {/* <option value="furnish">Drop Down</option> */}
                           <option
-                            style={{
-                              textAlign: "center",
-                              backgroundColor: "red",
-                            }}
+                            style={
+                              {
+                                // textAlign: "center",
+                                // backgroundColor: "red",
+                              }
+                            }
                             value="1"
                           >
                             1
@@ -1639,93 +1569,160 @@ function FieldAgentVerifyProperty() {
                         </select>
                       </div>
                     </div>
+                    {/* househelproom */}
                     <div
-                      class="grid-item"
+                      className="shadow-md grid grid-cols-2 py-[1rem] my-[1rem]"
                       style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        marginTop: "20px",
-                        marginBottom: "20px",
                         background:
-                          "linear-gradient(180deg, rgba(207, 211, 210, 0.5) 0%, rgba(232, 231, 231, 0) 100%)",
-                        boxShadow: " 0px 4px 4px rgba(0, 0, 0, 0.25)",
-                        borderRadius: "5px",
-                        border: "none",
+                          "linear-gradient(180deg, rgba(207, 211, 210, 0.50) 0%, rgba(232, 231, 231, 0.00) 100%)",
                       }}
                     >
-                      <div style={{}}>
-                        <img
-                          src={furniture_1}
-                          style={{ marginTop: "0px" }}
-                          alt="Icon description"
-                        />
-                        <h5 style={{ marginTop: "-1px" }}>Furnishing</h5>
+                      <div className="flex justify-center items-center flex-col">
+                        <MdOutlineCleaningServices className="text-[2rem] my-[0.5rem]" />
+                        <p className="font-semibold">House Help Room</p>
                       </div>
-                      <div style={{ marginLeft: "50px" }}>
-                        <h6 style={{ marginTop: "30px" }}>
-                          Type Of Furnishing?
-                        </h6>
-                        <select
-                          id="furnishingType"
-                          name="furnishingType"
-                          // value={formData.propertyDetails.featureInfo.furnishingType}
-                          onChange={handleChange}
-                          style={{
-                            backgroundColor: "white",
-                            padding: "10px",
-                            borderRadius: "5px",
-                            border: "1px solid #52796F",
-                            marginTop: "-50px",
-                            boxShadow:
-                              "0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24)",
-                          }}
-                        >
-                          <option
-                            value={
-                              formData.propertyDetails.featureInfo
-                                .furnishingType
-                            }
-                            selected
-                            disabled
-                          >
-                            {
-                              formData.propertyDetails.featureInfo
-                                .furnishingType
-                            }
-                          </option>
-
-                          <option
+                      <div className="">
+                        <div className="py-[0.5rem] flex flex-col">
+                          <label>
+                            House Help Room
+                            <span style={{ color: "red", fontSize: "1.5rem" }}>
+                              *
+                            </span>
+                          </label>
+                          <select
+                            id="houseHelpRoom"
+                            name="houseHelpRoom"
+                            value={formData.houseHelpRoom}
+                            onChange={handleChange}
                             style={{
-                              textAlign: "center",
-                              backgroundColor: "red",
+                              backgroundColor: "white",
+                              padding: "0.5rem",
+                              width: "90%",
+                              borderRadius: "5px",
+                              border: "1px solid #52796F",
+                              // marginLeft: "60px",
+                              boxShadow:
+                                "0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24)",
                             }}
-                            value="Un-furnished"
                           >
-                            Un-furnished
-                          </option>
-                          <option value="Semi-furnished">Semi-Furnished</option>
-                          <option value="Full-furnished">Full-Furnished</option>
-                        </select>
+                            <option
+                              value={
+                                formData.propertyDetails.featureInfo
+                                  .houseHelpRoom
+                              }
+                              selected
+                              disabled
+                            >
+                              {
+                                formData.propertyDetails.featureInfo
+                                  .houseHelpRoom
+                              }
+                            </option>
+
+                            <option
+                              style={
+                                {
+                                  // textAlign: "center",
+                                  // backgroundColor: "red",
+                                }
+                              }
+                              value="1 Room"
+                            >
+                              1 Room
+                            </option>
+
+                            <option value=" 1 Room + Bathroom">
+                              1 Room + Bathroom
+                            </option>
+                            <option value="None">None</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
-                    <div class="grid-container">
+                    {/* furnishingType */}
+                    <div
+                      className="shadow-md grid grid-cols-2 py-[1rem] my-[1rem]"
+                      style={{
+                        background:
+                          "linear-gradient(180deg, rgba(207, 211, 210, 0.50) 0%, rgba(232, 231, 231, 0.00) 100%)",
+                      }}
+                    >
+                      <div className="flex justify-center items-center flex-col">
+                        <LuArmchair className="text-[2rem] my-[0.5rem]" />
+                        <p className="font-semibold">Furnishing</p>
+                      </div>
+                      <div className="">
+                        <div className="py-[0.5rem] flex flex-col">
+                          <label>
+                            Type of Furnishing?
+                            <span style={{ color: "red", fontSize: "1.5rem" }}>
+                              *
+                            </span>
+                          </label>
+                          <select
+                            id="furnishingType"
+                            name="furnishingType"
+                            // value={formData.propertyDetails.featureInfo.furnishingType}
+                            onChange={handleChange}
+                            style={{
+                              backgroundColor: "white",
+                              padding: "0.5rem",
+                              width: "90%",
+                              borderRadius: "5px",
+                              border: "1px solid #52796F",
+                              // marginTop: "-50px",
+                              boxShadow:
+                                "0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24)",
+                            }}
+                          >
+                            <option
+                              value={
+                                formData.propertyDetails.featureInfo
+                                  .furnishingType
+                              }
+                              selected
+                              disabled
+                            >
+                              {
+                                formData.propertyDetails.featureInfo
+                                  .furnishingType
+                              }
+                            </option>
+
+                            <option
+                              style={
+                                {
+                                  // textAlign: "center",
+                                  // backgroundColor: "red",
+                                }
+                              }
+                              value="Un-furnished"
+                            >
+                              Un-furnished
+                            </option>
+                            <option value="Semi-furnished">
+                              Semi-Furnished
+                            </option>
+                            <option value="Full-furnished">
+                              Full-Furnished
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    {/* nonveg & ac */}
+                    <div className="grid grid-cols-2 gap-x-[1rem]">
                       <div
-                        class="grid-item"
+                        className="shadow-md flex justify-center items-center flex-col py-[1rem]"
                         style={{
-                          width: "150px",
-                          marginBottom: "10px",
-                          boxShadow:
-                            "0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24",
-                          border: "none",
                           background:
-                            "linear-gradient(180deg, rgba(207, 211, 210, 0.5) 0%, rgba(232, 231, 231, 0) 100%)",
-                          boxShadow: " 0px 4px 4px rgba(0, 0, 0, 0.25)",
-                          borderRadius: "5px",
+                            "linear-gradient(180deg, rgba(207, 211, 210, 0.50) 0%, rgba(232, 231, 231, 0.00) 100%)",
                         }}
                       >
-                        <img src={Ac_png} alt="Icon description" />
-                        <h5 style={{ marginTop: "10px" }}>Air Conditioner</h5>
+                        <TbAirConditioning className="text-[2rem] my-[0.5rem]" />
+                        <p className="font-semibold text-center py-[0.5rem]">
+                          Air Conditioner
+                        </p>
                         <ReactSwitch
                           checked={formData.propertyDetails.featureInfo.ac}
                           onChange={() =>
@@ -1750,21 +1747,16 @@ function FieldAgentVerifyProperty() {
                         />
                       </div>
                       <div
-                        class="grid-item"
+                        className="shadow-md flex items-center flex-col py-[1rem]"
                         style={{
-                          width: "150px",
-                          marginBottom: "10px",
-                          boxShadow:
-                            "0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24",
-                          border: "none",
                           background:
-                            "linear-gradient(180deg, rgba(207, 211, 210, 0.5) 0%, rgba(232, 231, 231, 0) 100%)",
-                          boxShadow: " 0px 4px 4px rgba(0, 0, 0, 0.25)",
-                          borderRadius: "5px",
+                            "linear-gradient(180deg, rgba(207, 211, 210, 0.50) 0%, rgba(232, 231, 231, 0.00) 100%)",
                         }}
                       >
-                        <img src={veg_nonveg} alt="Icon description" />
-                        <h5 style={{ marginTop: "0px" }}>Non Veg Allowed?</h5>
+                        <GiRoastChicken className="text-[2rem] my-[0.5rem]" />
+                        <p className="font-semibold text-center py-[0.5rem]">
+                          Non Veg Allowed?
+                        </p>
                         <ReactSwitch
                           checked={formData.propertyDetails.featureInfo.nonVeg}
                           onChange={() =>
@@ -1800,58 +1792,45 @@ function FieldAgentVerifyProperty() {
                       </div>
                     </div>
                   </div>
-
-                  <div style={{ display: "flex", flexDirection: "row" }}>
-                    <BackButton title="Back" margin="" fontweight="bolder" />
-                    <CommonBtn
-                      title="Submit & Photos Capture"
-                      margin="38%"
-                      fontweight="bolder"
-                    />
-                  </div>
-                </form>
-              </div>
+                </div>
+                {/* back and submit btn */}
+                <div className="flex justify-center items-center py-[1rem]">
+                  {/* <BackButton title="Back" margin="" fontweight="bolder" /> */}
+                  <CommonBtn
+                    title="Submit & Photos Capture"
+                    margin="38%"
+                    fontweight="bolder"
+                  />
+                </div>
+              </form>
             </div>
-
-            {/* for title and text */}
-
-            <div></div>
+            <Footer />
           </div>
-        </div>
+        </>
       ) : null}
 
       {checkedStateThree ? (
         <>
           <div
-            className="form"
+            className=""
             style={{
-              borderRadius: "16px",
-              marginTop: "10%",
+              // borderRadius: "16px",
+              // marginTop: "10%",
               backgroundRepeat: "no-repeat",
               backgroundRepeat: "no-repeat",
               backgroundSize: "100% 100%",
             }}
           >
-            <form
-              className="login-form inner-background"
-              onSubmit={handleChangeThree}
-            >
+            <form className="" onSubmit={handleChangeThree}>
               {/* <h2 style={{color:"#52796F"}}>Photo Capture</h2> */}
-              <CommonHeader title="Photo Capture" color="#52796F" />
-              <div style={{ textAlign: "left", marginLeft: "10px" }}>
-                <text
-                  style={{
-                    fontFamily: "Inter",
-                    fontStyle: "normal",
-                    fontSize: "20px",
-                  }}
-                >
+              <CommonHeader title="Photo Capture(1/3)" color="#52796F" />
+              <div className="text-[1.3rem] text-left px-[1rem] py-[0.5rem]">
+                <p className="py-[0.5rem]">
                   Please make sure to capture all the places inside the House as
-                  well as the <br />
-                  Society
-                  <br />
-                  Make sure following is set-up
-                  <br />
+                  well as the Society
+                </p>
+                <p className="py-[0.5rem]"> Make sure following is set-up</p>
+                <p>
                   1. Keep all the <b>windows open</b>
                   <br />
                   2. Make sure the <b>curtains are wide open</b>
@@ -1865,7 +1844,7 @@ function FieldAgentVerifyProperty() {
                   6. Pillow are well set
                   <br />
                   7. No random things on floor <br />
-                </text>
+                </p>
               </div>
               {/* <CommonBtn
                 title="Yes all the things are arranged"
@@ -1911,38 +1890,40 @@ function FieldAgentVerifyProperty() {
                   Yes all the things are arranged
                 </span>
               </div>
-              <div style={{ textAlign: "left" }}>
-                <h3 style={{ textAlign: "left", marginTop: "80px" }}>
+              {/* <h3 style={{ textAlign: "left", marginTop: "80px" }}>
                   <u>Basic Home Photos</u>
-                </h3>
-                <text
-                  style={{
-                    fontFamily: "Inter",
-                    fontStyle: "normal",
-                    fontSize: "20px",
-                  }}
-                >
+                </h3> */}
+              <div className="text-[1.3rem] px-[1rem] text-left">
+                <p>
                   Select <b>Yes</b> after clicking and checking the photo on the
                   Camera.
-                  <br />
+                </p>
+                <p>
                   If it is not relevant or the space does not exist, select no
-                  <p style={{ color: "red", fontSize: "0.9rem" }}>
-                    asterisk(*) are mandatory photos
-                  </p>
-                </text>
+                </p>
               </div>
+              {/* <p style={{ color: "red", fontSize: "0.9rem" }}>
+                    asterisk(*) are mandatory photos
+                  </p> */}
               {/* BODY */}
-              <div style={{ marginTop: "50px" }}>
-                {/* //First row */}
-                <div style={{ display: "flex", width: "700px" }}>
-                  {/* --------------lift Lobby----------------- */}
-                  <div style={{ width: "90px" }}>
-                    <img
-                      src={LiftLobby}
-                      style={{ fontSize: "10px" }}
-                      alt="LiftLobby"
-                    />
-                    <h5 style={{ marginTop: "10px" }}>Lift Lobby</h5>
+              {/* basic home photo checklist */}
+              <div className="px-[1rem] py-[1rem]">
+                {/* BasicHome text */}
+                <p className="text-[1.3rem] font-semibold py-[0.2rem]">
+                  <u>Basic Home Photos</u>
+                </p>
+                <div
+                  className="p-[1rem] py-[2rem] grid grid-cols-4 gap-y-[2rem] shadow-md"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, rgba(218, 240, 238, 0.50) 0%, rgba(232, 231, 231, 0.00) 100%)",
+                  }}
+                >
+                  <div className="flex items-center flex-col">
+                    <GiLift className="text-[2rem]" />
+                    <p className="text-[0.9rem] font-semibold py-[0.2rem] text-center">
+                      Lift Lobby
+                    </p>
                     <ReactSwitch
                       checked={formData.propertyDetails.verifyInfo.liftLobby}
                       onChange={() =>
@@ -1967,16 +1948,11 @@ function FieldAgentVerifyProperty() {
                       activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                     />
                   </div>
-                  {/* --------------lift Lobby----------------- */}
-                  {/* --------------Entry Door---------------------- */}
-                  <div style={{ width: "90px" }}>
-                    <img src={Door} style={{ fontSize: "10px" }} alt="Door" />
-                    <h5 style={{ marginTop: "10px" }}>
-                      Door{" "}
-                      <span style={{ color: "red", fontSize: "1.2rem" }}>
-                        *
-                      </span>
-                    </h5>
+                  <div className="flex items-center flex-col text-[#AA223C]">
+                    <FaDoorOpen className="text-[2rem]" />
+                    <p className="text-[0.9rem] font-semibold py-[0.2rem] text-center">
+                      Entry Door
+                    </p>
                     <ReactSwitch
                       checked={formData.propertyDetails.verifyInfo.entryDoor}
                       onChange={() =>
@@ -2001,20 +1977,11 @@ function FieldAgentVerifyProperty() {
                       activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                     />
                   </div>
-                  {/* --------------Entry Door---------------------- */}
-                  {/* --------------Home Entry---------------------- */}
-                  <div style={{ width: "90px" }}>
-                    <img
-                      src={LiftLobby}
-                      style={{ fontSize: "10px" }}
-                      alt="LiftLobby"
-                    />
-                    <h5 style={{ marginTop: "10px" }}>
-                      Home Entry{" "}
-                      <span style={{ color: "red", fontSize: "1.2rem" }}>
-                        *
-                      </span>
-                    </h5>
+                  <div className="flex items-center flex-col text-[#AA223C]">
+                    <GiCryptEntrance className="text-[2rem]" />
+                    <p className="text-[0.9rem] font-semibold py-[0.2rem] text-center">
+                      Home Entry
+                    </p>
                     <ReactSwitch
                       checked={formData.propertyDetails.verifyInfo.homeEntry}
                       onChange={() =>
@@ -2039,16 +2006,11 @@ function FieldAgentVerifyProperty() {
                       activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                     />
                   </div>
-                  {/* --------------Home Entry---------------------- */}
-                  {/* --------------Living Room---------------------- */}
-                  <div style={{ width: "100px", marginTop: "-14px" }}>
-                    <img
-                      src={LivingRoom}
-                      style={{ height: "70px" }}
-                      alt="LivingRoom"
-                    />
-                    <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
-                    <h5 style={{ marginTop: "10px" }}></h5>
+                  <div className="flex items-center flex-col text-[#AA223C]">
+                    <MdLiving className="text-[2rem]" />
+                    <p className="text-[0.9rem] font-semibold py-[0.2rem] text-center">
+                      Living Room
+                    </p>
                     <ReactSwitch
                       checked={formData.propertyDetails.verifyInfo.livingRoom}
                       onChange={() =>
@@ -2073,14 +2035,11 @@ function FieldAgentVerifyProperty() {
                       activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                     />
                   </div>
-                  {/* --------------Living Room---------------------- */}
-                </div>
-                {/* //Second row */}
-                <div style={{ display: "flex", marginTop: "20px" }}>
-                  {/* -------------------------------TV Area------------------------- */}
-                  <div style={{ width: "90px" }}>
-                    <img src={TVarea} style={{ height: "50px" }} alt="TVarea" />
-                    <h5 style={{ marginTop: "10px" }}></h5>
+                  <div className="flex items-center flex-col">
+                    <PiTelevisionSimpleBold className="text-[2rem]" />
+                    <p className="text-[0.9rem] font-semibold py-[0.2rem] text-center">
+                      TV Area
+                    </p>
                     <ReactSwitch
                       checked={formData.propertyDetails.verifyInfo.tvArea}
                       onChange={() =>
@@ -2105,16 +2064,11 @@ function FieldAgentVerifyProperty() {
                       activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                     />
                   </div>
-                  {/* -------------------------------TV Area------------------------- */}
-                  {/* -------------------------------Kitchen------------------------- */}
-                  <div style={{ width: "90px" }}>
-                    <img
-                      src={Kitchen}
-                      style={{ height: "50px" }}
-                      alt="Kitchen"
-                    />
-                    <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
-                    <h5 style={{ marginTop: "10px" }}></h5>
+                  <div className="flex items-center flex-col text-[#AA223C]">
+                    <TbToolsKitchen3 className="text-[2rem]" />
+                    <p className="text-[0.9rem] font-semibold py-[0.2rem] text-center">
+                      Kitchen
+                    </p>
                     <ReactSwitch
                       checked={formData.propertyDetails.verifyInfo.kitchen}
                       onChange={() =>
@@ -2139,15 +2093,11 @@ function FieldAgentVerifyProperty() {
                       activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                     />
                   </div>
-                  {/* -------------------------------Kitchin------------------------- */}
-                  {/* -------------------------------Utility Area------------------------- */}
-                  <div style={{ width: "90px" }}>
-                    <img
-                      src={UtilityArea}
-                      style={{ height: "57px" }}
-                      alt="UtilityArea"
-                    />
-                    <h5 style={{ marginTop: "10px" }}></h5>
+                  <div className="flex items-center flex-col">
+                    <BiSolidHomeHeart className="text-[2rem]" />
+                    <p className="text-[0.9rem] font-semibold py-[0.2rem] text-center">
+                      Utility Area
+                    </p>
                     <ReactSwitch
                       checked={formData.propertyDetails.verifyInfo.utilityArea}
                       onChange={() =>
@@ -2173,15 +2123,11 @@ function FieldAgentVerifyProperty() {
                       activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                     />
                   </div>
-                  {/* -------------------------------Utility Area------------------------- */}
-                  {/* -------------------------------Backyard------------------------- */}
-                  <div style={{ width: "90px" }}>
-                    <img
-                      src={Backyard}
-                      style={{ height: "50px" }}
-                      alt="Backyard"
-                    />
-                    <h5 style={{ marginTop: "10px" }}></h5>
+                  <div className="flex items-center flex-col">
+                    <GiWoodenFence className="text-[2rem]" />
+                    <p className="text-[0.9rem] font-semibold py-[0.2rem] text-center">
+                      Backyard
+                    </p>
                     <ReactSwitch
                       checked={formData.propertyDetails.verifyInfo.backyard}
                       onChange={() =>
@@ -2206,19 +2152,11 @@ function FieldAgentVerifyProperty() {
                       activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                     />
                   </div>
-                  {/* -------------------------------Backyard------------------------- */}
-                </div>
-                <div style={{ display: "flex", marginTop: "30px" }}>
-                  {/* //Third row */}
-                  {/* --------------------------Common Wahsroom--------------------------------- */}
-                  <div style={{ width: "90px" }}>
-                    <img
-                      src={CommonWashroom}
-                      style={{ height: "90px" }}
-                      alt="CommonWashroom"
-                    />
-                    <span style={{ color: "red", fontSize: "1.2rem" }}>*</span>
-                    <h5 style={{ marginTop: "10px" }}></h5>
+                  <div className="flex items-center flex-col text-[#AA223C]">
+                    <PiToiletDuotone className="text-[2rem]" />
+                    <p className="text-[0.9rem] font-semibold py-[0.2rem] text-center">
+                      Common Washroom
+                    </p>
                     <ReactSwitch
                       checked={
                         formData.propertyDetails.verifyInfo.commonWashroom
@@ -2246,17 +2184,11 @@ function FieldAgentVerifyProperty() {
                       activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                     />
                   </div>
-                  {/* --------------------------Common Wahsroom--------------------------------- */}
-                  {/* --------------------------Living Room Balcony--------------------------------- */}
-                  <div style={{ width: "130px", marginLeft: "20px" }}>
-                    <img
-                      src={Balcony}
-                      style={{ height: "40px" }}
-                      alt="Balcony"
-                    />
-                    <h5 style={{ marginTop: "10px", fontSize: "18px" }}>
+                  <div className="flex items-center flex-col">
+                    <MdBalcony className="text-[2rem]" />
+                    <p className="text-[0.9rem] font-semibold py-[0.2rem] text-center">
                       Living Room Balcony
-                    </h5>
+                    </p>
                     <ReactSwitch
                       checked={
                         formData.propertyDetails.verifyInfo.livingRoomBalcony
@@ -2284,12 +2216,17 @@ function FieldAgentVerifyProperty() {
                       activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                     />
                   </div>
-                  {/* --------------------------Living Room Balcony--------------------------------- */}
                 </div>
+                <p className="text-[1.3rem] text-center text-[#AA223C] font-bold">
+                  <u>***Red onces are mandatory photos***</u>
+                </p>
               </div>
-
-              <CommonBtn title="Bedroom Photos" margin="18%" />
+              <div className="flex justify-center items-center py-[1rem]">
+                <CommonBtn title="Bedroom Photos" margin="18%" />
+              </div>
             </form>
+            <Footer />
+            <div className="mb-[1rem]" />
           </div>
         </>
       ) : null}
@@ -2297,46 +2234,32 @@ function FieldAgentVerifyProperty() {
       {checkedStateFour ? (
         <>
           <div
-            className="form"
+            className=""
             style={{
-              borderRadius: "16px",
-              marginTop: "10%",
+              // borderRadius: "16px",
+              // marginTop: "10%",
               backgroundRepeat: "no-repeat",
               backgroundRepeat: "no-repeat",
               backgroundSize: "100% 100%",
             }}
           >
-            <form
-              className="login-form inner-background"
-              onSubmit={handleChangeFour}
-            >
-              <CommonHeader title="Photo Capture" color="#52796F" />
+            <form className="" onSubmit={handleChangeFour}>
+              <CommonHeader title="Photo Capture(2/3)" color="#52796F" />
 
-              <div style={{ textAlign: "left" }}>
+              <div className="text-left px-[1rem] py-[1rem] text-[1.3rem]">
                 <text>
                   Bedroom Photos Checklist
                   <br />
                   <div style={{ marginTop: "20px" }}></div>
                   1. Keep all the <b> windows open</b>
                   <br />
-                  2. Make sure the{" "}
-                  <b>
-                    curtains are wide <br />
-                    open
-                  </b>
+                  2. Make sure the <b>curtains are wide open</b>
                   <br />
-                  3. Bedsheets are well laid out and no
-                  <br /> open blankets
+                  3. Bedsheets are well laid out and no open blankets
                   <br />
                   4. Pillow are well set
                   <br />
                   5. No random things on floor
-                  {/* <div style={{ marginLeft: "40px" }}>
-                    <CommonBtn
-                      title="Yes all the things are arranged"
-                      margin="-15px"
-                    />
-                  </div> */}
                   <div
                     className=""
                     style={{
@@ -2379,58 +2302,23 @@ function FieldAgentVerifyProperty() {
                   </div>
                 </text>
               </div>
-
-              <h3
-                style={{
-                  textAlign: "left",
-                  marginBottom: "-10px",
-                  marginTop: "80px",
-                }}
-              >
-                Bedroom & Other Details
-                <p style={{ color: "red", fontSize: "0.9rem" }}>
-                  asterisk(*) are mandatory photos
+              <div className="px-[1rem] py-[1rem]">
+                {/* bedroom text */}
+                <p className="text-[1.3rem] font-semibold py-[0.2rem]">
+                  <u>Bedroom & Other Details</u>
                 </p>
-              </h3>
-              <div
-                style={{
-                  height: "600px",
-                  borderRadius: "5px",
-                  background:
-                    "linear-gradient(180deg, rgba(218, 240, 238, 0.5) 0%, rgba(232, 231, 231, 0) 100%)",
-                  border: "1px solid #CFD3D2",
-                  marginTop: "20px",
-                  marginBottom: "90px",
-                }}
-              >
-                {/* ------------------------------first row---------------------------------- */}
-
                 <div
+                  className="p-[1rem] py-[2rem] grid grid-cols-3 gap-y-[2rem] shadow-md"
                   style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
+                    background:
+                      "linear-gradient(180deg, rgba(218, 240, 238, 0.50) 0%, rgba(232, 231, 231, 0.00) 100%)",
                   }}
                 >
-                  {/* --------------------------------bedroom------------------------------------------------- */}
-                  <div
-                    style={{
-                      width: "60px",
-                      marginTop: "20px",
-                      marginLeft: "40px",
-                    }}
-                  >
-                    <img
-                      src={bedroom}
-                      style={{ height: "20px" }}
-                      alt="LivingRoom"
-                    />
-                    <h5 style={{ marginTop: "10px" }}>
-                      Bedroom 1{" "}
-                      <span style={{ color: "red", fontSize: "1.2rem" }}>
-                        *
-                      </span>
-                    </h5>
+                  <div className="flex items-center flex-col text-[#AA223C]">
+                    <IoBed className="text-[2rem]" />
+                    <p className="text-[0.9rem] font-semibold py-[0.2rem] text-center">
+                      Bedroom 1
+                    </p>
                     <ReactSwitch
                       checked={featureData.bed_one}
                       onChange={() =>
@@ -2448,22 +2336,11 @@ function FieldAgentVerifyProperty() {
                       activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                     />
                   </div>
-                  {/* --------------------------------bedroom------------------------------------------------- */}
-
-                  {/* --------------------------------washroom------------------------------------------------- */}
-                  <div
-                    style={{
-                      width: "60px",
-                      marginTop: "20px",
-                      marginLeft: "40px",
-                    }}
-                  >
-                    <img
-                      src={washroom}
-                      style={{ height: "20px" }}
-                      alt="LivingRoom"
-                    />
-                    <h5 style={{ marginTop: "10px" }}>Attached Bath 1</h5>
+                  <div className="flex items-center flex-col">
+                    <PiToiletDuotone className="text-[2rem]" />
+                    <p className="text-[0.9rem] font-semibold py-[0.2rem] text-center">
+                      Attached Bath 1
+                    </p>
                     <ReactSwitch
                       checked={featureData.bath_one}
                       onChange={() =>
@@ -2481,23 +2358,11 @@ function FieldAgentVerifyProperty() {
                       activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                     />
                   </div>
-                  {/* --------------------------------washroom------------------------------------------------- */}
-
-                  {/* --------------------------------balcony------------------------------------------------- */}
-
-                  <div
-                    style={{
-                      width: "60px",
-                      marginTop: "20px",
-                      marginLeft: "40px",
-                    }}
-                  >
-                    <img
-                      src={balcony}
-                      style={{ height: "20px" }}
-                      alt="LivingRoom"
-                    />
-                    <h5 style={{ marginTop: "10px" }}>Balcony 1</h5>
+                  <div className="flex items-center flex-col">
+                    <MdBalcony className="text-[2rem]" />
+                    <p className="text-[0.9rem] font-semibold py-[0.2rem] text-center">
+                      Balcony 1
+                    </p>
                     <ReactSwitch
                       checked={featureData.balcony}
                       onChange={() =>
@@ -2515,29 +2380,11 @@ function FieldAgentVerifyProperty() {
                       activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                     />
                   </div>
-                </div>
-                {/* ------------------------------Second row---------------------------------- */}
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                  }}
-                >
-                  {/* --------------------------------bedroom------------------------------------------------- */}
-                  <div
-                    style={{
-                      width: "60px",
-                      marginTop: "20px",
-                      marginLeft: "40px",
-                    }}
-                  >
-                    <img
-                      src={bedroom}
-                      style={{ height: "20px" }}
-                      alt="LivingRoom"
-                    />
-                    <h5 style={{ marginTop: "10px" }}>Bedroom 2</h5>
+                  <div className="flex items-center flex-col">
+                    <IoBed className="text-[2rem]" />
+                    <p className="text-[0.9rem] font-semibold py-[0.2rem] text-center">
+                      Bedroom 2
+                    </p>
                     <ReactSwitch
                       checked={featureData.bedroom_two}
                       onChange={() =>
@@ -2555,22 +2402,11 @@ function FieldAgentVerifyProperty() {
                       activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                     />
                   </div>
-                  {/* --------------------------------bedroom------------------------------------------------- */}
-
-                  {/* --------------------------------washroom------------------------------------------------- */}
-                  <div
-                    style={{
-                      width: "60px",
-                      marginTop: "20px",
-                      marginLeft: "40px",
-                    }}
-                  >
-                    <img
-                      src={washroom}
-                      style={{ height: "20px" }}
-                      alt="LivingRoom"
-                    />
-                    <h5 style={{ marginTop: "10px" }}>Attached Bath 2</h5>
+                  <div className="flex items-center flex-col">
+                    <PiToiletDuotone className="text-[2rem]" />
+                    <p className="text-[0.9rem] font-semibold py-[0.2rem] text-center">
+                      Attached Bath 2
+                    </p>
                     <ReactSwitch
                       checked={featureData.bath_two}
                       onChange={() =>
@@ -2588,23 +2424,11 @@ function FieldAgentVerifyProperty() {
                       activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                     />
                   </div>
-                  {/* --------------------------------washroom------------------------------------------------- */}
-
-                  {/* --------------------------------balcony------------------------------------------------- */}
-
-                  <div
-                    style={{
-                      width: "60px",
-                      marginTop: "20px",
-                      marginLeft: "40px",
-                    }}
-                  >
-                    <img
-                      src={balcony}
-                      style={{ height: "20px" }}
-                      alt="LivingRoom"
-                    />
-                    <h5 style={{ marginTop: "10px" }}>Balcony 2</h5>
+                  <div className="flex items-center flex-col">
+                    <MdBalcony className="text-[2rem]" />
+                    <p className="text-[0.9rem] font-semibold py-[0.2rem] text-center">
+                      Balcony 2
+                    </p>
                     <ReactSwitch
                       checked={featureData.balcony_two}
                       onChange={() =>
@@ -2622,30 +2446,11 @@ function FieldAgentVerifyProperty() {
                       activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                     />
                   </div>
-                </div>
-
-                {/* ------------------------------thrid row---------------------------------- */}
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                  }}
-                >
-                  {/* --------------------------------bedroom------------------------------------------------- */}
-                  <div
-                    style={{
-                      width: "60px",
-                      marginTop: "20px",
-                      marginLeft: "40px",
-                    }}
-                  >
-                    <img
-                      src={bedroom}
-                      style={{ height: "20px" }}
-                      alt="LivingRoom"
-                    />
-                    <h5 style={{ marginTop: "10px" }}>Bedroom 3</h5>
+                  <div className="flex items-center flex-col">
+                    <IoBed className="text-[2rem]" />
+                    <p className="text-[0.9rem] font-semibold py-[0.2rem] text-center">
+                      Bedroom 3
+                    </p>
                     <ReactSwitch
                       checked={featureData.bedroom_three}
                       onChange={() =>
@@ -2663,22 +2468,11 @@ function FieldAgentVerifyProperty() {
                       activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                     />
                   </div>
-                  {/* --------------------------------bedroom------------------------------------------------- */}
-
-                  {/* --------------------------------washroom------------------------------------------------- */}
-                  <div
-                    style={{
-                      width: "60px",
-                      marginTop: "20px",
-                      marginLeft: "40px",
-                    }}
-                  >
-                    <img
-                      src={washroom}
-                      style={{ height: "20px" }}
-                      alt="LivingRoom"
-                    />
-                    <h5 style={{ marginTop: "10px" }}>Attached Bath 3</h5>
+                  <div className="flex items-center flex-col">
+                    <PiToiletDuotone className="text-[2rem]" />
+                    <p className="text-[0.9rem] font-semibold py-[0.2rem] text-center">
+                      Attached Bath 3
+                    </p>
                     <ReactSwitch
                       checked={featureData.bath_three}
                       onChange={() =>
@@ -2696,23 +2490,11 @@ function FieldAgentVerifyProperty() {
                       activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                     />
                   </div>
-                  {/* --------------------------------washroom------------------------------------------------- */}
-
-                  {/* --------------------------------balcony------------------------------------------------- */}
-
-                  <div
-                    style={{
-                      width: "60px",
-                      marginTop: "20px",
-                      marginLeft: "40px",
-                    }}
-                  >
-                    <img
-                      src={balcony}
-                      style={{ height: "20px" }}
-                      alt="LivingRoom"
-                    />
-                    <h5 style={{ marginTop: "10px" }}>Balcony 3</h5>
+                  <div className="flex items-center flex-col">
+                    <MdBalcony className="text-[2rem]" />
+                    <p className="text-[0.9rem] font-semibold py-[0.2rem] text-center">
+                      Balcony 3
+                    </p>
                     <ReactSwitch
                       checked={featureData.balcony_three}
                       onChange={() =>
@@ -2730,27 +2512,11 @@ function FieldAgentVerifyProperty() {
                       activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                     />
                   </div>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: "60px",
-                      marginTop: "20px",
-                      marginLeft: "40px",
-                    }}
-                  >
-                    <img
-                      src={broom_clean}
-                      style={{ height: "20px" }}
-                      alt="LivingRoom"
-                    />
-                    <h5 style={{ marginTop: "10px" }}>Servant Room</h5>
+                  <div className="flex items-center flex-col">
+                    <MdOutlineCleaningServices className="text-[2rem]" />
+                    <p className="text-[0.9rem] font-semibold py-[0.2rem] text-center">
+                      Servant Room
+                    </p>
                     <ReactSwitch
                       checked={featureData.servant_room}
                       onChange={() =>
@@ -2768,22 +2534,11 @@ function FieldAgentVerifyProperty() {
                       activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                     />
                   </div>
-                  {/* --------------------------------bedroom------------------------------------------------- */}
-
-                  {/* --------------------------------washroom------------------------------------------------- */}
-                  <div
-                    style={{
-                      width: "60px",
-                      marginTop: "20px",
-                      marginLeft: "40px",
-                    }}
-                  >
-                    <img
-                      src={broom_clean}
-                      style={{ height: "20px" }}
-                      alt="LivingRoom"
-                    />
-                    <h5 style={{ marginTop: "10px" }}>Servant Washroom </h5>
+                  <div className="flex items-center flex-col">
+                    <PiToiletDuotone className="text-[2rem]" />
+                    <p className="text-[0.9rem] font-semibold py-[0.2rem] text-center">
+                      Servant Washroom
+                    </p>
                     <ReactSwitch
                       checked={featureData.servant_washroom}
                       onChange={() =>
@@ -2801,20 +2556,37 @@ function FieldAgentVerifyProperty() {
                       activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                     />
                   </div>
+                  <div className="flex items-center flex-col">
+                    <RiParkingBoxFill className="text-[2rem]" />
+                    <p className="text-[0.9rem] font-semibold py-[0.2rem] text-center">
+                      Parking
+                    </p>
+                    <ReactSwitch
+                      checked={featureData.parking}
+                      onChange={() =>
+                        setfeatureData({
+                          ...featureData,
+                          parking: !featureData.parking,
+                        })
+                      }
+                      onColor="#DAF0EE"
+                      onHandleColor="#fff"
+                      handleDiameter={20}
+                      uncheckedIcon={false}
+                      checkedIcon={false}
+                      boxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
+                      activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
+                    />
+                  </div>
                 </div>
+                <p className="text-[1.3rem] text-center text-[#AA223C] font-bold">
+                  <u>***Red onces are mandatory photos***</u>
+                </p>
               </div>
-
               {/* -----------------------------society related pressure-------------------------------------- */}
 
-              <div style={{ marginTop: "50px" }}></div>
-              {/* <div class="buttonBackNext">
-		                <button className="CommonnBackButton" style={{ fontSize: "16px", fontWeight: "1000" , textAlign: "right", fontStyle: "normal", width: "35%" }}>Back <img className="vectorBack" src={vector} alt="fireSpot"  style={{ float: "left", marginLeft: "-5%" }}/></button>
-		                <button className="CommonnButton" style={{ fontWeight: "1000" , textAlign: "left", fontStyle: "normal", width: "80%" }}>Submit & Upload Photos<img className="vectorSignIn" src={vector} alt="fireSpot" style={{ float: "right", marginRight: "-5%",marginTop:"-25px" }}/></button>
-		                </div> */}
-              {/* BODY */}
-
-              <div style={{ display: "flex", flexDirection: "row" }}>
-                <BackButton title="Back" margin="" fontweight="bolder" />
+              <div className="flex justify-center items-center py-[1rem]">
+                {/* <BackButton title="Back" margin="" fontweight="bolder" /> */}
                 <CommonBtn
                   title="Upload Photos"
                   margin="38%"
@@ -2822,6 +2594,8 @@ function FieldAgentVerifyProperty() {
                 />
               </div>
             </form>
+            <Footer />
+            <div className="mb-[1rem]" />
           </div>
         </>
       ) : null}
@@ -2829,22 +2603,19 @@ function FieldAgentVerifyProperty() {
       {checkedStateFive ? (
         <>
           <div
-            className="form"
+            className=""
             style={{
-              borderRadius: "16px",
-              marginTop: "10%",
+              // borderRadius: "16px",
+              // marginTop: "10%",
               backgroundRepeat: "no-repeat",
               backgroundRepeat: "no-repeat",
               backgroundSize: "100% 100%",
             }}
           >
             {/* <h2 style={{ color: "#52796F" }}>Photo Capture</h2> */}
-            <CommonHeader title="Photo Capture" color="#52796F" />
-            <form
-              className="login-form inner-background"
-              onSubmit={handleChangeSubmit}
-            >
-              <div style={{ textAlign: "left" }}>
+            <CommonHeader title="Photo Capture(3/3)" color="#52796F" />
+            <form className="" onSubmit={handleChangeSubmit}>
+              <div className="text-left py-[1rem] px-[1rem] text-[1.3rem]">
                 <text>
                   Society Photos Checklist
                   <br />
@@ -2857,49 +2628,32 @@ function FieldAgentVerifyProperty() {
                 </text>
               </div>
 
-              {/* -----------------------------society related pressure-------------------------------------- */}
-
-              <h3
-                style={{
-                  textAlign: "left",
-                  marginBottom: "10px",
-                  marginTop: "80px",
-                }}
-              >
-                Society Related Pictures
-              </h3>
-              <div
-                style={{
-                  height: "300px",
-                  borderRadius: "5px",
-                  background:
-                    "linear-gradient(180deg, rgba(232, 231, 231, 0.5) 0%, rgba(232, 231, 231, 0) 100%)",
-                  border: "1px solid #CFD3D2",
-                }}
-              >
+              {/* -----------------------------society related pictures-------------------------------------- */}
+              <div className="p-[1rem]">
+                <p className="text-[1.3rem] font-semibold py-[0.2rem]">
+                  <u>Society Related Pictures</u>
+                </p>
                 <div
+                  className="p-[1rem]"
                   style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
+                    border: "1px solid #CFD3D2",
+                    background:
+                      "linear-gradient(180deg, rgba(232, 231, 231, 0.50) 0%, rgba(232, 231, 231, 0.00) 100%)  ",
                   }}
                 >
-                  <div class="grid-container" style={{ width: "300px" }}>
-                    <div class="grid-item" style={{ border: "none" }}>
-                      <img src={gated_sec} alt="Icon description" />
-                      <h5
-                        style={{
-                          marginTop: "-2px",
-                          fontSize: "10px",
-                          fontFamily: "sans-serif",
-                        }}
+                  {/* grid */}
+                  <div className="grid grid-cols-3 py-[1rem] gap-y-[2rem]">
+                    <div className="flex justify-center items-center flex-col">
+                      <GiGate className="text-[2rem] text-[#AA223C]" />
+                      <p className="font-semibold pb-[0.4rem] text-[#AA223C] text-center">
+                        Main Gate
+                      </p>
+                      {/* <p
+                        className="text-[#52796F] text-[0.8rem] pb-[0.4rem]
+                  "
                       >
-                        Main Gate{" "}
-                        <span style={{ color: "red", fontSize: "1.2rem" }}>
-                          *
-                        </span>
-                      </h5>
-                      <h6 style={{ marginTop: "-13px", fontSize: "8px" }}></h6>
+                        always secure
+                      </p> */}
                       <ReactSwitch
                         checked={formData.propertyDetails.verifyInfo.mainGate}
                         onChange={() =>
@@ -2925,17 +2679,44 @@ function FieldAgentVerifyProperty() {
                         activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                       />
                     </div>
-                    <div class="grid-item" style={{ border: "none" }}>
-                      <img src={club_house} alt="Icon description" />
-                      <h5
-                        style={{
-                          marginTop: "-5px",
-                          marginBottom: "10px",
-                          fontSize: "10px",
-                        }}
-                      >
+                    {/* <div className="flex justify-center items-center flex-col">
+                      <MdPower className="text-[2rem]" />
+                      <p className="font-semibold">24 x 7</p>
+                      <p className="text-[#52796F] text-[0.8rem] pb-[0.4rem]">
+                        Power Back-Up
+                      </p>
+                      <ReactSwitch
+                        checked={
+                          formData.propertyDetails.featureInfo.powerBackup
+                        }
+                        onChange={() =>
+                          setFormData((prevState) => ({
+                            ...prevState,
+                            propertyDetails: {
+                              ...prevState.propertyDetails,
+                              featureInfo: {
+                                ...prevState.propertyDetails.featureInfo,
+                                powerBackup:
+                                  !prevState.propertyDetails.featureInfo
+                                    .powerBackup,
+                              },
+                            },
+                          }))
+                        }
+                        onColor="#DAF0EE"
+                        onHandleColor="#fff"
+                        handleDiameter={20}
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                        boxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
+                        activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
+                      />
+                    </div> */}
+                    <div className="flex justify-center items-center flex-col">
+                      <MdOutlineSportsHandball className="text-[2rem]" />
+                      <p className="font-semibold pb-[0.4rem] text-center">
                         Club house
-                      </h5>
+                      </p>
                       <ReactSwitch
                         checked={formData.propertyDetails.verifyInfo.clubHouse}
                         onChange={() =>
@@ -2960,13 +2741,16 @@ function FieldAgentVerifyProperty() {
                         boxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                         activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                       />
+                      {/* <p className="text-[#52796F] text-[0.8rem]">Power Back-Up</p> */}
                     </div>
-                    <div class="grid-item" style={{ border: "none" }}>
-                      <img src={convenience_store} alt="Icon description" />
-                      <h5 style={{ marginTop: "-5px", fontSize: "10px" }}>
+                    <div className="flex justify-center items-center flex-col">
+                      <FaCartShopping className="text-[2rem]" />
+                      <p className="font-semibold pb-[0.4rem] text-center">
                         Grocery Store
-                      </h5>
-                      <h5 style={{ marginTop: "-9px", fontSize: "8px" }}></h5>
+                      </p>
+                      {/* <p className="text-[#52796F] text-[0.8rem] pb-[0.4rem]">
+                        In Campus
+                      </p> */}
                       <ReactSwitch
                         checked={
                           formData.propertyDetails.verifyInfo.groceryStore
@@ -2994,17 +2778,12 @@ function FieldAgentVerifyProperty() {
                         activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                       />
                     </div>
-                    <div class="grid-item" style={{ border: "none" }}>
-                      <img src={swimming_pool} alt="Icon description" />
-                      <h5
-                        style={{
-                          marginTop: "-5px",
-                          marginBottom: "15px",
-                          fontSize: "10px",
-                        }}
-                      >
+                    <div className="flex justify-center items-center flex-col">
+                      <BiSwim className="text-[2rem]" />
+                      <p className="font-semibold pb-[0.4rem] text-center">
                         Swimming Pool
-                      </h5>
+                      </p>
+                      {/* <p className="text-[#52796F] text-[0.8rem]">Swimming Pool</p> */}
                       <ReactSwitch
                         checked={
                           formData.propertyDetails.verifyInfo.swimmingPool
@@ -3032,18 +2811,11 @@ function FieldAgentVerifyProperty() {
                         activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                       />
                     </div>
-
-                    <div class="grid-item" style={{ border: "none" }}>
-                      <img src={gym_1} alt="Icon description" />
-                      <h5
-                        style={{
-                          marginTop: "-1px",
-                          marginBottom: "20px",
-                          fontSize: "10px",
-                        }}
-                      >
+                    <div className="flex justify-center items-center flex-col">
+                      <CgGym className="text-[2rem]" />
+                      <p className="font-semibold pb-[0.4rem] text-center">
                         Gym
-                      </h5>
+                      </p>
                       <ReactSwitch
                         checked={formData.propertyDetails.verifyInfo.gym}
                         onChange={() =>
@@ -3066,94 +2838,77 @@ function FieldAgentVerifyProperty() {
                         boxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                         activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
                       />
-                    </div>
-
-                    <div class="grid-item" style={{ border: "none" }}>
-                      <img src={car_parking} alt="Icon description" />
-                      <h5 style={{ marginTop: "-5px" }}>Parking</h5>
-                      <h5 style={{ marginTop: "-13px", fontSize: "8px" }}></h5>
-                      <ReactSwitch
-                        checked={formData.propertyDetails.verifyInfo.parking}
-                        onChange={() =>
-                          setFormData((prevState) => ({
-                            ...prevState,
-                            propertyDetails: {
-                              ...prevState.propertyDetails,
-                              verifyInfo: {
-                                ...prevState.propertyDetails.verifyInfo,
-                                parking:
-                                  !formData.propertyDetails.verifyInfo.parking,
-                              },
-                            },
-                          }))
-                        }
-                        onColor="#DAF0EE"
-                        onHandleColor="#fff"
-                        handleDiameter={20}
-                        uncheckedIcon={false}
-                        checkedIcon={false}
-                        boxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
-                        activeBoxShadow="0 1px 2px rgba(0, 0, 0, 0.2)"
-                      />
+                      {/* <p className="text-[#52796F] text-[0.8rem]">Power Back-Up</p> */}
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* -----------------------------------------------Add Features---------------------------------------------- */}
-              <h3 class="heading">
-                Add other Places for which you have <br /> clicked photos
-              </h3>
-              <div class="container">
-                <h4 class="subtitle">Add Features</h4>
-                <div class="input-row">
-                  <div class="input-field">
-                    <input type="text" placeholder="Enter Field Name" />
-                  </div>
-                  <div class="add-button">
-                    <CommonBtn title="Add" margin="15px" width="10px" />
+              <div className="p-[1rem]">
+                <p className="text-[1.3rem] font-semibold py-[0.2rem]">
+                  <u>Add other places for which you have clicked photos</u>
+                </p>
+                <div
+                  className="p-[1rem]"
+                  style={{
+                    border: "1px solid #CFD3D2",
+                    background:
+                      "linear-gradient(180deg, rgba(232, 231, 231, 0.50) 0%, rgba(232, 231, 231, 0.00) 100%)  ",
+                  }}
+                >
+                  <p className="text-[#5D6560] font-bold">Add Features</p>
+                  {/* features container */}
+                  <div className="flex justify-center items-center flex-col">
+                    {/* feature1 */}
+                    <input
+                      type="text"
+                      placeholder="**feature1"
+                      id="feature1"
+                      required
+                      name="feature1"
+                      value={formData.propertyDetails.verifyInfo.feature1}
+                      onChange={handleAddFeature}
+                    />
+                    {/* feature2 */}
+                    <input
+                      type="text"
+                      placeholder="**feature2"
+                      id="feature2"
+                      required
+                      name="feature2"
+                      value={formData.propertyDetails.verifyInfo.feature2}
+                      onChange={handleAddFeature}
+                    />
+                    {/* feature3 */}
+                    <input
+                      type="text"
+                      placeholder="**feature3"
+                      required
+                      id="feature3"
+                      name="feature3"
+                      value={formData.propertyDetails.verifyInfo.feature3}
+                      onChange={handleAddFeature}
+                    />
                   </div>
                 </div>
-
-                <div class="input-row">
-                  <div class="input-field">
-                    <input type="text" placeholder="Enter Field Name" />
-                  </div>
-                  <div class="add-button">
-                    <CommonBtn title="Add" margin="15px" width="10px" />
-                  </div>
-                </div>
-                <div class="input-row">
-                  <div class="input-field">
-                    <input type="text" placeholder="Enter Field Name" />
-                  </div>
-                  <div class="add-button">
-                    <CommonBtn title="Add" margin="15px" width="10px" />
-                  </div>
-                </div>
-                <div class="empty-row"></div>
-                <div class="empty-row"></div>
+                <p className="text-[1.3rem] text-center text-[#AA223C] font-bold">
+                  <u>***Type "None" If no feature***</u>
+                </p>
               </div>
-
               {/* <div class="buttonBackNext">
 		                <button className="CommonnBackButton" style={{ fontSize: "16px", fontWeight: "1000" , textAlign: "right", fontStyle: "normal", width: "35%" }}>Back <img className="vectorBack" src={vector} alt="fireSpot"  style={{ float: "left", marginLeft: "-5%" }}/></button>
 		                <button className="CommonnButton" style={{ fontWeight: "1000" , textAlign: "left", fontStyle: "normal", width: "40%" }}>Submit<img className="vectorSignIn" src={vector} alt="fireSpot" style={{ float: "right", marginRight: "-5%",marginTop:"-25px" }}/></button>
 		                </div> */}
               {/* BODY */}
 
-              <div
-                style={{
-                  display: "flex",
-                  marginTop: "50px",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  marginLeft: "40px",
-                }}
-              >
-                <BackButton title="Back" margin="" fontweight="bolder" />
+              <div className="flex justify-center items-center py-[1rem]">
+                {/* <BackButton title="Back" margin="" fontweight="bolder" /> */}
                 <CommonBtn title="Submit" margin="38%" fontweight="bolder" />
               </div>
             </form>
+            <Footer />
+            <div className="mb-[1rem]" />
           </div>
         </>
       ) : null}
