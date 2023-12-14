@@ -60,9 +60,11 @@ function CommonHeader(props) {
           )}
         </div>
 
-        <div>
-          <p className="text-[1.5rem] font-bold" style={{ color: color || "black" }}>
-            
+        <div className="flex justify-center items-center">
+          <p
+            className="text-[1.5rem] font-bold"
+            style={{ color: color || "black" }}
+          >
             {title}
           </p>
         </div>
@@ -70,9 +72,15 @@ function CommonHeader(props) {
           {/* <img style={{ marginBottom: '-24px' }}
            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAAXNSR0IArs4c6QAAAZNJREFUaEPtmA1uwyAMhd2TrTtZt5O1PdmqpwUJTQH/PGeECqSoSAXiz34GnItM3i6T2y8LYHQEj4jAVUTwfGxw6H9v/YeI4Elr2QBfInJTrAMMxqW0LAB4GYbj19o+M6KRBfBjtboaBykBgmoZABbZtIyk5cQCQDJ3yoW/UQgnNgvAeL9wU1E4AwCVCyxAJHn/Km4oAPTv2Tpb6RJ2ZHjiZkkGwPQ5MBRg+m0USmK2Usr7eDmbAyUpo7lAv59eoLoye05kbJ3wfvgELp7LAijrWeREy6bei7MBsHYpaNDHFbt4+bn1aa8fDUDe7XzTj4iAzwJy9AIgHUhPZyOw9wXCYlRaYkcBIkW8BhbaXr0ARxheg7khPAAZFzctCuV/c51sBfhP410QVoCM0tHq" /> */}
           {isLogin ? (
-            <button className="bg-[#d9d9d9] rounded-full px-[0.7rem] py-[0.2rem] flex justify-center items-center" onClick={handleLogout}>
+            <button
+              className="bg-[#d9d9d9] rounded-full px-[0.7rem] py-[0.2rem] flex justify-center items-center"
+              onClick={handleLogout}
+            >
               {/* {username}, Logout */}
-              <p className="text-[1.5rem] font-bold" style={{ color: color || "black" }}>
+              <p
+                className="text-[1.5rem] font-bold"
+                style={{ color: color || "black" }}
+              >
                 {letter}
               </p>
             </button>

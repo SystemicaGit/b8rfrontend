@@ -7,6 +7,8 @@ import Footer from "../Footer";
 import vector from "../Assets/Images/RegisterLoginUser/vector.png";
 import logo from "../Assets/Images/Logo.png";
 import CommonBtn from "../CommonButton";
+import { FaRegEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa6";
 
 function FrontLogin() {
   //States
@@ -16,6 +18,11 @@ function FrontLogin() {
   });
   // const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   // const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -138,7 +145,7 @@ function FrontLogin() {
               Enter Password
             </label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               value={formData.password}
               onChange={handleChange}
@@ -146,7 +153,24 @@ function FrontLogin() {
               className="input-field"
               required
             ></input>
-
+            <div className="flex justify-center items-center text-[1.3rem]" s>
+              <button
+                className="flex justify-center items-center"
+                onClick={handleTogglePassword}
+              >
+                {showPassword ? (
+                  <div className="flex justify-center items-center">
+                    <FaEyeSlash />
+                    <p className="text-left font-bold px-[0.5rem]">Hide</p>
+                  </div>
+                ) : (
+                  <div className="flex justify-center items-center">
+                    <FaRegEye />
+                    <p className="text-left font-bold px-[0.5rem]">Show</p>
+                  </div>
+                )}
+              </button>
+            </div>
             {/* Submit */}
             <Link to="/Resetpassword">
               <p className="message">
