@@ -539,9 +539,9 @@ function FieldAgentVerifyProperty() {
   return (
     <>
       <ToastContainer
-        className="my-[3rem]"
+        className="my-[3rem] text-[1.1rem] font-bold"
         autoClose={1000}
-        hideProgressBar={true}
+        // hideProgressBar={true}
       />
       {checkedStateOne ? (
         <div
@@ -965,8 +965,8 @@ function FieldAgentVerifyProperty() {
 
             <div>
               <form className="" onSubmit={handleChangeTwo}>
+                {/* societydetails */}
                 <div className="px-[1rem]">
-                  {/* societydetails */}
                   <div
                     className="p-[1rem]"
                     style={{
