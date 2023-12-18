@@ -1,5 +1,6 @@
 import React, { Component, useState, useEffect } from "react";
-// import FronLogin from "./FrontLogin.css";
+//import FronLogin from "../RegisterLoginUser/FrontLogin.css";
+//import "./AssignProperty.css"; 
 import { Link } from "react-router-dom";
 import axios from "axios";
 import backgroundSecond from "../Assets/Images/RegisterLoginUser/other_bg.png";
@@ -7,6 +8,7 @@ import Footer from "../Footer";
 // import vector from "../../../Assets/Images/RegisterLoginUser/vector.png";
 import logo from "../Assets/Images/Logo.png";
 import CommonBtn from "../CommonButton";
+
 
 function AssignProperty() {
   //States
@@ -88,29 +90,29 @@ function AssignProperty() {
   ////////////////////
   
   const handlePropertyChange = (event) => {
-    const selectedPropertyId = event.target.value;
-    
-    const selectedProperty = property.find((property) => property.houseName === selectedPropertyId);
- 
-    setSelectedProperty(selectedProperty);
-    console.log(selectedPropertyId);
-    console.log(selectedProperty);
+  const selectedPropertyId = event.target.value;
+  const selectedProperty = property.find((property) => property.houseName === selectedPropertyId);
+  setSelectedProperty(selectedProperty);
+  console.log(selectedPropertyId);
+  console.log(selectedProperty);
   };
   
   ///////////////////////////////////////////
-
   const handleChange = (event) => {
+  const { name, value } = event.target;
+  setFormData((prevState) => ({ ...prevState, [name]: value }));
 
-    const { name, value } = event.target;
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log("hello",formData.fieldAgentId);
+    console.log("world",formData.propertyId);
     axios
       .post("https://b8rliving.com/property/assign", formData)
       .then((response) => {
         console.log(response.data);
+        
         // setData(response.data);
 
         // alert(response.data.data.jwtToken);
@@ -147,7 +149,7 @@ function AssignProperty() {
         // handle the error
       });
   };
-
+  
  //handleUserChange
 
   return (
@@ -171,15 +173,12 @@ function AssignProperty() {
           </div>
           <h3 className="Htitle">Assign Property to Field Agent</h3>
 
-          
-      
-      <form onSubmit={handleSubmit} className="login-form">
+        <form onSubmit={handleSubmit} className="login-form">
            { /* ty */} 
           <label htmlFor="entity" className="label-phone">
               Field Agent Name
           </label>
-          
-            <select className="label-phone" onChange={handleUserChange} value={selectedUser?.name || ""}>
+           <select className="label-phone" onChange={handleUserChange} value={selectedUser?.name || ""}>
              <option value="" disabled>Select a Field Agent</option>
                {users.map((user) => (
                 <option key={user.id} value={user.id}>{user.name}</option>
@@ -206,6 +205,7 @@ function AssignProperty() {
               type="text"
               id="fieldAgentId"
               value={selectedUser?._id ?? formData.fieldAgentId}
+             
               onChange={handleChange}
               name="fieldAgentId"
               className="input-field"

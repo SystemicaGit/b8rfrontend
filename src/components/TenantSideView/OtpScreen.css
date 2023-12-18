@@ -12,18 +12,27 @@
 }
 .SpaceAbove{
     margin-top: 70px;
+    margin-left: 13.5px;
+    
 }
 
 .TenantSideF{
-    height: 170px;
+    height: 160px;
     width: 355px;
     background-color: #F0FBF8;
-    border-radius: 15px;
-    margin-top: 10%;
-    margin-bottom: 10%;
+    border-radius: 20px;
+    margin: 10% auto;
+    text-align: center;
+  
+    /* Use flexbox to center the contents */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .TenantSideF .titleF{
-    margin-top: 5%;
+    margin-top: 5%; /* Adjust the top margin as needed */
+    margin-bottom: 0%; /* Adjust the bottom margin as needed */
 }
 
 .newBtn{
@@ -35,3 +44,4 @@
     font-size: larger;
     border-radius: 10px;
 }
+
