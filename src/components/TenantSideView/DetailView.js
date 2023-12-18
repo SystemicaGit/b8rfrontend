@@ -38,17 +38,24 @@ import house_Config from "../Assets/Images/AgentDashboard/House_Config.png";
 import floors from "../Assets/Images/AgentDashboard/floors.png";
 import key from "../Assets/Images/AgentDashboard/key.png";
 import {useNavigate} from 'react-router-dom';
+import { useBoardState } from "./boardState";
+import { globalTenantId } from "./TenantSideView";
+
+
 function DetailView() {
   const queryParameters = new URLSearchParams(window.location.search);
   const boardId = queryParameters.get("boardId");
   const propertyId = queryParameters.get("propertyId");
-  console.log(boardId);
+  const propertyIndex =queryParameters.get("index");
+    console.log(boardId);
 
-  const [isClick, setClick] = useState(false);
+ // const [isClick, setClick] = useState(false);
   const [responseDataProperty, setResponseDataProperty] = useState([]);
+  //boards = responseDataProperty;
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
   const [booleanValues, setBooleanValues] = useState([]); // Store boolean values here
+  const { isClickArray, setIsClickArray } = useBoardState();
 
   let axiosConfig = {
     headers: {
@@ -65,9 +72,10 @@ function DetailView() {
   };
 
   useEffect(() => {
+    
     const fetchTenantDetails = async () => {
       setLoading(true);
-
+      //console.log("wuhssufeeteiUUUUU");
       //Get All Properties
       try {
         setLoading(true);
@@ -78,10 +86,11 @@ function DetailView() {
 
         // const responseData = response.data.data.board.propertyId;
         const responseDataProperty = response.data.data.board.propertyId;
+        console.log("REsponse",response);
         // const responseDataFilter = response.data.data.board.propertyId.propertyDetails;
         const responseData =
-          response.data.data.board.propertyId[0].propertyDetails.featureInfo;
-        console.log(responseData);
+        response.data.data.board.propertyId[propertyIndex].propertyDetails.featureInfo;
+        console.log("Response from this api",responseData);
         const booleanValues = [];
         // responseData.forEach((tenant) => {
         for (const key in responseData) {
@@ -100,33 +109,65 @@ function DetailView() {
 
         // Update the formData state with the response data
         setResponseDataProperty(filteredProperties);
-      } catch (error) {
+      } 
+      catch (error) {
         console.error("Error fetching data:", error);
       } finally {
         setLoading(false); // Set loading to false when the request is complete
       }
     };
 
-    fetchTenantDetails(); // Call the fetch function
+  fetchTenantDetails(); // Call the fetch function
   }, [boardId]);
 
   console.log(responseDataProperty);
   // console.log(setBooleanValues);
 
   const keyNames = {
-    // carParking: "Car Parking",
-    // bikeParking: "Bike Parking",
+    carParking: "Car Parking",
+    bikeParking: "Bike Parking",
     gatedSecurity: "Gated Security",
     powerBackup: "Power Backup",
     groceryStore: "Grocery Store",
-    // swimmingPool: "Swimming Pool",
-    // gym: "Gym",
+    swimmingPool: "Swimming Pool",
+    gym: "Gym",
     clubHouse: "Club House",
-    // AirCondition: "Air Conditioning",
-    // nonVeg: "Non-Veg",
-    // bathroom: "Bathroom",
+    AirCondition: "Air Conditioning",
+    nonVeg: "Non-Veg",
+    bathroom: "Bathroom",
   };
 
+//////////////////////////////////
+  const shortlist = async (propertyid,propertIndex) => {
+  
+    setIsClickArray((prevState) => {
+      const updatedIsClickArray = [...prevState];
+      updatedIsClickArray[propertIndex] = !isClickArray[propertIndex];
+     console.log(isClickArray)
+     return updatedIsClickArray;
+      
+    });
+   
+
+
+    try {
+      console.log("Final pid",propertyid)
+      console.log("Recieved BId", boardId);
+      const response = await axios.put(
+        `https://b8rliving.com/board/shortlist/${boardId}`,
+        {propertyid,shortListStatus,globalTenantId},
+        axiosConfig
+      );
+      console.log("Response fo apishortlist ",response);
+      alert(response.data.message);
+    } catch (error) {
+      // Handle any errors that occur during the API request
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false); // Set loading to false when the request is complete
+    }
+  };
+///////////////////////////////
   return (
     <>
       {responseDataProperty.map((property, index) => (
@@ -157,10 +198,12 @@ function DetailView() {
 
           /></Link> */}
 
-              <Link to={`/DetailImgView?boardId=${boardId}&propertyId=${property._id}`}><Carousel showArrows={true}>
+              <Link to={`/DetailImgView?boardId=${boardId}&propertyId=${property._id}&propertyIndex=${propertyIndex}`}><Carousel showArrows={false}>
                 {property.images.map((image, index) => (
                   <div key={index}>
-                    <img src={image} />
+                    <img src={image} style={{ boxShadow:"10px 10px 10px rgba(0, 0, 0, 0.3)",
+                   borderRadius: "10px", 
+                   scale : 1 }}/>
                     <p
                       className="legend"
                       style={{
@@ -215,19 +258,22 @@ function DetailView() {
             //     background: '#DAF0EE',
             //   }}
             >
-              <b>
+               <b>
                 <h2 style={{ marginBottom: "-10px" }}> {property.houseName}</h2>
               </b>
               <div
                 style={{
+                 boxShadow:"2px 2px 5px rgba(0, 0, 0, 0.3)" ,
                   marginLeft: "20px",
-                  height: "140px",
-                  width: "370px",
+                  height: "100%",
+                  width: "93%",
+                  marginRight:"20px",
                   borderRadius: "8px",
                   backgroundColor: "#E8E7E7",
+                  marginTop: "10px",
                 }}
               >
-                <h3 style={{ marginLeft: "-150px", marginTop: "10px" }}>
+                <h3 style={{ marginLeft: "-55%", marginTop: "30px",paddingTop: "10px"}}>
                   About the Society
                 </h3>
                 <div
@@ -248,24 +294,27 @@ function DetailView() {
                         powerBackup: powerBackup,
                         groceryStore: groceryStore,
                         clubHouse: clubHouse,
-                        // AirCondition: ac,
-                        // carParking: carParking,
-                        // bikeParking: bikeParking,
-                        // nonVeg: nonVeg,
-                        // bathroom: bathroom,
+                        AirCondition: ac,
+                        carParking: carParking,
+                        bikeParking: bikeParking,
+                        nonVeg: nonVeg,
+                        bathroom: bathroom,
+                        swimmingPool: swimmingPool,
+                        gym: gym,
                       };
                       // Use the key to dynamically select the image source
+                      //<div className="imageContainer">
                       const imageSrc = imageSources[key]; // You can set a default image source if needed
-
+                      
                       // return <li key={key}>{key}</li>;
                       return (
                         <div
                           className=""
                           // style={{ disp: "3%" }}
                         >
-                          <img
+                          <img 
                             src={imageSrc}
-                            height={22}
+                            height={25}
                             style={{ marginLeft: "1px" }}
                           />{" "}
                           <p style={{ fontSize: "10px" }}> {keyNames[key]} </p>{" "}
@@ -296,15 +345,16 @@ function DetailView() {
               <div
                 style={{
                   marginLeft: "20px",
-                  height: "360px",
-                  width: "370px",
+                  height: "100%",
+                  width: "93%",
                   backgroundColor: "#DAF0EE",
                   borderRadius: "5px",
+                  boxShadow:"2px 2px 5px rgba(0, 0, 0, 0.3)" ,
                 }}
               >
-                <h3 style={{ marginLeft: "-170px" }}>House Details</h3>
+                <h3 style={{ marginLeft: "-64%" ,paddingTop: "10px",paddingBottom: "5px"}}>House Details</h3>
 
-                <div>
+                <div >
                   <div
                     style={{ display: "flex", justifyContent: "space-around" }}
                   >
@@ -313,7 +363,7 @@ function DetailView() {
                         src={house_Config}
                         alt="Tenant"
                         height={30}
-                        // style={{ marginLeft: "-14px", marginTop: "14px" }}
+                        //style={{ marginLeft: "-14px", marginTop: "14px" }}
                       />
                       <h6 style={{ marginTop: "-1px" }}>
                         {property.propertyDetails.propertyInfo.houseConfig}{" "}
@@ -330,14 +380,14 @@ function DetailView() {
                         {property.propertyDetails.featureInfo.balconies}{" "}
                         balconies
                       </h6>
-                      {/* <p style={{ marginTop: "-20px", fontSize: "10px" }}>
+                       <p style={{ marginTop: "-20px", fontSize: "10px" }}>
                         +{property.propertyDetails.featureInfo.bathrooms}{" "}
                         Bathrooms
-                      </p> */}
+                      </p> 
                     </div>
 
                     <div>
-                      <img src={carParking} alt="Tenant" height={40} />
+                      <img src={carParking} alt="Tenant" height={30} />
                       <h6 style={{ marginTop: "-1px" }}>
                         Available
                         {/* {property.propertyDetails.featureInfo.parking}{" "} */}
@@ -395,18 +445,6 @@ function DetailView() {
                       <img src={floors} alt="Tenant" height={30} />
 
                       <h6 style={{ marginTop: "-1px" }}>
-                        {property.propertyDetails.propertyInfo.houseConfig}{" "}
-                      </h6>
-                      <p style={{ marginTop: "-20px", fontSize: "10px" }}>
-                        +{property.propertyDetails.featureInfo.bathrooms}{" "}
-                        Bathrooms
-                      </p>
-                    </div>
-
-                    <div>
-                      <img src={nonVeg} alt="Tenant" height={30} />
-
-                      <h6 style={{ marginTop: "-1px" }}>
                         Floor {property.propertyDetails.featureInfo.floors.your}{" "}
                       </h6>
                       <p style={{ marginTop: "-20px", fontSize: "10px" }}>
@@ -414,7 +452,23 @@ function DetailView() {
                         
                       </p>
                     </div>
+                  {property.propertyDetails.featureInfo.nonVeg ? (
+                    <div>
+                      <img src={nonVeg} alt="Tenant" height={30} />
+                      <h6 style={{ marginTop: "-1px" }}>Non-Veg Allowed</h6>
+                      <p style={{ marginTop: "-20px", fontSize: "10px" }}>No Food Restriction</p>
+                    </div>
+                  ) : (
+                    <div>
+                      
+                      <img src={nonVeg} alt="Tenant" height={30} />
+                      <h6 style={{ marginTop: "-1px" }}> Veg</h6>
+                      <p style={{ marginTop: "-20px", fontSize: "10px" }}>Restriction: Veg only</p>
+                    </div>)}
+
+
                   </div>
+                  
                   <div
                     style={{
                       display: "flex",
@@ -457,7 +511,7 @@ function DetailView() {
                         {property.propertyDetails.updatedAt.slice(0, 10)}{" "}
                       </h6>
                       <p style={{ marginTop: "-20px", fontSize: "10px" }}>
-                       posted on
+                       Posted on
                       </p>
                     </div>
 
@@ -489,10 +543,10 @@ function DetailView() {
                 Loved this property?
               </p>
               <div className="Apps">
-                <Heart isClick={isClick} onClick={() => setClick(!isClick)} />
+                <Heart isClick={isClickArray[propertyIndex]} onClick={() => shortlist(propertyId,propertyIndex)} />
               </div>
 
-              {isClick ? (
+              {isClickArray[propertyIndex] ? (
                 <p
                   style={{
                     fontStyle: "Glida Display",
@@ -505,6 +559,7 @@ function DetailView() {
                   {" "}
                   Shortlisted{" "}
                 </p>
+                
               ) : (
                 <p
                   style={{
@@ -518,6 +573,7 @@ function DetailView() {
                   Shortlist{" "}
                 </p>
               )}
+              
 
               <Link to="/TenantSideView"></Link><button onClick={handleClick} className="newBtn">See other properties</button>
             </div>
@@ -528,4 +584,5 @@ function DetailView() {
     </>
   );
 }
+  
 export default DetailView;

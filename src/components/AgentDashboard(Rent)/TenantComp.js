@@ -162,7 +162,7 @@ const TenantComp = ({ props, name }) => {
                         width: "70px",
                       }}
                     >
-                      {" "}
+                      {" "} {values.numberShortlisted}
                       Shortlisted{" "}
                     </h6>
                   </>

@@ -6,13 +6,17 @@ import Housimg from "../Assets/Images/TenantSideView/TenantSideViewS.png";
 import Footer from '../Footer';
 import logo from "../Assets/Images/Logo.png";
 import TenantSideViewComp from './TenantSideViewComp';
-
+//export  {globalTenantId};
+let globalTenantId;
 
 function TenantSideView() {
   const queryParameters = new URLSearchParams(window.location.search);
+ 
   const tenantId = queryParameters.get("tenantId");
+  globalTenantId = tenantId;
   const boardId = queryParameters.get("boardId");
   console.log(tenantId);
+  
 
   const [responseDataBoard, setResponseDataBoard] = useState([]);
   const [responseDataTenant, setResponseDataTenant] = useState([]);
@@ -41,6 +45,7 @@ function TenantSideView() {
     const fetchBoardDetails = async () => {
       setLoading(true);
       try {
+        console.log("TOKEN",token);
         const response = await axios.get(
           `https://b8rliving.com/board/${boardId}`,
           axiosConfig
@@ -51,6 +56,8 @@ function TenantSideView() {
         const responseDataBoardtData = response.data.data.board;
         // setResponseDataTenantName(response.data.data.board.tenantId.tenantDetails[0]);
         const responseDataPropertiesData = response.data.data.board.propertyId;
+        
+        //const tenant_id = response.data.data.board.tenantId;
         //setPropertyAgentName(response.data.data.propertyDetails.ownerInfo.name.first)
         //console.log("hello" ,response.data.data.board.propertyId);
 
@@ -176,6 +183,8 @@ function TenantSideView() {
 }
 
 export default TenantSideView;
+export  {globalTenantId};
+
 
 
 

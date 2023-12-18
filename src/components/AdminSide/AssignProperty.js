@@ -149,9 +149,7 @@ function AssignProperty() {
         // handle the error
       });
   };
-  formData.fieldAgentId = selectedUser._id ;
-  formData.propertyId = selectedProperty._id;
-
+  
  //handleUserChange
 
   return (
