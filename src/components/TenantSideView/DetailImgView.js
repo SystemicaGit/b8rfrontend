@@ -53,6 +53,7 @@ function DetailImgView() {
   const token = localStorage.getItem("token");
   const [booleanValues, setBooleanValues] = useState([]); // Store boolean values here
   const { isClickArray, setIsClickArray } = useBoardState();
+  const[shortListStatus, setshortListStatus ] = useState(false)
 
   let axiosConfig = {
     headers: {

@@ -52,6 +52,7 @@ function DetailView() {
  // const [isClick, setClick] = useState(false);
   const [responseDataProperty, setResponseDataProperty] = useState([]);
   //boards = responseDataProperty;
+  const[shortListStatus, setshortListStatus ] = useState(false)
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
   const [booleanValues, setBooleanValues] = useState([]); // Store boolean values here
