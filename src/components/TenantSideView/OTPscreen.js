@@ -197,6 +197,11 @@ function OTPscreen() {
                 localStorage.setItem("token", token);
                 localStorage.removeItem( "name");
                 localStorage.setItem("phone", phone);
+                axios
+            .get(
+              `https://b8rliving.com/tenant/board/${response.data.data.tenant._id}`,
+              axiosConfig
+              );
               window.location.href = `/TenantSideView?tenantId=${response.data.data.tenant._id}&boardId=${boardId}`;
               // alert("Your Password has been Updated!");
             })
