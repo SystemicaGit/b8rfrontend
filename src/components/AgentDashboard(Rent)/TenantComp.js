@@ -10,6 +10,7 @@ import axios from "axios";
 const TenantComp = ({ props, name }) => {
   // console.log(props);
   const [filteredData, setfilteredData] = useState([]);
+  
   const [searchValue, setSearchValue] = useState("");
   const boardIds = ["boardId1", "boardId2", "boardId3"]; // Replace with your actual boardIds
 
@@ -23,6 +24,7 @@ const TenantComp = ({ props, name }) => {
     // If search term is empty, show all properties
     if (searchTerm === "") {
       setfilteredData(props);
+      console.log("filteredData",filteredData);
     } else {
       // Filter properties based on houseName
       const filtered = props.filter((tenant) =>
@@ -31,6 +33,7 @@ const TenantComp = ({ props, name }) => {
           .includes(searchTerm.toLowerCase())
       );
       setfilteredData(filtered);
+      
     }
   };
 
@@ -97,7 +100,9 @@ const TenantComp = ({ props, name }) => {
       />
       {/* Mapping */}
       {filteredData.map((values, index) => (
+       
         <div key={index}>
+          
           <div
             style={{
               display: "flex",
@@ -183,8 +188,8 @@ const TenantComp = ({ props, name }) => {
                         padding: "5px 1%",
                         width: "70px",
                       }}
-                    >
-                      properties shared{" "}
+                    >{" "}{values.numberShared}{" "}
+                      Properties shared{" "}
                     </h6>
                   </>
                 ) : (

@@ -246,7 +246,7 @@ function AddTenant() {
                 <div onClick={handleClick}>
                   <BackButton title="Back" margin="" fontweight="bolder" />
                 </div>
-                <CommonBtn title="Submit" margin="50%" fontweight="bolder" />
+                <CommonBtn title="Next" margin="50%" fontweight="bolder" />
               </div>
 
               <Footer />
