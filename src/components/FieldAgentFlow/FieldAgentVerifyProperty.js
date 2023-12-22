@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { Component, useEffect, useState, useRef } from "react";
 import ReactSwitch from "react-switch";
 
 import { Link, redirect } from "react-router-dom";
@@ -100,6 +100,7 @@ function FieldAgentVerifyProperty() {
   const [responseDataPendingProperties, setresponseDataPendingProperties] =
     useState([]);
   const token = localStorage.getItem("token");
+  const scrollRef = useRef(null);
   //   console.log(token);
 
   const [formData, setFormData] = useState({
@@ -535,6 +536,46 @@ function FieldAgentVerifyProperty() {
       }
     }
   };
+
+  useEffect(() => {
+    console.log("scroll hits");
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log("scroll hits");
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [checkedStateOne]);
+
+  useEffect(() => {
+    console.log("scroll hits");
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [checkedStateTwo]);
+
+  useEffect(() => {
+    console.log("scroll hits");
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [checkedStateThree]);
+
+  useEffect(() => {
+    console.log("scroll hits");
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [checkedStateFour]);
 
   return (
     <>
@@ -2454,7 +2495,7 @@ function FieldAgentVerifyProperty() {
                     <ReactSwitch
                       checked={featureData.bedroom_three}
                       onChange={() =>
-                        setFormData({
+                        setfeatureData({
                           ...featureData,
                           bedroom_three: !featureData.bedroom_three,
                         })

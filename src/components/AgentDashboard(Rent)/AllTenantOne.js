@@ -160,10 +160,10 @@ function AllTenantOne() {
   return (
     <>
       <div
-        className="form"
+        className=""
         style={{
-          borderRadius: "16px",
-          marginTop: "10%",
+          // borderRadius: "16px",
+          // marginTop: "10%",
           backgroundRepeat: "no-repeat",
           backgroundImage: `url(${oneBg})`,
           backgroundRepeat: "no-repeat",
@@ -172,39 +172,38 @@ function AllTenantOne() {
       >
         <CommonHeader title="All Tenant" color="#52796F" />
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginBottom: "20px",
-          }}
-        >
-          <div>
-            <CommonTopButton
-              bgColor={isActive1 ? "#52796F" : "#D2D7D6"}
-              borderColor="#DAF0EE"
-              color={isActive1 ? "#FFFFFF" : "#77A8A4"}
-              text="Waiting For Property"
-              onclicked={() => handlePageAvailable("WaitingForProperty")}
-              // Waiting For Property, Shortlisted, Currently Viewing, Archived
-            />
-            <CommonTopButton
-              bgColor={isActive2 ? "#52796F" : "#D2D7D6"}
-              borderColor="#DAF0EE"
-              color={isActive2 ? "#FFFFFF" : "#77A8A4"}
-              text="Currently Viewing"
-              onclicked={() => handlePageAvailable("WaitingForProperty")}
-            />
-          </div>
-          <div>
-            <CommonTopButton
-              bgColor={isActive3 ? "#52796F" : "#D2D7D6"}
-              borderColor="#DAF0EE"
-              color={isActive3 ? "#FFFFFF" : "#77A8A4"}
-              text="Shortlisted"
-              onclicked={() => handlePageAvailable("Shortlisted")}
-            />
+        {/* Body */}
 
+        <div className="p-[1rem]">
+          {/* grid-container */}
+          <div className="grid grid-cols-2 gap-[1rem]">
+            <div>
+              <CommonTopButton
+                bgColor={isActive1 ? "#52796F" : "#D2D7D6"}
+                borderColor="#DAF0EE"
+                color={isActive1 ? "#FFFFFF" : "#77A8A4"}
+                text="Waiting For Property"
+                onclicked={() => handlePageAvailable("WaitingForProperty")}
+              />
+            </div>
+            <div>
+              <CommonTopButton
+                bgColor={isActive3 ? "#52796F" : "#D2D7D6"}
+                borderColor="#DAF0EE"
+                color={isActive3 ? "#FFFFFF" : "#77A8A4"}
+                text="Shortlisted"
+                onclicked={() => handlePageAvailable("Shortlisted")}
+              />
+            </div>
+            <div>
+              <CommonTopButton
+                bgColor={isActive2 ? "#52796F" : "#D2D7D6"}
+                borderColor="#DAF0EE"
+                color={isActive2 ? "#FFFFFF" : "#77A8A4"}
+                text="Currently Viewing"
+                onclicked={() => handlePageAvailable("WaitingForProperty")}
+              />
+            </div>
             <div>
               {archiveData ? (
                 <CommonTopButton
@@ -225,8 +224,6 @@ function AllTenantOne() {
               )}
             </div>
           </div>
-
-          {/* Listing */}
         </div>
 
         <SearchBar
@@ -234,10 +231,13 @@ function AllTenantOne() {
           placeholder="Search by Tenant name"
         />
 
+        <div className="p-[1rem] text-[1.2rem]">
+          <p className="font-bold py-[1rem]">Hey Yash,</p>
+          <p> Here are all the tenants that you have onboarded</p>
+        </div>
+        {/* 
         {archiveData ? (
           <>
-            {/* <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between" , marginRight:"10px"}}> */}
-
             <div
               style={{
                 display: "flex",
@@ -259,8 +259,6 @@ function AllTenantOne() {
                   text="Rented Outside"
                   bgColor="#D2D7D6"
                   borderColor="#A9C0BA"
-                  color="#77A8A4"
-                  // margin="0px 0px 0px 1px"
                 />
               </div>
             </div>
@@ -287,7 +285,7 @@ function AllTenantOne() {
             Hey <b>{name}</b>, <br />
             Here are all the tenants that you have onboarded
           </p>
-        )}
+        )} */}
 
         <TenantComp props={filteredTenants} name={name} />
 

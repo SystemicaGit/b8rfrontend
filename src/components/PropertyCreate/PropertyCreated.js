@@ -15,6 +15,7 @@ import BackButton from "../CommonButtonBack";
 import CommonHeader from "../CommonHeader";
 import CommonBtn from "../CommonButton";
 import CommonTopButton from "../CommonTopButton";
+import { TbHomeCheck } from "react-icons/tb";
 
 function PropertyCreated() {
   const queryParameters = new URLSearchParams(window.location.search);
@@ -39,31 +40,54 @@ function PropertyCreated() {
       Authorization: `Basic ${token}`,
     },
   };
-//   useEffect(() => {
-//     // event.preventDefault();
-//     const fetchPosts = async () => {
-//       setLoading(true);
-//       axios
-//         .get("https://b8rliving.com/property", axiosConfig)
-//         .then((response) => {
-//           setresponseTenant(response.data);
-//           console.log(responseTenant);
-//           // alert("Your data has been submitted");
-//           // do something with the response
-//         })
-//         .catch((error) => {
-//           console.log(error);
-//           // handle the error
-//         });
-//       setLoading(false);
-//     };
+  //   useEffect(() => {
+  //     // event.preventDefault();
+  //     const fetchPosts = async () => {
+  //       setLoading(true);
+  //       axios
+  //         .get("https://b8rliving.com/property", axiosConfig)
+  //         .then((response) => {
+  //           setresponseTenant(response.data);
+  //           console.log(responseTenant);
+  //           // alert("Your data has been submitted");
+  //           // do something with the response
+  //         })
+  //         .catch((error) => {
+  //           console.log(error);
+  //           // handle the error
+  //         });
+  //       setLoading(false);
+  //     };
 
-//     fetchPosts();
-//   }, []);
+  //     fetchPosts();
+  //   }, []);
 
   return (
     <>
-      <div
+      <CommonHeader title="Property Created" color="#52796F" />
+      {/* main-container */}
+      <div className="py-[2rem] flex items-center justify-center flex-col">
+        <TbHomeCheck className="text-[5rem] text-[#52796F]" />
+        <p className="text-[1.3rem] font-semibold pt-[2rem]">
+          <u>Name</u>
+        </p>
+        <p className="text-[2.1rem] font-bold text-[#52796F]">{name}</p>
+        <p className="text-[1.3rem] font-semibold pt-[1rem]">
+          <u>Features</u>
+        </p>
+        <p className="text-[2.1rem] font-bold text-[#52796F]">{houseConfig}</p>
+        <p className="text-[1.3rem] font-semibold">({furnishingType})</p>
+        <p className="text-[1.3rem] font-semibold pt-[2rem]">
+          <u>Rent Details</u>
+        </p>
+        <p className="text-[2.1rem] font-bold text-[#52796F]">
+          {rentAmount} /month
+        </p>
+        <p className="text-[1.3rem] font-semibold">
+          ({rentDeposit} INR Deposit)
+        </p>
+      </div>
+      {/* <div
         className="login-page form"
         style={{
           height: "130vh",
@@ -79,12 +103,7 @@ function PropertyCreated() {
             flexDirection: "row",
             alignItems: "center",
           }}
-        >
-          {/* <img src={logo} alt={logo} height={25} style={{marginTop:"20px",marginLeft:"10px"}}/> */}
-          {/* <h3 style={{color:"#52796F",marginLeft:"70px", marginTop: "15px"}}>Property Created</h3> */}
-          <CommonHeader title="Property Created" color="#52796F" />
-          {/* <img src={hamburger_1} alt={hamburger_1} style={{marginLeft:"50px"}} height={25}/> */}
-        </div>
+        ></div>
 
         <div
           style={{
@@ -94,21 +113,25 @@ function PropertyCreated() {
             flexDirection: "column",
           }}
         >
-          <h4 style={{ color: "#52796F",marginTop:"-8px" }}>Location</h4>
+          <h4 style={{ color: "#52796F", marginTop: "-8px" }}>Location</h4>
           <u>
             <h4>Name:</h4>
           </u>
-          <h2 style={{ color: "#52796F", marginTop:"-10px" }}>{name}</h2>
+          <h2 style={{ color: "#52796F", marginTop: "-10px" }}>{name}</h2>
 
           <u>
             <h4>Features</h4>
           </u>
-          <h2 style={{ color: "#52796F",marginTop:"-10px" }}>{houseConfig}</h2>
-		  <h3>({furnishingType})</h3>
+          <h2 style={{ color: "#52796F", marginTop: "-10px" }}>
+            {houseConfig}
+          </h2>
+          <h3>({furnishingType})</h3>
           <u>
             <h4>Rent Details</h4>
           </u>
-          <h2 style={{ color: "#52796F",marginTop:"-10px" }}>{rentAmount} /month</h2>
+          <h2 style={{ color: "#52796F", marginTop: "-10px" }}>
+            {rentAmount} /month
+          </h2>
           <h4>({rentDeposit} INR Deposit)</h4>
 
           {saleDeposit > 0 ? (
@@ -116,19 +139,23 @@ function PropertyCreated() {
               <u>
                 <h4>Budget Details</h4>
               </u>
-              <h2 style={{ color: "#3F007F",marginTop:"-10px" }}>{saleAmount} Cr</h2>
+              <h2 style={{ color: "#3F007F", marginTop: "-10px" }}>
+                {saleAmount} Cr
+              </h2>
               <h4>({saleDeposit} INR Deposit)</h4>{" "}
             </>
           ) : (
             ""
           )}
         </div>
-
-        <Link to="/dashboard">
-          <CommonBtn title="Go to Agent Dashboard" margin="60px" />
-        </Link>
-        <Footer />
-      </div>
+      </div> */}
+      <Link
+        to="/dashboard"
+        className="flex justify-center items-center py-[1rem]"
+      >
+        <CommonBtn title="Go to Agent Dashboard" margin="60px" />
+      </Link>
+      <Footer />
     </>
   );
 }

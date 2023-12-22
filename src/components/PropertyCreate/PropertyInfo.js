@@ -85,10 +85,10 @@ function PropertyInfo() {
         purposeSale: false,
       },
       ownerInfo: {
-        phoneNumber: "",
-        panNumber: "",
-        country: "",
-        city: "",
+        phoneNumber: "8009832805",
+        panNumber: "BIGPV7008G",
+        country: "India",
+        city: "Mumbai",
         name: {
           first: "",
           last: "",
@@ -110,9 +110,9 @@ function PropertyInfo() {
         nonVeg: false,
         constructionYear: "",
         availableFrom: "",
-        rentAmount: "",
-        rentDeposit: "",
-        rentMaintenance: "",
+        rentAmount: 1,
+        rentDeposit: 1,
+        rentMaintenance: 1,
         lockInPeriod: "",
         saleAmount: 1,
         saleDeposit: 1,
@@ -946,7 +946,7 @@ function PropertyInfo() {
               />
               {/* <br></br> */}
               {/* CONTACT NUM */}
-              <label
+              {/* <label
                 className="mx-[0.2rem]"
                 for="phoneNumber"
                 style={{
@@ -957,8 +957,7 @@ function PropertyInfo() {
                   float: "left",
                 }}
               >
-                Contact Number{" "}
-                <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
+                Contact Number
               </label>
               <input
                 type="tel"
@@ -966,15 +965,15 @@ function PropertyInfo() {
                 maxLength="10"
                 placeholder="10 digit number"
                 name="phoneNumber"
-                required
+                // required
                 value={formData.propertyData.ownerInfo.phoneNumber}
                 onChange={handleChange}
                 style={styles}
-              />
+              /> */}
               {/* <br></br> */}
               {/* <br></br> */}
               {/* PAN CARD */}
-              <label
+              {/* <label
                 className="mx-[0.2rem] mt-[20px]"
                 for="panNumber"
                 style={{
@@ -985,22 +984,21 @@ function PropertyInfo() {
                   float: "left",
                 }}
               >
-                Pan Card(Useful for Rental Agreement){" "}
-                <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
+                Pan Card(Useful for Rental Agreement)
               </label>
               <input
                 type="text"
                 id="panNumber"
                 placeholder="Pan number"
                 name="panNumber"
-                required
+                // required
                 value={formData.propertyData.ownerInfo.panNumber}
                 onChange={handleChange}
                 style={styles}
-              />
+              /> */}
               {/* <br></br> */}
               {/* Residing Country */}
-              <label
+              {/* <label
                 className="mx-[0.2rem]"
                 for="country"
                 style={{
@@ -1011,21 +1009,20 @@ function PropertyInfo() {
                   float: "left",
                 }}
               >
-                Country of residence of Landlord{" "}
-                <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
+                Country of residence of Landlord
               </label>
               <input
                 type="text"
                 id="country"
                 placeholder="residing country"
                 name="country"
-                required
+                // required
                 value={formData.propertyData.ownerInfo.country}
                 onChange={handleChange}
                 style={styles}
-              />
+              /> */}
               {/* <br></br> */}
-              <label
+              {/* <label
                 className="mx-[0.2rem]"
                 for="city"
                 style={{
@@ -1036,19 +1033,18 @@ function PropertyInfo() {
                   float: "left",
                 }}
               >
-                City of residence of Landlord{" "}
-                <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
+                City of residence of Landlord
               </label>
               <input
                 type="text"
                 id="city"
                 placeholder="residing city"
                 name="city"
-                required
+                // required
                 value={formData.propertyData.ownerInfo.city}
                 onChange={handleChange}
                 style={styles}
-              />
+              /> */}
               {/* <br></br> */}
               {/* <br></br> */}
               <div className="flex justify-center items-center">
@@ -1078,8 +1074,8 @@ function PropertyInfo() {
           <div
             class="form"
             style={{
-              borderRadius: "16px",
-              marginTop: "10%",
+              // borderRadius: "16px",
+              // marginTop: "10%",
               backgroundRepeat: "no-repeat",
               backgroundRepeat: "no-repeat",
               backgroundSize: "100% 100%",

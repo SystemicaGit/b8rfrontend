@@ -1,15 +1,15 @@
-import React, {useEffect,useState} from "react";
+import React, { useEffect, useState } from "react";
 
 import backgroundImg from "../../Assets/Images/BoardCreation/BackgroundBoard.png";
 import CommonHeader from "../../CommonHeader";
 import CommonBtn from "../../CommonButton";
-import CommonTopButton from '../../CommonTopButton';
+import CommonTopButton from "../../CommonTopButton";
 import Footer from "../../Footer";
 import { Link } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
+import { FaHandshake } from "react-icons/fa";
 
-function BoardCreated()
-{
+function BoardCreated() {
   const queryParameters = new URLSearchParams(window.location.search);
   const boardId = queryParameters.get("boardId");
   const path = queryParameters.get("path");
@@ -18,7 +18,8 @@ function BoardCreated()
   const [responseDataBoard, setResponseDataBoard] = useState([]);
   const [responseDataTenant, setResponseDataTenant] = useState([]);
   const [responseDataTenantName, setResponseDataTenantName] = useState("");
-  const [responseDataTotalProperties, setResponseDataTotalProperties] = useState("");
+  const [responseDataTotalProperties, setResponseDataTotalProperties] =
+    useState("");
   const [responseDataProperty, setResponseDataProperty] = useState([]);
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
@@ -32,15 +33,15 @@ function BoardCreated()
   };
 
   const handleClick = async () => {
-    console.log("Handle")
+    console.log("Handle");
     const linkToCopy = path; // The link you want to copy
 
     // Create a temporary input element to copy the link to the clipboard
-    const input = document.createElement('input');
-    input.setAttribute('value', linkToCopy);
+    const input = document.createElement("input");
+    input.setAttribute("value", linkToCopy);
     document.body.appendChild(input);
     input.select();
-    document.execCommand('copy');
+    document.execCommand("copy");
     document.body.removeChild(input);
 
     // Optionally, you can provide some user feedback (e.g., a notification)
@@ -60,11 +61,8 @@ function BoardCreated()
     } finally {
       setLoading(false); // Set loading to false when the request is complete
     }
-    
   };
 
-
-  
   useEffect(() => {
     const fetchBoardDetails = async () => {
       setLoading(true);
@@ -77,69 +75,91 @@ function BoardCreated()
         // const responseData = response.data.data.tenant.tenantDetails;
         const responseDataBoardData = response.data.data.board;
         const responseDataTenantData = response.data.data.board.tenantId;
-        setResponseDataTenantName(response.data.data.board.tenantId.tenantDetails[0].name);
+        setResponseDataTenantName(
+          response.data.data.board.tenantId.tenantDetails[0].name
+        );
         const responseDataPropertiesData = response.data.data.board.propertyId;
-         // Count the number of properties
-         setResponseDataTotalProperties(responseDataPropertiesData.length);
-
+        // Count the number of properties
+        setResponseDataTotalProperties(responseDataPropertiesData.length);
 
         console.log(responseDataTenantData);
-
-
 
         // Update the formData state with the response data
         setResponseDataBoard(responseDataBoardData);
         setResponseDataProperty(responseDataPropertiesData);
         setResponseDataTenant(responseDataTenantData);
-
-
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
         setLoading(false); // Set loading to false when the request is complete
       }
-    }
+    };
     fetchBoardDetails(); // Call the fetch function
-    }, [boardId]); 
+  }, [boardId]);
 
-    return(
-        <>
-         <div
-        className="form"
-        style={{
-          borderRadius: "16px",
-          marginTop: "10%",
-          height:"740px"
-         
-        }}
+  return (
+    <>
+      <div
+        className=""
+        style={
+          {
+            // borderRadius: "16px",
+            // marginTop: "10%",
+            // height:"740px"
+          }
+        }
       >
-        <CommonHeader title="Board Created" color="#52796F"/>
-        <div >
-          <div>
-            <p>Added to the Board : {responseDataTotalProperties} properties </p>
-            <p>Tenant Name : {responseDataTenantName} </p>
-            <p>Log-in Mobile Number :  {responseDataTenant.phoneNumber}</p>
+        <CommonHeader title="Board Created" color="#52796F" />
+        <div className="flex justify-between items-center flex-col">
+          <div className="flex py-[2rem]">
+            <div>
+              <FaHandshake className="text-[3rem] text-[#52796F]" />
+            </div>
+            <div className="px-[1rem]">
+              <p className="text-[2rem] text-[#52796F] font-bold text-center">
+                {responseDataTotalProperties} properties
+              </p>
+              <p className="text-[1.2rem] font-semibold text-center">
+                added to board
+              </p>
+            </div>
           </div>
-        <Link to={`/TenantSideView?boardId=${boardId}`}><CommonBtn title="Preview Board" margin="90px"/></Link>
-
+          <div className="flex py-[2rem]">
+            <div className="px-[1rem]">
+              <p className="text-[1.2rem] font-semibold text-center">
+                Tenant Name
+              </p>
+              <p className="text-[2rem] text-[#52796F] font-bold text-center">
+                {responseDataTenantName}
+              </p>
+            </div>
+          </div>
+          <div className="flex pb-[1rem]">
+            <div className="px-[1rem]">
+              <p className="text-[1.2rem] font-semibold text-center">
+                Log-in Mobile Number
+              </p>
+              <p className="text-[2rem] text-[#52796F] font-bold text-center">
+                {responseDataTenant.phoneNumber}
+              </p>
+            </div>
+          </div>
         </div>
-       <div style={{marginTop:"70px"}}>
-
-       
-        <p onClick={handleClick} ><CommonBtn title = {`Share Link with ${responseDataTenantName}`} margin="90px"/></p>
+        <div className="flex justify-center items-center flex-col py-[1rem]">
+          <Link to={`/TenantSideView?boardId=${boardId}`}>
+            <CommonBtn title="Preview Board" margin="90px" />
+          </Link>
+          <p onClick={handleClick} className="py-[1rem]">
+            <CommonBtn
+              title={`Share Link with ${responseDataTenantName}`}
+              margin="90px"
+            />
+          </p>
         </div>
-
-        <div style={{marginTop:"460px"}}>
-        <Footer/>
-
-        </div>
-        
-        </div>
-        </>
-        
-    );
-
-
-
+        <div className="mb-[3rem]" />
+        <Footer />
+      </div>
+    </>
+  );
 }
 export default BoardCreated;
