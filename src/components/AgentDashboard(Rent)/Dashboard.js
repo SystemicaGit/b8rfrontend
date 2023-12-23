@@ -267,94 +267,103 @@ function Dashboard() {
               <div className="flex justify-center items-center flex-col bg-[#DAF0EE] rounded-[0.8rem] gap-y-[0.5rem] p-[1rem]">
                 {/* AvailableProperties */}
                 <Link
-                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%]"
+                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%] flex-col"
                   to="/AvailablePropertyrental"
                 >
                   {/* icon */}
-                  <TbBrandGoogleHome className="text-[#52796F] text-[4rem] mx-[0.3rem]" />
-                  {/* text */}
-                  <div className="font-bold flex justify-center items-center flex-col">
-                    <p className="text-[1.5rem] text-center">
+                  <div className="flex justify-center items-center pb-[0.5rem]">
+                    <TbBrandGoogleHome className="text-[#52796F] text-[2.5rem]" />
+                    <p className="text-[2rem] text-center px-[0.5rem] font-bold">
                       {CountProperties.Total}
                     </p>
-                    <p className="text-[0.9rem] text-center">
-                      Available Properties
-                    </p>
+                  </div>
+                  {/* text */}
+                  <div className="font-bold flex justify-center items-center">
+                    <p className="text-center">Available Properties</p>
                   </div>
                 </Link>
                 {/* PendingVerification */}
                 <Link
-                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%]"
+                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%] flex-col"
                   to="/My_propertyPV"
                 >
                   {/* icon */}
-                  <RiQuestionnaireFill className="text-[#52796F] text-[4rem] mx-[0.3rem]" />
-                  {/* text */}
-                  <div className="font-bold flex justify-center items-center flex-col">
-                    <p className="text-[1.5rem] text-center">
+                  <div className="flex justify-center items-center pb-[0.5rem]">
+                    <RiQuestionnaireFill className="text-[#52796F] text-[2.5rem]" />
+                    <p className="text-[2rem] text-center px-[0.5rem] font-bold">
                       {CountProperties.Pending}
                     </p>
-                    <p className="text-[0.9rem] text-center">
-                      Pending Verification
-                    </p>
+                  </div>
+                  <div className="font-bold flex justify-center items-center flex-col">
+                    <p className="text-center">Pending Verification</p>
                   </div>
                 </Link>
                 {/* ActiveListing */}
                 <Link
-                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%]"
+                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%] flex-col"
                   to="/AllActiveProperties"
                 >
                   {/* icon */}
-                  <BsFillBookmarkCheckFill className="text-[#52796F] text-[2.5rem]" />
-                  {/* text */}
-                  <div className="font-bold flex justify-center items-center flex-col">
-                    <p className="text-[1.5rem] text-center">
+                  <div className="flex justify-center items-center pb-[0.5rem]">
+                    <BsFillBookmarkCheckFill className="text-[#52796F] text-[2.5rem]" />
+                    <p className="text-[2rem] text-center px-[0.5rem] font-bold">
                       {CountProperties.Verified}
                     </p>
-                    <p className="text-[0.9rem] text-center">Active Listing</p>
+                  </div>
+                  {/* text */}
+                  <div className="font-bold flex justify-center items-center flex-col">
+                    <p className="text-center">Active Listing</p>
                   </div>
                 </Link>
                 {/* yetToShare */}
                 <Link
-                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%]"
+                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%] flex-col"
                   to="/My_PropertyYTS"
                 >
                   {/* icon */}
-                  <TbShareOff className="text-[#52796F] text-[2.5rem] mx-[0.3rem]" />
+                  <div className="flex justify-center items-center pb-[0.5rem]">
+                    <TbShareOff className="text-[#52796F] text-[2.5rem]" />
+                    <p className="text-[2rem] text-center px-[0.5rem] font-bold">
+                      {ytsCount}
+                    </p>
+                  </div>
                   {/* text */}
                   <div className="font-bold flex justify-center items-center flex-col">
-                    <p className="text-[1.5rem] text-center">{ytsCount}</p>
-                    <p className="text-[0.9rem] text-center">Yet to share</p>
+                    <p className="text-center">Yet to share</p>
                   </div>
                 </Link>
                 {/* shared */}
                 <Link
-                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%]"
+                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%] flex-col"
                   to="/My_PropertySNA"
                 >
                   {/* icon */}
-                  <MdOutlineMobileScreenShare className="text-[#52796F] text-[2.5rem] mx-[0.3rem]" />
-                  {/* text */}
-                  <div className="font-bold flex justify-center items-center flex-col">
-                    <p className="text-[1.5rem] text-center">
+                  <div className="flex justify-center items-center pb-[0.5rem]">
+                    <MdOutlineMobileScreenShare className="text-[#52796F] text-[2.5rem]" />
+                    <p className="text-[2rem] text-center px-[0.5rem] font-bold">
                       {SharedPropertyCount}
                     </p>
-                    <p className="text-[0.9rem] text-center">Shared</p>
+                  </div>
+                  {/* text */}
+                  <div className="font-bold flex justify-center items-center flex-col">
+                    <p className="text-center">Shared</p>
                   </div>
                 </Link>
                 {/* shortlisted */}
                 <Link
-                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%]"
+                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%] flex-col"
                   to="/My_PropertyS"
                 >
                   {/* icon */}
-                  <RiHomeHeartLine className="text-[#52796F] text-[2.5rem] mx-[0.3rem]" />
-                  {/* text */}
-                  <div className="font-bold flex justify-center items-center flex-col">
-                    <p className="text-[1.5rem] text-center">
+                  <div className="flex justify-center items-center pb-[0.5rem]">
+                    <RiHomeHeartLine className="text-[#52796F] text-[2.5rem]" />
+                    <p className="text-[2rem] text-center px-[0.5rem] font-bold">
                       {CountProperties.Sortlisted}
                     </p>
-                    <p className="text-[0.9rem] text-center">Shortlisted</p>
+                  </div>
+                  {/* text */}
+                  <div className="font-bold flex justify-center items-center flex-col">
+                    <p className="text-center">Shortlisted</p>
                   </div>
                 </Link>
               </div>
@@ -367,64 +376,70 @@ function Dashboard() {
               <div className="flex flex-col bg-[#E8E7E7] rounded-[0.8rem] gap-y-[0.5rem] p-[1rem] h-max">
                 {/* active leads */}
                 <Link
-                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%]"
+                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%] flex-col"
                   to="/ActiveLeads"
                 >
                   {/* icon */}
-                  <FaCircleUser className="text-[#52796F] text-[2.5rem] mx-[0.3rem]" />
+                  <div className="flex justify-center items-center pb-[0.5rem]">
+                    <FaCircleUser className="text-[#52796F] text-[2.5rem]" />
+                    <p className="text-[2rem] text-center px-[0.5rem] font-bold">
+                      {number}
+                    </p>
+                  </div>
                   {/* text */}
                   <div className="font-bold flex justify-center items-center flex-col">
-                    <p className="text-[1.5rem] text-center">{number}</p>
-                    <p className="text-[0.9rem] text-center">Active Leads</p>
+                    <p className="text-center">Active Leads</p>
                   </div>
                 </Link>
                 {/* waiting for property */}
                 <Link
-                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%]"
+                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%] flex-col"
                   to="/AllTenantOne"
                 >
                   {/* icon */}
-                  <RiQuestionnaireFill className="text-[#52796F] text-[4rem] mx-[0.3rem]" />
-                  {/* text */}
-                  <div className="font-bold flex justify-center items-center flex-col">
-                    <p className="text-[1.5rem] text-center">
+                  <div className="flex justify-center items-center pb-[0.5rem]">
+                    <RiQuestionnaireFill className="text-[#52796F] text-[2.5rem]" />
+                    <p className="text-[2rem] text-center px-[0.5rem] font-bold">
                       {CountTenants.WaitingForProperty}
                     </p>
-                    <p className="text-[0.9rem] text-center">
-                      Waiting for Property
-                    </p>
+                  </div>
+                  {/* text */}
+                  <div className="font-bold flex justify-center items-center flex-col">
+                    <p className="text-center">Waiting for Property</p>
                   </div>
                 </Link>
                 {/* currently viewing */}
                 <Link
-                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%]"
+                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%] flex-col"
                   to="/AllTenantOne"
                 >
                   {/* icon */}
-                  <FaEye className="text-[#52796F] text-[3rem]" />
-                  {/* text */}
-                  <div className="font-bold flex justify-center items-center flex-col">
-                    <p className="text-[1.5rem] text-center">
+                  <div className="flex justify-center items-center pb-[0.5rem]">
+                    <FaEye className="text-[#52796F] text-[2.5rem]" />
+                    <p className="text-[2rem] text-center px-[0.5rem] font-bold">
                       {CountTenants.CurrentlyViewing}
                     </p>
-                    <p className="text-[0.9rem] text-center">
-                      Currently Viewing
-                    </p>
+                  </div>
+                  {/* text */}
+                  <div className="font-bold flex justify-center items-center flex-col">
+                    <p className="text-center">Currently Viewing</p>
                   </div>
                 </Link>
                 {/* shortlisted */}
                 <Link
-                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%]"
+                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%] flex-col"
                   to="/AllTenantOne"
                 >
                   {/* icon */}
-                  <RiHomeHeartLine className="text-[#52796F] text-[2.5rem] mx-[0.3rem]" />
-                  {/* text */}
-                  <div className="font-bold flex justify-center items-center flex-col">
-                    <p className="text-[1.5rem] text-center">
+                  <div className="flex justify-center items-center pb-[0.5rem]">
+                    <RiHomeHeartLine className="text-[#52796F] text-[2.5rem]" />
+                    <p className="text-[2rem] text-center px-[0.5rem] font-bold">
                       {CountTenants.Shortlisted}
                     </p>
-                    <p className="text-[0.9rem] text-center">Shortlisted</p>
+                  </div>
+                  {/* text */}
+                  <div className="font-bold flex justify-center items-center flex-col">
+                    <p className="text-center">Shortlisted</p>
                   </div>
                 </Link>
               </div>
