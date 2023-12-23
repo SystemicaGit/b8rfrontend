@@ -62,11 +62,7 @@ function AssignProperty() {
       return;
     }
     // Fetch users from the API
-    axios.get("https:/b8rliving.com/property", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    axios.get(`https://b8rliving.com/property/all`)
       .then((response) => {
         
         const filteredProperty = response.data.data.properties.filter(user=> user.fieldAgentStatus === 'Unassigned');
@@ -108,6 +104,9 @@ function AssignProperty() {
     event.preventDefault();
     console.log("hello",formData.fieldAgentId);
     console.log("world",formData.propertyId);
+    formData.fieldAgentId = selectedUser._id;
+    formData.propertyId = selectedProperty._id;
+    console.log("FormData", formData);
     axios
       .post("https://b8rliving.com/property/assign", formData)
       .then((response) => {
@@ -149,6 +148,7 @@ function AssignProperty() {
         // handle the error
       });
   };
+  
   
  //handleUserChange
 
