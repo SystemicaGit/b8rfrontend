@@ -54,7 +54,8 @@ function AllTenantOne() {
       axios
         .get("https://b8rliving.com/tenant", axiosConfig)
         .then((response) => {
-          // console.log(response.data.data.tenants);
+          console.log("Tenatas api ka data ",response.data.data.tenants);
+          // this is tenants model ka data 
           // var myArrayPropertyCount = response.data.data.properties;
           setResponseTenat(response.data.data.tenants);
           setFilteredTenants(response.data.data.tenants);

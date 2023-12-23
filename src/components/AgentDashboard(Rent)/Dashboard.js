@@ -45,15 +45,16 @@ function Dashboard() {
   const [SharedPropertyCount, setSharedPropertyCount] = useState([]);
 
   const token = localStorage.getItem("token");
-  // console.log(token);
+ 
+  //console.log("TOKEN ",token);
 
   let axiosConfig = {
     headers: {
       "Content-Type": "application/json;charset=UTF-8",
       "Access-Control-Allow-Origin": "*",
       Authorization: `Basic ${token}`,
-    },
-  };
+  }
+};
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true);
@@ -170,7 +171,7 @@ function Dashboard() {
         );
         // Update the countProperties state with the response data
         setCountProperties(response.data.data.counts);
-        // console.log(response.data.data.counts)
+         console.log(response.data.data.counts)
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -188,7 +189,8 @@ function Dashboard() {
         );
         // Update the countProperties state with the response data
         setCountTenants(response.data.data.tenant);
-        // console.log(response.data.data.counts)
+        console.log("Count count",response.data.data.counts)
+        console.log("Count tenants",response.data.data.tenant)
         setLoading(false);
       } catch (error) {
         console.log(error);
