@@ -6,11 +6,18 @@ import PendingVerification from "../Assets/Images/AgentDashboard/PendingVerifica
 import seen from "../Assets/Images/Seen.png";
 import Like from "../Assets/Images/AgentDashboard/Like.png";
 import axios from "axios";
+import { RiQuestionnaireFill } from "react-icons/ri";
+import { BsFillBookmarkCheckFill } from "react-icons/bs";
+import { IoIosArrowDroprightCircle } from "react-icons/io";
+import { FaHeart } from "react-icons/fa";
+import { FaEye } from "react-icons/fa6";
+import { MdOutlineAirplanemodeActive } from "react-icons/md";
 
 const TenantComp = ({ props, name }) => {
   // console.log(props);
   const [filteredData, setfilteredData] = useState([]);
   const [searchValue, setSearchValue] = useState("");
+  // const [BoardNotFound, setBoardNotFound] = useState(false);
   const boardIds = ["boardId1", "boardId2", "boardId3"]; // Replace with your actual boardIds
 
   const token = localStorage.getItem("token");
@@ -40,6 +47,42 @@ const TenantComp = ({ props, name }) => {
       "Access-Control-Allow-Origin": "*",
       Authorization: `Basic ${token}`,
     },
+  };
+
+  const fetchTenantBoard = async (TId, name) => {
+    console.log("tenantId-> " + TId);
+    console.log("name-> " + name);
+    try {
+      const res = await axios.get(
+        `http://localhost:8080/tenant/v2/board/${TId}`,
+        axiosConfig
+      );
+      const data = res.data;
+      const boardId = data.data.board._id;
+      console.log(boardId);
+      if (boardId) {
+        window.location.href = `/PropertyViewBoard?boardId=${boardId}&tenantId=${TId}&name=${name}`;
+      }
+
+      // console.log(res.status);
+      // console.log(data);
+    } catch (error) {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error("Response Status:", error.response.status);
+        console.error("Response Data:", error.response.data.message);
+        if (error.response.status === 404) {
+          window.location.href = `/ViewBoard?tenantId=${TId}&name=${name}&boardId=${null}`;
+        }
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error("No response received:", error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error:", error.message);
+      }
+    }
   };
 
   useEffect(() => {
@@ -89,249 +132,122 @@ const TenantComp = ({ props, name }) => {
 
   return (
     <>
-      <input
+      {/* <input
         type="text"
         value={searchValue}
         onChange={(e) => handleSearch(e.target.value)}
         placeholder="Search by Tenant Name"
-      />
+      /> */}
       {/* Mapping */}
+      <div className="my-[1rem]" />
       {filteredData.map((values, index) => (
-        <div key={index}>
+        <div
+          className="px-[1rem] py-[0.5rem] flex gap-x-[0.5rem] w-[100%]"
+          key={index}
+        >
           <div
+            className="flex justify-between items-center p-[0.5rem] bg-white w-[85%]"
             style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              marginTop: "10px",
+              border: "1px solid #DAF0EE",
+              borderRadius: "0.5rem",
+              boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
             }}
           >
-            {/* left side */}
+            {/* left-container */}
             <div
+              className="flex items-center"
               style={{
-                height: "78px",
-                width: "80%",
-                background: "#FFFFFF",
-                border: "1px solid #DAF0EE",
-                borderRadius: "15px",
-                boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                display: "flex",
+                borderRight: "2px solid black",
+                padding: "1rem 0",
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "flex-start",
-                }}
-              >
-                {values.status === "WaitingForProperty" ? (
-                  <>
-                    <img
-                      src={PendingVerification}
-                      alt="imgOne"
-                      style={{ marginLeft: "10px", marginTop: "25px" }}
-                      height={30}
-                    />
-                    <h6
-                      style={{
-                        whiteSpace: "pre-wrap",
-                        width: "60px",
-                      }}
-                    >
-                      {" "}
-                      Waiting For Property{" "}
-                    </h6>
-                  </>
-                ) : (
-                  ""
-                )}
 
-                {values.status === "Shortlisted" ? (
-                  <>
-                    <img
-                      src={Like}
-                      alt="imgOne"
-                      style={{ marginLeft: "10px", marginTop: "25px" }}
-                      height={20}
-                    />
-                    <h6
-                      style={{
-                        whiteSpace: "pre-wrap",
-                        padding: "5px 1%",
-                        width: "70px",
-                      }}
-                    >
-                      {" "} {values.numberShortlisted}
-                      Shortlisted{" "}
-                    </h6>
-                  </>
-                ) : (
-                  ""
-                )}
-                {values.status === "Shared" ? (
-                  <>
-                    <img
-                      src={seen}
-                      alt="imgOne"
-                      style={{ marginLeft: "10px", marginTop: "25px" }}
-                      height={20}
-                    />
-                    <h6
-                      style={{
-                        whiteSpace: "pre-wrap",
-                        padding: "5px 1%",
-                        width: "70px",
-                      }}
-                    >
-                      properties shared{" "}
-                    </h6>
-                  </>
-                ) : (
-                  ""
-                )}
-                {values.status === "Deactivate" ? "Deactivate" : ""}
-              </div>
+              {values.status === "WaitingForProperty" && (
+                <>
+                  <div>
+                    <RiQuestionnaireFill className="text-[#52796F] text-[2.5rem]" />
+                  </div>
 
-              <hr style={{ flex: "1", marginLeft: "-1px" }} />
+                  <div className="text-[0.9rem] font-semibold px-[0.2rem]">
+                    Waiting for property
+                  </div>
+                </>
+              )}
+              {values.status === "Shortlisted" && (
+                <>
+                  <div>
+                    <FaHeart className="text-[#B30808] text-[2.5rem]" />
+                  </div>
 
-              <div style={{ marginTop: "10px" }}>
-                <text
-                  style={{
-                    fontSize: "13px",
-                    marginLeft: "-20%",
-                    textAlign: "left",
-                  }}
-                >
-                  <b>{values.tenantDetails.name}</b>
-                </text>
+                  <div className="text-[0.9rem] font-semibold px-[0.2rem]">
+                    2 properties shortlisted
+                  </div>
+                </>
+              )}
+              {values.status === "Shared" && (
+                <>
+                  <div>
+                    <FaEye className="text-[#52796F] text-[2.5rem]" />
+                  </div>
 
-                <div
-                  style={{
-                    width: "150px",
-                    height: "25px",
-                    borderRadius: "10px",
-                    marginTop: "10px",
-                    marginLeft: "10px",
-                  }}
-                >
-                  <text
-                    style={{
-                      fontSize: "12px",
-                      marginLeft: "-50px",
-                      fontFamily: "Inter",
-                      fontStyle: "normal",
-                    }}
-                  >
-                    <u>Preference</u>
-                    <br />
-                    <b>
-                      Rs.{values.tenantDetails.rent} &{" "}
-                      {values.tenantDetails.houseConfiguration}
-                    </b>
-                  </text>
-                  <p
-                    style={{
-                      fontSize: "12px",
-                      marginLeft: "-50px",
-                      fontFamily: "Inter",
-                      fontStyle: "normal",
-                      marginTop: "-0px",
-                      fontWeight: "bold",
-                    }}
-                  ></p>
-                </div>
-              </div>
+                  <div className="text-[0.9rem] font-semibold px-[0.2rem]">
+                    4 properties shared
+                  </div>
+                </>
+              )}
+              {values.status === "Deactivate" && (
+                <>
+                  <div>
+                    <MdOutlineAirplanemodeActive className="text-[#52796F] text-[2.5rem]" />
+                  </div>
 
-              <div style={{ width: "100%", display: "flex", justifyContent: "center",marginLeft:"right" }}>     
-              <div
-                style={{
-                  height: "76px",
-                  width: "90px",
-                  background: "#E8E7E7",
-                  borderRadius: "10px",
-                  marginLeft: "35%",
-                }}
-              >
-                {values.isOnBoard && values.status == "Shortlisted" ? (
-                  <Link
-                    to={`/PropertyViewBoard?tenantId=${values._id}&name=${values.tenantDetails.name}&boardId=${values.boardId} `}
-                  >
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                    <img
-                      src={checkP}
-                      style={{
-                        height: "27px",
-                        marginTop: "20%",
-                        marginLeft:"20%",
-                        marginBottom: "-8px",
-                      }}
-                    />
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        color: "#5D6560",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      <br/>
-                      Take Action
-                    </span>
-                    </div>
-                  </Link>
-                ) : (
-                  ""
-                )}
-
-                {values.isOnBoard ? (
-                  <Link
-                    to={`/createboard?tenantId=${values._id}&name=${values.tenantDetails.name}&boardId=${values.boardId} `}
-                  >
-                    <img
-                      src={checkP}
-                      style={{
-                        height: "27px",
-                        marginTop: "20%",
-                        marginBottom: "-8px",
-                      }}
-                    />
-                    <text
-                      style={{
-                        fontSize: "12px",
-                        color: "#5D6560",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Take Action
-                    </text>
-                  </Link>
-                ) : (
-                  <Link
-                    to={`/ViewBoard?tenantId=${values._id}&name=${values.tenantDetails.name}&boardId=${values.boardId}`}
-                  >
-                    <img
-                      src={checkP}
-                      style={{
-                        height: "27px",
-                        marginTop: "20px",
-                        marginBottom: "-8px",
-                      }}
-                    />
-                    <text
-                      style={{
-                        fontSize: "12px",
-                        color: "#5D6560",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Take Action
-                    </text>
-                  </Link>
-                )}
-              </div>
-              </div>
+                  <div className="text-[0.9rem] font-semibold px-[0.2rem]">
+                    Deactivated
+                  </div>
+                </>
+              )}
+            </div>
+            {/* right-container-take action one */}
+            <div className="px-[1rem]">
+              <p className="text-[1.1rem] font-bold pb-[0.8rem]">
+                {values.tenantDetails.name}
+              </p>
+              <p className="text-[1rem] font-semibold">
+                <u>Preference</u>
+              </p>
+              <p className="text-[1rem] font-semibold">
+                {" "}
+                Rs.{values.tenantDetails.rent} &{" "}
+                {values.tenantDetails.houseConfiguration}
+              </p>
             </div>
           </div>
+
+          {values.isOnBoard ? (
+            <Link
+              className="bg-[#E8E7E7] rounded-[0.5rem] flex justify-center items-center flex-col p-[0.5rem] w-[15%]"
+              // to={`/createboard?tenantId=${values._id}&name=${values.tenantDetails.name}&boardId=${values.boardId} `}
+              to={`/PropertyViewBoard?boardId=${values.boardId}&tenantId=${values._id}&name=${values.tenantDetails.name} `}
+            >
+              <IoIosArrowDroprightCircle className="text-[#5D6560] text-[1.5rem]" />
+              <p className="text-[0.8rem] text-center font-semibold">
+                Take Action
+              </p>
+            </Link>
+          ) : (
+            <Link
+              // onClick={() =>
+              //   fetchTenantBoard(values._id, values.tenantDetails.name)
+              // }
+              className="bg-[#E8E7E7] rounded-[0.5rem] flex justify-center items-center flex-col p-[0.5rem] w-[15%]"
+              to={`/ViewBoard?tenantId=${values._id}&name=${values.tenantDetails.name}&boardId=${values.boardId}`}
+            >
+              <IoIosArrowDroprightCircle className="text-[#5D6560] text-[1.5rem]" />
+              <p className="text-[0.8rem] text-center font-semibold">
+                Take Action
+              </p>
+            </Link>
+          )}
         </div>
       ))}
     </>

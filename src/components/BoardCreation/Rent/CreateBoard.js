@@ -36,13 +36,41 @@ import onboarded from "../../Assets/Images/PropertyAdditionPageIcons/Power_backu
 import swimmingPool from "../../Assets/Images/PropertyAdditionPageIcons/swimming_pool/24.png";
 import nonVeg from "../../Assets/Images/PropertyAdditionPageIcons/veg_non-veg_1/24.png";
 import PropertyComp from "./PropertyComp";
-
+import { MdBed } from "react-icons/md";
+import { MdChair } from "react-icons/md";
+import { LuParkingCircle } from "react-icons/lu";
+import { LuParkingCircleOff } from "react-icons/lu";
+import {
+  MdOutlineSecurity,
+  MdPower,
+  MdOutlineSportsHandball,
+} from "react-icons/md";
+import { FaCartShopping } from "react-icons/fa6";
+import { BiSwim } from "react-icons/bi";
+import { CgGym } from "react-icons/cg";
+import { RxDimensions } from "react-icons/rx";
+import { HiMiniBuildingOffice } from "react-icons/hi2";
+import { RiParkingBoxFill } from "react-icons/ri";
+import { FaBath } from "react-icons/fa6";
+import { MdBalcony, MdOutlineCleaningServices } from "react-icons/md";
+import { LuArmchair } from "react-icons/lu";
+import { TbAirConditioning } from "react-icons/tb";
+import { GiRoastChicken } from "react-icons/gi";
+import { BiSolidCalendarEdit } from "react-icons/bi";
+import { MdVpnKey } from "react-icons/md";
+import { HiCurrencyRupee } from "react-icons/hi2";
+import { FaUserLock } from "react-icons/fa";
+import { GrHostMaintenance } from "react-icons/gr";
+import { BsFillHouseLockFill } from "react-icons/bs";
+import { FaSearch } from "react-icons/fa";
 
 function CreateBoard() {
   const queryParameters = new URLSearchParams(window.location.search);
   const name = queryParameters.get("name");
   const tenantId = queryParameters.get("tenantId");
   const boardId = queryParameters.get("boardId");
+
+  console.log("bID from createboard -> " + boardId);
 
   const [searchValue, setSearchValue] = useState("");
   const [responseDataTenantBoard, setResponseDataTenantBoard] = useState("");
@@ -67,7 +95,7 @@ function CreateBoard() {
 
   useEffect(() => {
     const fetchTenantDetails = async () => {
-      setLoading(true);
+      // setLoading(true);
       try {
         const response = await axios.get(
           `https://b8rliving.com/tenant/${tenantId}`,
@@ -77,7 +105,7 @@ function CreateBoard() {
         const responseData = response.data.data.tenant.tenantDetails;
         const responseDataTenant = response.data.data.tenant;
         const responseDataTenantBoardId = response.data.data.tenant.boardId;
-        
+
         setResponseDataTenantBoard(responseDataTenantBoardId);
         // Update the formData state with the response data
         setResponseDataTenant(responseData);
@@ -100,46 +128,45 @@ function CreateBoard() {
         setLoading(false); // Set loading to false when the request is complete
       }
 
-      //Get Property from Board
-      try {
-        const response = await axios.get(
-          `https://b8rliving.com/board/${boardId}`,
-          axiosConfig
-        );
+      // //Get Property from Board
+      // try {
+      //   const response = await axios.get(
+      //     `https://b8rliving.com/board/${boardId}`,
+      //     axiosConfig
+      //   );
 
-        const responseData = response.data.data.tenant.tenantDetails;
-        const responseDataTenant = response.data.data.tenant;
-        const responseDataTenantBoardId = response.data.data.tenant.boardId;
-        const responseDataTenantPropertyId = response.data.data.tenant.propertyId;
-        
-        setResponseDataTenantBoard(responseDataTenantBoardId);
-        // Update the formData state with the response data
-        setResponseDataTenant(responseData);
-        setResponseDataTenantData(responseDataTenant);
+      //   const responseData = response.data.data.tenant.tenantDetails;
+      //   const responseDataTenant = response.data.data.tenant;
+      //   const responseDataTenantBoardId = response.data.data.tenant.boardId;
+      //   const responseDataTenantPropertyId =
+      //     response.data.data.tenant.propertyId;
 
-        // Separate boolean values and store them in booleanValues state
-        const booleanValues = [];
-        responseData.forEach((tenant) => {
-          for (const key in tenant) {
-            if (typeof tenant[key] === "boolean") {
-              booleanValues[key] = tenant[key];
-              console.log(booleanValues);
+      //   setResponseDataTenantBoard(responseDataTenantBoardId);
+      //   // Update the formData state with the response data
+      //   setResponseDataTenant(responseData);
+      //   setResponseDataTenantData(responseDataTenant);
 
-            }
-          }
-        });
+      //   // Separate boolean values and store them in booleanValues state
+      //   const booleanValues = [];
+      //   responseData.forEach((tenant) => {
+      //     for (const key in tenant) {
+      //       if (typeof tenant[key] === "boolean") {
+      //         booleanValues[key] = tenant[key];
+      //         console.log(booleanValues);
+      //       }
+      //     }
+      //   });
 
-        setBooleanValues(booleanValues);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false); // Set loading to false when the request is complete
-      }
-
+      //   setBooleanValues(booleanValues);
+      // } catch (error) {
+      //   console.error("Error fetching data:", error);
+      // } finally {
+      //   setLoading(false); // Set loading to false when the request is complete
+      // }
 
       //Get All Properties
       try {
-        setLoading(true);
+        // setLoading(true);
         const response = await axios.get(
           `https://b8rliving.com/property`,
           axiosConfig
@@ -156,7 +183,9 @@ function CreateBoard() {
         if (properties) {
           // Filter properties where 'imagesApproved' is true
           const filteredProperties = properties.filter(
-            (property) => property.status == "Verified" && property.closeListingDetails == null
+            (property) =>
+              property.status == "Verified" &&
+              property.closeListingDetails == null
           );
 
           // console.log(filteredProperties);
@@ -172,6 +201,7 @@ function CreateBoard() {
     fetchTenantDetails(); // Call the fetch function
   }, [tenantId]);
 
+  // console.log(booleanValues);
 
   // console.log(responseDataProperty);
 
@@ -195,10 +225,10 @@ function CreateBoard() {
   return (
     <>
       <div
-        className="form"
+        className=""
         style={{
-          borderRadius: "16px",
-          marginTop: "10%",
+          // borderRadius: "16px",
+          // marginTop: "10%",
           backgroundRepeat: "no-repeat",
           backgroundImage: `url(${backgroundImg})`,
           backgroundRepeat: "no-repeat",
@@ -209,214 +239,188 @@ function CreateBoard() {
 
         {/* <img src={CreateBoardUpper} style={{height:"190px"}}/> */}
         {/* upper component */}
-        { loading ? (
-            <div>
-              <img
-                src={loadingGif}
-                height={180}
-              />
-            </div>
-          ) : (
-
-
-            <>
-                    <div
-          style={{
-            height: "200px",
-            width: "90%",
-            background: "#DAF0EE",
-            marginTop: "20px",
-            marginLeft: "20px",
-            borderRadius: "6px",
-          }}
-        >
-          <h3 style={{ marginLeft: "-140px", marginTop: "10px" }}>
-            Tenant name: {name}
-          </h3>
-          <h5 style={{ marginLeft: "-140px" }}>
-            <b>
-              <u>Preference of Tenant</u>
-            </b>
-          </h5>
-            {responseDataTenant.map((values, index) => (
-              <div key={index}>
-                <div
-                  style={{
-                    height: "45px",
-                    width: "90%",
-                    background: "#FAFAFA",
-                    marginLeft: "20px",
-                    borderRadius: "8px",
-                    boxShadow: "0px 2px 7px rgba(0, 0, 0, 0.4)",
-                    display: "flex",
-                  }}
-                >
-                  <img
-                    src={area}
-                    height={15}
-                    style={{ marginTop: "10px", marginLeft: "10px" }}
-                  />{" "}
-                  <p style={{ fontSize: "12px" }}>
-                    {values.houseConfiguration}
+        {loading ? (
+          <div>
+            {/* <img src={loadingGif} height={180} /> */}
+            hello
+          </div>
+        ) : (
+          <>
+            {/* maincontainer */}
+            <div className="p-[1rem]">
+              {/* first container */}
+              <div
+                className="bg-[#DAF0EE] px-[1rem] py-[0.5rem]"
+                style={{
+                  boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
+                }}
+              >
+                <p className="text-[1.4rem]">
+                  Tenant Name: <b>{name}</b>
+                </p>
+                <p className="text-[0.9rem]">(8 days since onboarded)</p>
+                {/* Preference */}
+                <div className="pt-[1.5rem]">
+                  <p className="font-bold text-[1.2rem]">
+                    <u>Preference of Tenant</u>
                   </p>
-                  <img
-                    src={Group}
-                    height={15}
-                    style={{ marginTop: "10px", marginLeft: "30px" }}
-                  />{" "}
-                  <p style={{ fontSize: "12px" }}>{values.furnishingType}</p>
-                  {values.carParking && values.bikeParking ? (
-                    values.carParking ? (
+                  <div
+                    className="bg-white py-[0.2rem] grid grid-cols-3"
+                    style={{
+                      boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
+                    }}
+                  >
+                    <div className="flex items-center justify-center flex-col">
+                      <MdBed className="text-[2.5rem]" />
+                      <p className="font-bold text-center">
+                        {responseDataTenant.length !== 0 &&
+                          responseDataTenant[0].houseConfiguration}
+                      </p>
+                    </div>
+                    <div className="flex items-center justify-center flex-col">
+                      <MdChair className="text-[2.5rem]" />
+                      <p className="font-bold text-center">
+                        {responseDataTenant.length !== 0 &&
+                          responseDataTenant[0].furnishingType}
+                      </p>
+                    </div>
+                    {responseDataTenant.length !== 0 &&
+                    (responseDataTenant[0].carParking ||
+                      responseDataTenant[0].bikeParking) ? (
                       <>
-                        <img
-                          src={parking}
-                          height={18}
-                          style={{ marginTop: "10px", marginLeft: "10px" }}
-                        />
-                        <p style={{ fontSize: "12px" }}>
-                          Car Parking Available
-                        </p>
+                        <div className="flex items-center justify-center flex-col">
+                          <LuParkingCircle className="text-[2.5rem]" />
+                          <p className="font-bold text-center">Available</p>
+                        </div>
                       </>
                     ) : (
                       <>
-                        {" "}
-                        <img
-                          src={parking}
-                          height={18}
-                          style={{ marginTop: "10px", marginLeft: "10px" }}
-                        />
-                        <p>Bike Parking Available</p>
+                        <div className="flex items-center justify-center flex-col">
+                          <LuParkingCircleOff className="text-[2.5rem]" />
+                          <p className="font-bold text-center">Not Available</p>
+                        </div>
                       </>
-                    )
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <div>
-                  <img
-                    src={Money}
-                    height={20}
-                    style={{ marginLeft: "-270px", marginTop: "10px" }}
-                  />
-                  <p style={{ marginLeft: "-200px", marginTop: "-23px" }}>
-                    {values.rent}
-                  </p>
-                  <div
-                    style={{
-                      height: "25px",
-                      width: "40%",
-                      background: "#3B413D",
-                      marginLeft: "200px",
-                      borderRadius: "6px",
-                      marginTop: "-35px",
-                    }}
-                  >
-                    <img
-                      src={ApartmentType}
-                      style={{ marginLeft: "-110px", marginTop: "3px" }}
-                    />
-                    <p
-                      style={{
-                        color: "white",
-                        marginTop: "-20px",
-                        fontSize: "11px",
-                        padding: "1%",
-                      }}
-                    >
-                      {values.houseType}
-                    </p>
+                    )}
                   </div>
-                </div>
-
-                <div
-                  style={{
-                    height: "170px",
-                    width: "94%",
-                    background: "#F5F5F5",
-                    border: "1px solid #000",
-                    marginLeft: "12px",
-                    borderRadius: "5px",
-                    marginTop: "20%",
-                  }}
-                >
-                  <h5 style={{ marginLeft: "-100px", marginTop: "3px" }}>
-                    <u>Amenities & Other Preference </u>
-                  </h5>
-
-                  <div
-                    className="grid"
-                    style={{
-                      display: "flex",
-                      flexWrap: "wrap",
-                      padding: "0 6%",
-                      width: "100%",
-                      marginTop: "-18px",
-                    }}
-                  >
-                    {Object.entries(booleanValues).map(([key, value]) => {
-                      if (value === true) {
-                        const imageSources = {
-                          gatedSecurity: gatedSecurity,
-                          powerBackup: powerBackup,
-                          groceryStore: groceryStore,
-                          swimmingPool: swimmingPool,
-                          gym: gym,
-                          clubHouse: clubHouse,
-                          AirCondition: ac,
-                          carParking: carParking,
-                          bikeParking: bikeParking,
-                          nonVeg: nonVeg,
-                          bathroom: bathroom,
-                        };
-                        // Use the key to dynamically select the image source
-                        const imageSrc = imageSources[key]; // You can set a default image source if needed
-
-                        // return <li key={key}>{key}</li>;
-                        return (
-                          <div
-                            className=""
-                            style={{ width: "60px", padding: "3%" }}
-                          >
-                            <img
-                              src={imageSrc}
-                              height={22}
-                              style={{ marginLeft: "10px" }}
-                            />{" "}
-                            <p style={{ fontSize: "10px" }}>
-                              {" "}
-                              {keyNames[key]}{" "}
-                            </p>{" "}
-                          </div>
-                        );
-                      }
-                      return null; // Skip false values
-                    })}
+                  {/* rent and ApartmentType */}
+                  <div className="pt-[1rem] grid grid-cols-2">
+                    {/* rent */}
+                    <div className="flex justify-start items-center">
+                      <HiCurrencyRupee className="text-[2rem]" />
+                      <span className="text-[1.3rem] font-bold px-[0.2rem]">
+                        {responseDataTenant.length !== 0 &&
+                          responseDataTenant[0].rent}
+                        /month
+                      </span>
+                    </div>
+                    {/* ApartmentType */}
+                    <div className="flex justify-center items-center">
+                      <div
+                        className="p-[0.5rem] flex justify-center items-center text-white rounded-[0.5rem]"
+                        style={{
+                          background: "rgba(59, 65, 61, 0.70)",
+                        }}
+                      >
+                        <HiMiniBuildingOffice className="text-[2.5rem]" />
+                        <span className="text-[0.9rem] font-bold px-[1rem]">
+                          {responseDataTenant.length !== 0 &&
+                            responseDataTenant[0].houseType}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-
-            ))}
-
-</div>
-
-
-            </>
-
-          )}
-
-          <div style={{ marginTop: "220px" }}> 
-          <h3 style={{ color: "#52796F" }}>Add Property to Board</h3>
-          <input
-            type="text"
-            value={searchValue}
-            onChange={(e) => handleSearch(e.target.value)}
-            placeholder="Search by property Name"
-          />
-          <PropertyComp  props={responseDataProperty} boardId={boardId} responseDataTenantData={responseDataTenantData} loading={loading} Id={tenantId} name={name} responseDataTenantBoard={responseDataTenantBoard} />
-          </div>
-
-          <Footer />
-        </div>
+              {/* second container */}
+              <div
+                className="py-[0.5rem] px-[1rem] my-[1rem]"
+                style={{
+                  background: "#F5F5F5",
+                  border: "1px solid #52796F",
+                  boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
+                }}
+              >
+                <p className="font-bold text-[1.2rem] pb-[1rem]">
+                  <u>Amenities & Other Preference</u>
+                </p>
+                <div className="grid grid-cols-3 gap-y-[1.5rem]">
+                  {Object.entries(booleanValues).map(([key, value]) => {
+                    if (value === true) {
+                      const iconSources = {
+                        gatedSecurity: <MdOutlineSecurity />,
+                        powerBackup: <MdPower />,
+                        groceryStore: <FaCartShopping />,
+                        swimmingPool: <BiSwim />,
+                        gym: <CgGym />,
+                        clubHouse: <MdOutlineSportsHandball />,
+                        AirCondition: <TbAirConditioning />,
+                        carParking: <RiParkingBoxFill />,
+                        bikeParking: <RiParkingBoxFill />,
+                        nonVeg: <GiRoastChicken />,
+                        bathroom: <FaBath />,
+                      };
+                      const iconSrc = iconSources[key];
+                      return (
+                        <div className="flex justify-center items-center flex-col">
+                          <p className="text-[2rem]">{iconSrc}</p>
+                          <p className="font-semibold text-center">
+                            {keyNames[key]}
+                          </p>
+                        </div>
+                      );
+                    }
+                  })}
+                  {/* <div>1</div>
+                  <div>2</div>
+                  <div>3</div>
+                  <div>4</div>
+                  <div>5</div>
+                  <div>6</div> */}
+                </div>
+              </div>
+            </div>
+            {/* CreateBoard - container */}
+            <div className="px-[1rem] py-[1rem]">
+              <p className="text-[#52796F] text-[2rem] font-semibold text-center pb-[0.5rem]">
+                Create Tenant Board
+              </p>
+              <div
+                className="flex justify-center items-center px-[1rem]
+      rounded-[0.5rem] "
+                style={{
+                  boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.2)",
+                }}
+              >
+                <input
+                  type="text"
+                  placeholder="Search by property Name"
+                  value={searchValue}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  style={{
+                    outline: "none",
+                    marginBottom: "0",
+                    boxShadow: "none",
+                  }}
+                />
+                <button className="flex justify-center items-center">
+                  <FaSearch className="text-[1.5rem]" />
+                </button>
+              </div>
+              <PropertyComp
+                props={responseDataProperty}
+                boardId={boardId}
+                responseDataTenantData={responseDataTenantData}
+                loading={loading}
+                Id={tenantId}
+                name={name}
+                responseDataTenantBoard={responseDataTenantBoard}
+              />
+            </div>
+          </>
+        )}
+        <Footer />
+        {/* <div className="mb-[1rem]" /> */}
+      </div>
       {/* </div> */}
     </>
   );

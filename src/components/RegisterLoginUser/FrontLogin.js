@@ -9,6 +9,7 @@ import logo from "../Assets/Images/Logo.png";
 import CommonBtn from "../CommonButton";
 import { FaRegEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
+import Modal from "react-modal";
 
 function FrontLogin() {
   //States
@@ -19,10 +20,28 @@ function FrontLogin() {
   // const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [isModelVisible, setIsModelVisible] = useState(false);
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
+
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      border: "2px solid #9DB5B2",
+      borderRadius: "0.5rem",
+    },
+  };
+
+  // Modal.setAppElement("#yourAppElement");
+
+  let subtitle;
 
   // const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -153,8 +172,8 @@ function FrontLogin() {
               className="input-field"
               required
             ></input>
-            <div className="flex justify-center items-center text-[1.3rem]" s>
-              <button
+            <div className="flex px-[1rem] items-center text-[1.3rem] pb-[1rem]">
+              {/* <button
                 className="flex justify-center items-center"
                 onClick={handleTogglePassword}
               >
@@ -169,7 +188,21 @@ function FrontLogin() {
                     <p className="text-left font-bold px-[0.5rem]">Show</p>
                   </div>
                 )}
-              </button>
+              </button> */}
+              <div className="px-[0.5rem] flex justify-center items-center">
+                <input
+                  type="checkbox"
+                  style={{
+                    zoom: 2,
+                    margin: "0.1rem 0 0 0 ",
+                  }}
+                  checked={showPassword}
+                  onChange={handleTogglePassword}
+                />
+              </div>
+              <div className="flex justify-center items-center">
+                <p>{showPassword ? "Hide Password" : "Show Password"}</p>
+              </div>
             </div>
             {/* Submit */}
             <Link to="/Resetpassword">
@@ -187,6 +220,23 @@ function FrontLogin() {
           <br />
         </div>
       </div>
+
+      {/* Success & error model */}
+      {/* <button
+        onClick={() => {
+          setIsModelVisible(true);
+        }}
+      >
+        Open Model
+      </button>
+      <Modal
+        isOpen={isModelVisible}
+  
+        style={customStyles}
+      >
+     
+        <div className="px-[1rem]">hello</div>
+      </Modal> */}
     </>
   );
 }
