@@ -65,19 +65,17 @@ function AvailablePropertyrental() {
 
   return (
     <>
+      <CommonHeader title="Available Properties Rentals" color="#52796F" />
       <div
-        className="form"
+        className=""
         style={{
-          borderRadius: "16px",
-          marginTop: "10%",
+          // borderRadius: "16px",
+          // marginTop: "10%",
           backgroundRepeat: "no-repeat",
-          backgroundImage: `url(${oneBg})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "100% 100%",
         }}
       >
-        <CommonHeader title="Available Properties Rentals" color="#52796F" />
-
         <AvailablePropertyComp props={responsePendingProperties} name={name} />
         <Footer />
       </div>

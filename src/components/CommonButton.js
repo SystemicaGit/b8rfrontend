@@ -21,7 +21,12 @@ function CommonButton(props) {
         //   height: isHeight ? '80px' : '',
         // }}
       >
-        <button className="flex bg-[#52796F] text-white justify-center items-center border-[#daf0ee] border-2 rounded-[0.5rem] px-[0.6rem] py-[0.2rem] commonbtn">
+        <button
+          className="flex text-white justify-center items-center border-[#daf0ee] border-2 rounded-[0.5rem] px-[0.6rem] py-[0.2rem] commonbtn"
+          style={{
+            background: bgColor ? `${bgColor}` : "#52796f",
+          }}
+        >
           {/* <button
             className=""
             style={{
@@ -33,7 +38,7 @@ function CommonButton(props) {
           </button> */}
           <div className="text-[1.2rem]">{title}</div>
           <div>
-          <IoIosArrowDropright className="text-[1.4rem] lg:text-[2rem] text-white ml-[0.5rem] "/>
+            <IoIosArrowDropright className="text-[1.4rem] lg:text-[2rem] text-white ml-[0.5rem] " />
           </div>
         </button>
         {/* <div className="">

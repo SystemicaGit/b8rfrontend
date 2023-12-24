@@ -12,17 +12,22 @@ import CreateB from "../../Assets/Images/BoardCreation/CreateB.png";
 import loadingGif from "../../Assets/Images/loading.gif";
 import PropertyComp from "./PropertyComp";
 import ViewBoardComp from "./ViewBoardComp";
+import { FcBusinessman } from "react-icons/fc";
+import { ImCross } from "react-icons/im";
 
 function PropertyViewBoard() {
   const queryParameters = new URLSearchParams(window.location.search);
   const name = queryParameters.get("name");
   const boardId = queryParameters.get("boardId");
   const tenantId = queryParameters.get("tenantId");
+  const addedItemsId = queryParameters.get("addedItemsId");
   console.log(boardId);
   console.log(tenantId);
+  console.log("addedPropetyId -> " + addedItemsId);
 
   const [responseDataBoard, setResponseDataBoard] = useState([]);
   const [responseDataProperty, setResponseDataProperty] = useState([]);
+  const [addedProperty, setAddedProperty] = useState([]);
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
 
@@ -38,45 +43,63 @@ function PropertyViewBoard() {
 
   useEffect(() => {
     const fetchBoardDetails = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get(
-          `https://b8rliving.com/board/${boardId}`,
-          axiosConfig
-        );
-
-        // const responseData = response.data.data.tenant.tenantDetails;
-        const responseDataBoardData = response.data.data.board;
-        const responseDataPropertiesData = response.data.data.board.propertyId;
-
-        if (responseDataPropertiesData) {
-          // Filter properties where 'imagesApproved' is true
-          const filteredProperties = responseDataPropertiesData.filter(
-            (property) => property.status == "Verified" && property.closeListingDetails == null
+      if (boardId) {
+        setLoading(true);
+        try {
+          const response = await axios.get(
+            `https://b8rliving.com/board/${boardId}`,
+            axiosConfig
           );
-        setResponseDataProperty(filteredProperties); // Set All properties added to board
 
+          // const responseData = response.data.data.tenant.tenantDetails;
+          const responseDataBoardData = response.data.data.board;
+          const responseDataPropertiesData =
+            response.data.data.board.propertyId;
+
+          if (responseDataPropertiesData) {
+            // Filter properties where 'imagesApproved' is true
+            const filteredProperties = responseDataPropertiesData.filter(
+              (property) =>
+                property.status == "Verified" &&
+                property.closeListingDetails == null
+            );
+            setResponseDataProperty(filteredProperties); // Set All properties added to board
+          }
+
+          console.log(responseDataBoardData);
+
+          // Update the formData state with the response data
+          setResponseDataBoard(responseDataBoardData);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        } finally {
+          setLoading(false); // Set loading to false when the request is complete
         }
-
-        console.log(responseDataBoardData);
-
-        // Update the formData state with the response data
-        setResponseDataBoard(responseDataBoardData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false); // Set loading to false when the request is complete
       }
     };
+
     fetchBoardDetails(); // Call the fetch function
   }, [boardId]);
 
-  const finalizeBoard =  () => {
+  // const fetchAddedProperty = () => {
+  //   if (addedProp.length !== 0) {
+  //     setResponseDataProperty(...responseDataProperty, addedProp);
+  //   }
+  // };
 
+  // useEffect(() => {
+  //   fetchAddedProperty();
+  // }, []);
+
+  const finalizeBoard = () => {
     console.log("Finalize");
 
     if (typeof window !== "undefined") {
-      var path = window.location.origin + "/OTPScreen?boardId=" + boardId + "&sharing=true";
+      var path =
+        window.location.origin +
+        "/OTPScreen?boardId=" +
+        boardId +
+        "&sharing=true";
       console.log(path);
 
       try {
@@ -104,10 +127,10 @@ function PropertyViewBoard() {
   return (
     <>
       <div
-        className="form"
+        className=""
         style={{
-          borderRadius: "16px",
-          marginTop: "10%",
+          // borderRadius: "16px",
+          // marginTop: "10%",
           backgroundRepeat: "no-repeat",
           backgroundImage: `url(${backgroundImg})`,
           backgroundRepeat: "no-repeat",
@@ -117,10 +140,11 @@ function PropertyViewBoard() {
         <CommonHeader title="View Board" color="#52796F" />
 
         <div style={{ Display: "flex" }}>
-          <div>
-            <h2>
+          <div className="flex justify-center items-center flex-col">
+            <FcBusinessman className="text-[3rem]" />
+            <p className="text-[1.5rem] font-bold text-center">
               <u>{name}</u>
-            </h2>
+            </p>
           </div>
 
           <ViewBoardComp
@@ -130,23 +154,41 @@ function PropertyViewBoard() {
             responseDataBoard={responseDataBoard}
           />
 
-          <div style={{ display: "flex", marginTop: "10%", padding:"1%" }}>
+          <div className="flex justify-center items-center py-[1rem] gap-x-[1rem]">
+            <Link
+              to={`/CreateBoard?tenantId=${tenantId}&name=${name}&boardId=${boardId}`}
+            >
+              <p>
+                <CommonBtn
+                  title="Add More"
+                  margin="0px"
+                  marginRight="0px"
+                  width="120px"
+                />
+              </p>
+            </Link>
 
-         <Link to={`/CreateBoard?tenantId=${tenantId}&name=${name}&boardId=${boardId}`}><p><CommonBtn title="Add More" margin="0px" marginRight="0px" width="120px" /></p></Link>
-          
-          <p onClick={finalizeBoard} > <CommonBtn
-              onClick={finalizeBoard}
-              title="Finalize Board"
-              margin="160px"
-            />
-          </p>
+            <p onClick={finalizeBoard}>
+              <CommonBtn
+                onClick={finalizeBoard}
+                title="Finalize Board"
+                margin="160px"
+              />
+            </p>
           </div>
-
-
-          <Link to={`/DeactivateTenant?tenantId=${boardId}&name=${name} `}>
-            <img src={deactivateImg} style={{ marginTop: "100px" }} />
-          </Link>
-          
+          <div className="flex justify-center items-center py-[2rem]">
+            <Link
+              to={`/DeactivateTenant?tenantId=${boardId}&name=${name} `}
+              className="bg-[#FBF1F1] flex justify-center items-center py-[1rem] flex-col rounded-[1rem]"
+              style={{
+                border: "1px solid #E13018",
+              }}
+            >
+              <ImCross className="text-[#CC3333] text-[3rem] my-[1rem]" />
+              <p className="text-[1.5rem] font-bold px-[1rem]">Deactivate</p>
+              <p className="text-[1.5rem] font-bold px-[1rem]">Tenant</p>
+            </Link>
+          </div>
         </div>
         <Footer />
       </div>

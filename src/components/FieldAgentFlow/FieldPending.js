@@ -54,10 +54,16 @@ function FieldPending() {
     fetchPosts();
   }, []);
 
+  // console.log(responsePendingProperties);
+
   // This useEffect will log the updated state after it has been set.
   useEffect(() => {
     console.log(responsePendingProperties);
   }, [responsePendingProperties]);
+
+  // const filterNotVerified = () => {
+
+  // }
 
   const handleSubmit = (event) => {
     event.preventDefault();

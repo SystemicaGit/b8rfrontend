@@ -83,20 +83,38 @@ function PendingComp({ properties }) {
               {/* buttons */}
               <div className="flex items-center justify-between gap-x-2 pt-[0.5rem]">
                 {/* left-btn */}
-                <button className="flex justify-center items-center flex-col">
-                  <RiErrorWarningFill className="text-[1.3rem] text-[#AA223C]" />
-                  {/* <FaCheckToSlot className="text-[1.3rem] text-[#199D6D]" /> */}
-                  <p className="bg-[#FCECEF] px-[0.5rem] py-[0.2rem] font-bold text-[#AA223C] rounded-[0.5rem]">
-                    Information validation
-                  </p>
-                </button>
-                {/* right-btn */}
-                <button className="flex justify-center items-center flex-col">
-                  <RiErrorWarningFill className="text-[1.3rem] text-[#AA223C]" />
-                  <p className="bg-[#FCECEF] px-[0.5rem] py-[0.2rem] font-bold text-[#AA223C] rounded-[0.5rem]">
-                    Photo Upload
-                  </p>
-                </button>
+                {property.propertyId.fieldAgentStatus === "Pending" ? (
+                  <button className="flex justify-center items-center flex-col">
+                    <RiErrorWarningFill className="text-[1.3rem] text-[#AA223C]" />
+                    {/* <FaCheckToSlot className="text-[1.3rem] text-[#199D6D]" /> */}
+                    <p className="bg-[#FCECEF] px-[0.5rem] py-[0.2rem] font-bold text-[#AA223C] rounded-[0.5rem]">
+                      Information validation
+                    </p>
+                  </button>
+                ) : (
+                  <button className="flex justify-center items-center flex-col">
+                    {/* <RiErrorWarningFill className="text-[1.3rem] text-[#AA223C]" /> */}
+                    <FaCheckToSlot className="text-[1.3rem] text-[#199D6D]" />
+                    <p className="bg-[#F0FBF8] px-[0.5rem] py-[0.2rem] font-bold text-[#52796F] rounded-[0.5rem]">
+                      Information validation
+                    </p>
+                  </button>
+                )}
+                {property.propertyId.fieldAgentStatus === "Completed" ? (
+                  <button className="flex justify-center items-center flex-col">
+                    <FaCheckToSlot className="text-[1.3rem] text-[#199D6D]" />
+                    <p className="bg-[#F0FBF8] px-[0.5rem] py-[0.2rem] font-bold text-[#52796F] rounded-[0.5rem]">
+                      Photo Upload
+                    </p>
+                  </button>
+                ) : (
+                  <button className="flex justify-center items-center flex-col">
+                    <RiErrorWarningFill className="text-[1.3rem] text-[#AA223C]" />
+                    <p className="bg-[#FCECEF] px-[0.5rem] py-[0.2rem] font-bold text-[#AA223C] rounded-[0.5rem]">
+                      Photo Upload
+                    </p>
+                  </button>
+                )}
               </div>
               {/* details */}
               <div className="pt-[1rem]">
@@ -122,13 +140,23 @@ function PendingComp({ properties }) {
             </div>
           </div>
           {/* right-side */}
-          <Link
-            to={`/FieldAgentVerifyProperty?propertyId=${property.propertyId._id}`}
-            className="bg-[#E8E7E7] mx-[0.4rem] rounded-[0.5rem] flex flex-col justify-center items-center text-[#5D6560] px-[0.5rem]"
-          >
-            <IoIosArrowDroprightCircle className="text-[1.8rem]" />
-            <p className="text-[0.8rem] font-bold">Check</p>
-          </Link>
+          {property.propertyId.fieldAgentStatus === "DetailsCompleted" ? (
+            <Link
+              to={`/UploadPhotos?propertyId=${property.propertyId._id}`}
+              className="bg-[#E8E7E7] mx-[0.4rem] rounded-[0.5rem] flex flex-col justify-center items-center text-[#5D6560] px-[0.5rem]"
+            >
+              <IoIosArrowDroprightCircle className="text-[1.8rem]" />
+              <p className="text-[0.8rem] font-bold">Check</p>
+            </Link>
+          ) : (
+            <Link
+              to={`/FieldAgentVerifyProperty?propertyId=${property.propertyId._id}`}
+              className="bg-[#E8E7E7] mx-[0.4rem] rounded-[0.5rem] flex flex-col justify-center items-center text-[#5D6560] px-[0.5rem]"
+            >
+              <IoIosArrowDroprightCircle className="text-[1.8rem]" />
+              <p className="text-[0.8rem] font-bold">Check</p>
+            </Link>
+          )}
         </div>
       ))}
     </>

@@ -21,6 +21,8 @@ import CommonBtn from "../CommonButton";
 import CommonTopButton from "../CommonTopButton";
 import BackButton from "../CommonButtonBack";
 import Deactivateimg from "../Assets/Deactivate.png";
+import { FcBusinessman } from "react-icons/fc";
+import { ImCross } from "react-icons/im";
 
 function DeactivateTenant() {
   const queryParameters = new URLSearchParams(window.location.search);
@@ -69,7 +71,7 @@ function DeactivateTenant() {
 
   // const [deactivateStatus, setDeactivateStatus] = useState("Rented From B8R");
   const [deactivateStatus, setDeactivateStatus] = useState({
-    deactivateStatus: ""
+    deactivateStatus: "",
   });
 
   console.log(deactivateStatus);
@@ -108,10 +110,10 @@ function DeactivateTenant() {
   return (
     <>
       <div
-        className="form"
+        className=""
         style={{
-          borderRadius: "16px",
-          marginTop: "10%",
+          // borderRadius: "16px",
+          // marginTop: "10%",
           backgroundRepeat: "no-repeat",
           backgroundImage: `url(${PVbackground})`,
           backgroundRepeat: "no-repeat",
@@ -121,89 +123,96 @@ function DeactivateTenant() {
         <CommonHeader title="Deactivate Tenant" color="#52796F" />
 
         {/* -----------------------------------------------2nd div----------------------------------------------------- */}
-        <div
-          className="containered form"
-          style={{
-            height: "250px",
-            borderRadius: "15px",
-            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-          }}
-        >
+
+        <div className="flex justify-center items-center flex-col py-[1rem]">
+          <FcBusinessman className="text-[3rem]" />
+          <p className="text-[1.5rem] font-bold text-center">
+            <u>Yash L</u>
+          </p>
+        </div>
+        {/* container */}
+        <div className="px-[1rem]">
           <div
+            className="bg-[#FFFFFF] rounded-[1rem] p-[1rem] flex justify-center items-center flex-col"
             style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-around",
-              marginTop: "10px",
-              whiteSpace: "nowrap",
+              border: "1px solid #DAF0EE",
+              boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
             }}
           >
-            <h4>
-              <b>Are you deactivating the customer?</b>
-            </h4>
-            <div>
-            {/* [Rented From B8R, Rented Externally, Does not need anymore, Not responding, 0, 1, 2, 3] */}
-              <CommonTopButton
-                bgColor={isActive1 ? "#52796F" : "#D2D7D6"}
-                borderColor="#DAF0EE"
-                color={isActive1 ? "#FFFFFF" : "#77A8A4"}
-                text="Rented From B8R"
-                onclicked={() => {
-                  setDeactivateStatus("Rented From B8R");
-                  handleButtonClick(1);
-                }}
-              />
+            <p className="text-[1.1rem] font-bold text-center">
+              Are are you deactivating the customer?
+            </p>
+            <div className="gap-y-[1rem] grid grid-cols-1 py-[1rem]">
+              <div>
+                <CommonTopButton
+                  bgColor={isActive1 ? "#52796F" : "#D2D7D6"}
+                  borderColor="#DAF0EE"
+                  color={isActive1 ? "#FFFFFF" : "#77A8A4"}
+                  text="Rented From B8R"
+                  onclicked={() => {
+                    setDeactivateStatus("Rented From B8R");
+                    handleButtonClick(1);
+                  }}
+                />
+              </div>
+              <div>
+                <CommonTopButton
+                  bgColor={isActive2 ? "#52796F" : "#D2D7D6"}
+                  borderColor="#DAF0EE"
+                  color={isActive2 ? "#FFFFFF" : "#77A8A4"}
+                  text="Rented Externally"
+                  onclicked={() => {
+                    setDeactivateStatus("Rented Externally");
+                    handleButtonClick(2);
+                  }}
+                />
+              </div>
+              <div>
+                <CommonTopButton
+                  bgColor={isActive3 ? "#52796F" : "#D2D7D6"}
+                  borderColor="#DAF0EE"
+                  color={isActive3 ? "#FFFFFF" : "#77A8A4"}
+                  text="Does not need anymore"
+                  onclicked={() => {
+                    setDeactivateStatus("Does not need anymore");
+                    handleButtonClick(3);
+                  }}
+                />
+              </div>
+              <div>
+                <CommonTopButton
+                  bgColor={isActive4 ? "#52796F" : "#D2D7D6"}
+                  borderColor="#DAF0EE"
+                  color={isActive4 ? "#FFFFFF" : "#77A8A4"}
+                  text="Not responding"
+                  onclicked={() => {
+                    setDeactivateStatus("Not responding");
+                    handleButtonClick(4);
+                  }}
+                />
+              </div>
             </div>
-            <div style={{ marginTop: "20px" }}>
-              <CommonTopButton
-                bgColor={isActive2 ? "#52796F" : "#D2D7D6"}
-                borderColor="#DAF0EE"
-                color={isActive2 ? "#FFFFFF" : "#77A8A4"}
-                text="Rented Externally"
-                onclicked={() => {
-                  setDeactivateStatus("Rented Externally");
-                  handleButtonClick(2);
-                }}
-              />
-            </div>
-            <div style={{ marginTop: "20px" }}>
-              <CommonTopButton
-                bgColor={isActive3 ? "#52796F" : "#D2D7D6"}
-                borderColor="#DAF0EE"
-                color={isActive3 ? "#FFFFFF" : "#77A8A4"}
-                text="Does not need anymore"
-                onclicked={() => {
-                  setDeactivateStatus("Does not need anymore");
-                  handleButtonClick(3);
-                }}
-              />
-            </div>
-            <div style={{ marginTop: "20px" }}>
-              <CommonTopButton
-                bgColor={isActive4 ? "#52796F" : "#D2D7D6"}
-                borderColor="#DAF0EE"
-                color={isActive4 ? "#FFFFFF" : "#77A8A4"}
-                text="Not responding"
-                onclicked={() => {
-                  setDeactivateStatus("Not responding");
-                  handleButtonClick(4);
-                }}
-              />
-            </div>
-
-            {/* </div> */}
-            {/* for title and text */}
           </div>
         </div>
-
         {/* -----------------------------------------------2nd div----------------------------------------------------- */}
 
-        <div style={{ display: "flex", flexDirection: "row" }}>
-          <img
+        <div className="flex justify-center items-center py-[2rem]">
+          {/* <img
             src={Deactivateimg}
             style={{ marginLeft: "130px" }}
             onClick={handleSubmit}
-          />
+          /> */}
+          <button
+            className="bg-[#FBF1F1] flex justify-center items-center py-[1rem] flex-col rounded-[1rem]"
+            style={{
+              border: "1px solid #E13018",
+            }}
+            onClick={handleSubmit}
+          >
+            <ImCross className="text-[#CC3333] text-[3rem] my-[1rem]" />
+            <p className="text-[1.5rem] font-bold px-[1rem]">Deactivate</p>
+            <p className="text-[1.5rem] font-bold px-[1rem]">Tenant</p>
+          </button>
         </div>
 
         <Footer />
