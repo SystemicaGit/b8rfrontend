@@ -7,6 +7,8 @@ import Footer from "../Footer";
 import vector from "../Assets/Images/RegisterLoginUser/vector.png";
 import logo from "../Assets/Images/Logo.png";
 import CommonBtn from "../CommonButton";
+import { FaRegEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa6";
 
 function FrontLogin() {
   //States
@@ -15,7 +17,12 @@ function FrontLogin() {
     password: "",
   });
   // const [data, setData] = useState(null);
-	const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   // const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -50,31 +57,32 @@ function FrontLogin() {
         const phone = response.data.data.agent.phone;
         const inviteCode = response.data.data.agent.inviteCode;
         console.log(inviteCode.substring(0, 2));
+        const usertype = inviteCode.substring(0, 2);
 
         //set JWT token to local
         // if (typeof localStorage !== 'undefined') {
-          // localStorage is available
-          // Your code using localStorage goes here
-          localStorage.setItem("token", token);
-          localStorage.setItem("username", name);
-          localStorage.setItem("phone", phone);
+        // localStorage is available
+        // Your code using localStorage goes here
+        localStorage.setItem("token", token);
+        localStorage.setItem("username", name);
+        localStorage.setItem("phone", phone);
+        localStorage.setItem("usertype", usertype);
         // } else {
         //   // localStorage is not available or disabled
         //   // Handle this situation gracefully
         //    alert("Localstorage");
         // }
 
-
         //set token to axios common header
         //  setAuthToken(token);
 
         alert("You're Logged In");
         //redirect user to Dashboard
-        if(inviteCode.substring(0, 2) == "FA"){
+        if (inviteCode.substring(0, 2) == "FA") {
           window.location.href = "/FieldAgentHomeN";
         }
 
-        if(inviteCode.substring(0, 2) == "PA"){
+        if (inviteCode.substring(0, 2) == "PA") {
           window.location.href = "/dashboard";
         }
       })
@@ -107,17 +115,17 @@ function FrontLogin() {
             backgroundRepeat: "no-repeat",
             backgroundSize: "100% 100%",
             width: "100%",
-            
           }}
         >
-          <div className="MainLogoDesign">
-            <Link to="/dashboard">
-              <img src={logo} height={40} alt="fireSpot" />
-            </Link>
+          <div className="w-[20vw] m-[0.5rem]">
+            {/* <Link to="/dashboard">
+            </Link> */}
+            <img src={logo} height={40} alt="fireSpot" />
           </div>
-          <h3 className="Htitle">Agent Sign In</h3>
+          {/* <h3 className="Htitle">Agent Sign In</h3> */}
+          <div className="font-bold text-[1.3rem] py-[1rem]">Agent Sign In</div>
 
-          <form onSubmit={handleSubmit} className="login-form">
+          <form onSubmit={handleSubmit} className="login-form h-[60vh]">
             {/* phone */}
             <label htmlFor="phoneNumber" className="label-phone">
               Mobile Number
@@ -137,7 +145,7 @@ function FrontLogin() {
               Enter Password
             </label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               value={formData.password}
               onChange={handleChange}
@@ -145,7 +153,24 @@ function FrontLogin() {
               className="input-field"
               required
             ></input>
-
+            <div className="flex justify-center items-center text-[1.3rem]" s>
+              <button
+                className="flex justify-center items-center"
+                onClick={handleTogglePassword}
+              >
+                {showPassword ? (
+                  <div className="flex justify-center items-center">
+                    <FaEyeSlash />
+                    <p className="text-left font-bold px-[0.5rem]">Hide</p>
+                  </div>
+                ) : (
+                  <div className="flex justify-center items-center">
+                    <FaRegEye />
+                    <p className="text-left font-bold px-[0.5rem]">Show</p>
+                  </div>
+                )}
+              </button>
+            </div>
             {/* Submit */}
             <Link to="/Resetpassword">
               <p className="message">
@@ -154,10 +179,11 @@ function FrontLogin() {
             </Link>
 
             {/* <button className="CommonnButton">Sign In <img className="vectorSignIn" src={vector} alt="fireSpot"/></button> */}
+            <div className="flex justify-center items-center py-[1rem]">
               <CommonBtn title="Sign In" margin="25%" fontweight="bolder" />
-
-            <Footer />
+            </div>
           </form>
+          <Footer />
           <br />
         </div>
       </div>
