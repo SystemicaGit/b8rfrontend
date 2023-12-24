@@ -208,6 +208,7 @@ function Dashboard() {
   var pendingCounting = 0;
   var activeCounting = 0;
   const number = CountTenants.Total - CountTenants.Deactivate;
+  const AvailablePropertyNumber = CountProperties.Total - CountProperties.Closed;
   responseProperties.map((element) => {
     // console.log(element.status);
     if (
@@ -254,6 +255,7 @@ function Dashboard() {
           <div className="flex justify-center items-center text-[#52796F]">
             <FaHouse className="text-[1.7rem]" />
             <p className="px-[0.6rem] text-[1.4rem] font-bold">Listing</p>
+
           </div>
           {/* tenant */}
           <div className="flex justify-center items-center">

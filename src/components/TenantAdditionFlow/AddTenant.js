@@ -352,8 +352,10 @@ function AddTenant() {
               <div className="flex justify-center items-center py-[1rem]">
                 {/* <div onClick={handleClick}>
                   <BackButton title="Back" margin="" fontweight="bolder" />
-                </div> */}
-                <CommonBtn title="Submit" margin="50%" fontweight="bolder" />
+
+                </div>
+                <CommonBtn title="Next" margin="50%" fontweight="bolder" />
+
               </div>
             </form>
             <Footer />
