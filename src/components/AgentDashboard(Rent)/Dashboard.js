@@ -204,7 +204,7 @@ function Dashboard() {
   var pendingCounting = 0;
   var activeCounting = 0;
   const number = CountTenants.Total - CountTenants.Deactivate;
-  const AvailablePropertyNumner = CountProperties.Total - CountProperties.Closed;
+  const AvailablePropertyNumber = CountProperties.Total - CountProperties.Closed;
   responseProperties.map((element) => {
     // console.log(element.status);
     if (
@@ -272,7 +272,7 @@ function Dashboard() {
                 <DashComponent
                   img={AvailaibleProperty}
                   title="Available Properties"
-                  number={AvailablePropertyNumner}
+                  number={AvailablePropertyNumber}
                 />
               </Link>
               <div style={{ marginTop: "5px" }}></div>
