@@ -297,7 +297,12 @@ function SignUp() {
                   <img src={bgm} alt="headImage" />
                 </div>
 
-                <div className="flex flex-col bg-[#f0fbf8] justify-center items-center py-[2rem] mx-[2rem] my-[1rem] rounded-[0.5rem]">
+                <div
+                  className="flex flex-col bg-[#f0fbf8] justify-center items-center py-[2rem] mx-[2rem] my-[1rem] rounded-[0.5rem]"
+                  style={{
+                    boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
+                  }}
+                >
                   <div className="md:text-[2rem] text-[1.6rem] font-bold py-[1rem]">
                     {/* <p className=""></p> */}
                     Already a member?
@@ -420,9 +425,8 @@ function SignUp() {
                     // color="#DAF0EE"
                   />
                 </div>
-
               </form>
-                <Footer />
+              <Footer />
               <br />
             </div>
           </div>
