@@ -1,5 +1,6 @@
-import React, { Component, useState, useEffect } from "react";
+//--------------------------PROPERTY PENDING VERIFICATION---------------------------------//
 
+import React, { Component, useState, useEffect } from "react";
 import Dashboardcss from "../Dashboard.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -40,7 +41,7 @@ function My_propertyPV() {
       Authorization: `Basic ${token}`,
     },
   };
-  
+
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true);
@@ -50,23 +51,26 @@ function My_propertyPV() {
           console.log(response.data.data);
           var propertiesData = response.data.data.properties;
           // Filter out properties where propertyDetails.purposeSale is true
-          
-            // Filter out properties where propertyDetails.purposeSale is true
-            const underReviewProperties = propertiesData.filter((property) => {
-              return property.fieldAgentStatus === "Completed" && property.status === "Pending";
-            });
-  
-            const noImageProperties = propertiesData.filter((property) => {
+
+          // Filter out properties where propertyDetails.purposeSale is true
+          const underReviewProperties = propertiesData.filter((property) => {
             return (
-              property.images.length == 0 && (property.fieldAgentStatus === "DetailsCompleted" || property.fieldAgentStatus === "Unassigned")
+              property.fieldAgentStatus === "Completed" &&
+              property.status === "Pending"
             );
           });
 
-        
+          const noImageProperties = propertiesData.filter((property) => {
+            return (
+              property.images.length == 0 &&
+              (property.fieldAgentStatus === "DetailsCompleted" ||
+                property.fieldAgentStatus === "Unassigned")
+            );
+          });
+
           // var myArrayPropertyCount = response.data.data.properties;
           setresponseProperty(underReviewProperties);
           setresponseNoImageProperty(noImageProperties);
-
         })
         .catch((error) => {
           console.log(error);
@@ -91,10 +95,10 @@ function My_propertyPV() {
   return (
     <>
       <div
-        className="form"
+        className=""
         style={{
-          borderRadius: "16px",
-          marginTop: "10%",
+          // borderRadius: "16px",
+          // marginTop: "10%",
           backgroundRepeat: "no-repeat",
           backgroundImage: `url(${PVbackground})`,
           backgroundRepeat: "no-repeat",
@@ -105,54 +109,62 @@ function My_propertyPV() {
         <CommonHeader title="My Properties" color="#52796F" />
 
         {/* -------------------------------button---------------------------------------------- */}
-        <div>
-          <CommonTopButton
-            bgColor="#52796F"
-            borderColor="#DAF0EE"
-            color="#DAF0EE"
-            text="Pending Verification"
-            onClick={() => updateFilterConditions("Pending", false)}
-            //        onclicked={handlePageAvailable}
-          />
-          <Link to="/My_PropertyYTS">
+        <div className="px-[0.5rem] py-[1rem] pt-[2rem]">
+          <div className="grid grid-cols-2 gap-x-[0.5rem]">
             <CommonTopButton
-              bgColor="#D2D7D6"
+              bgColor="#52796F"
               borderColor="#DAF0EE"
-              color="#77A8A4"
-              text="Yet to Share "
-              onClick={() => updateFilterConditions("Completed", true)}
+              color="#DAF0EE"
+              text="Pending Verification"
+              onClick={() => updateFilterConditions("Pending", false)}
+              //        onclicked={handlePageAvailable}
             />
-          </Link>
+            <Link to="/My_PropertyYTS">
+              <CommonTopButton
+                bgColor="#D2D7D6"
+                borderColor="#DAF0EE"
+                color="#77A8A4"
+                text="Yet to Share "
+                onClick={() => updateFilterConditions("Completed", true)}
+              />
+            </Link>
+          </div>
         </div>
-        <div style={{ marginTop: "10px" }}>
-          <Link to="/My_PropertyS">
-            <CommonTopButton
-              bgColor="#D2D7D6"
-              borderColor="#DAF0EE"
-              color="#77A8A4"
-              text="Shortlisted"
-              //   onClick={() => updateFieldAgentStatus('verified')}
-            />
-          </Link>
-          <Link to="/My_PropertySNA">
-            <CommonTopButton
-              bgColor="#D2D7D6"
-              borderColor="#DAF0EE"
-              color="#77A8A4"
-              text="Shared, No Action "
-              //   onClick={() => updateFieldAgentStatus('verified')}
-            />
-          </Link>
+        <div className="px-[0.5rem]">
+          <div className="grid grid-cols-2 gap-x-[0.5rem]">
+            <Link to="/My_PropertyS">
+              <CommonTopButton
+                bgColor="#D2D7D6"
+                borderColor="#DAF0EE"
+                color="#77A8A4"
+                text="Shortlisted"
+                //   onClick={() => updateFieldAgentStatus('verified')}
+              />
+            </Link>
+            <Link to="/My_PropertySNA">
+              <CommonTopButton
+                bgColor="#D2D7D6"
+                borderColor="#DAF0EE"
+                color="#77A8A4"
+                text="Shared, No Action "
+                //   onClick={() => updateFieldAgentStatus('verified')}
+              />
+            </Link>
+          </div>
         </div>
-        {/* -------------------------------button---------------------------------------------- */}
-
+        {/* -------------------------------button ends---------------------------------------------- */}
         {/* BODY */}
-        <div style={{ textAlign: "left", marginTop: "40px" }}>
-          <text>
+        <div className="px-[1rem] py-[2rem] text-[1.2rem]">
+          {/* <text>
             Hey {name},<br />
             Properties shown here are <b>NOT VERIFIED</b>. Correct wherever
             necessary to get them ready to share
-          </text>
+          </text> */}
+          <p className="pb-[0.5rem] font-bold">Hey {name} ,</p>
+          <p>
+            Properties shown here are <b>NOT VERIFIED</b>. Correct wherever
+            necessary to get them ready to share
+          </p>
         </div>
         {/* --------------------------------------first tab-------------------------------------------- */}
         <ListingComp2
