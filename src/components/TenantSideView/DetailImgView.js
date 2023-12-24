@@ -38,18 +38,22 @@ import house_Config from "../Assets/Images/AgentDashboard/House_Config.png";
 import floors from "../Assets/Images/AgentDashboard/floors.png";
 import key from "../Assets/Images/AgentDashboard/key.png";
 import { useNavigate } from "react-router-dom";
-
+import { useBoardState } from "./boardState";
+import { globalTenantId } from "./TenantSideView";
 function DetailImgView() {
   const queryParameters = new URLSearchParams(window.location.search);
   const boardId = queryParameters.get("boardId");
   const propertyId = queryParameters.get("propertyId");
+  const propertyIndex =  queryParameters.get("propertyIndex");
   console.log(boardId);
 
-  const [isClick, setClick] = useState(false);
+  
   const [responseDataProperty, setResponseDataProperty] = useState([]);
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
   const [booleanValues, setBooleanValues] = useState([]); // Store boolean values here
+  const { isClickArray, setIsClickArray } = useBoardState();
+  const[shortListStatus, setshortListStatus ] = useState(false)
 
   let axiosConfig = {
     headers: {
@@ -115,18 +119,69 @@ function DetailImgView() {
   // console.log(setBooleanValues);
 
   const keyNames = {
-    // carParking: "Car Parking",
-    // bikeParking: "Bike Parking",
+     carParking: "Car Parking",
+     bikeParking: "Bike Parking",
     gatedSecurity: "Gated Security",
     powerBackup: "Power Backup",
     groceryStore: "Grocery Store",
-    // swimmingPool: "Swimming Pool",
-    // gym: "Gym",
+     swimmingPool: "Swimming Pool",
+     gym: "Gym",
     clubHouse: "Club House",
-    // AirCondition: "Air Conditioning",
-    // nonVeg: "Non-Veg",
-    // bathroom: "Bathroom",
+     AirCondition: "Air Conditioning",
+     nonVeg: "Non-Veg",
+     bathroom: "Bathroom",
   };
+  /////////////////
+  const shortlist = async (propertyid,propertIndex) => {
+    // event.preventDefault();
+    // setClick(true);
+//console.log("at if else",isClickArray);
+    
+    //setIsClickArray
+  /*  
+   if(isClick){
+      alert("Property shortlisted  ")
+    }
+    else{
+    alert("Property removed from shortlist")}
+   */ 
+   // console.log("Received Id:", propertyid);
+    //console.log("Recieved BId", boardId);
+//////////////////
+    setIsClickArray((prevState) => {
+      const updatedIsClickArray = [...prevState];
+      updatedIsClickArray[propertIndex] = !isClickArray[propertIndex];
+      //if(updatedIsClickArray[index]){
+      //setClick(!isClick)}
+      //else{
+        //setClick(isClick)
+     // }
+      console.log(isClickArray)
+      //console.log(updatedIsClickArray)
+      return updatedIsClickArray;
+      
+    });
+   
+
+
+    try {
+      console.log("Final pid",propertyid)
+      console.log("Recieved BId", boardId);
+      const response = await axios.put(
+        `https://b8rliving.com/board/shortlist/${boardId}`,
+        {propertyid,shortListStatus,globalTenantId},
+        axiosConfig
+      );
+      console.log("Response fo apishortlist ",response);
+      alert(response.data.message);
+    } catch (error) {
+      // Handle any errors that occur during the API request
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false); // Set loading to false when the request is complete
+    }
+  };
+  ////////////////////
 
   return (
     <>
@@ -135,65 +190,63 @@ function DetailImgView() {
           <div
             className="form"
             style={{
-              borderRadius: "9px",
+              //borderRadius: "9px",
               marginTop: "10%",
               backgroundRepeat: "no-repeat",
               backgroundSize: "100% 100%",
             }}
           >
-            <div
-            //   className="containered form"
-            //   style={{
-            //     height: '300px',
-            //     borderRadius: '5px',
-            //     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-            //     background: '#DAF0EE',
-            //   }}
-            >
-              {/* <Link to="/DetailImgView"><img
-            src={DetailView1}
-            alt="Tenant"
-            height={373}
-            style={{marginLeft:"-14px",marginTop:"-14px"}}
-
-          /></Link> */}
+            <div>
+            
 
               {property.images.map((image, index) => (
-                <div key={index} style={{ padding: "5% 0" }}>
+                <div key={index} style={{ padding: "1% 1%", boxShadow: "3px 3px 8px rgba(0, 0, 0, 0.3)"}}>
                   {index === 1 ? (
-                    <div>
-                      {/* <img src={image} height="140%" width="140%" /> */}
+                    <div >
+                    {/*   <img src={image}  style={{ borderRadius: '5px', objectFit: 'cover', width :'100%' }} />*/}
                       <Link to={property.tourLink3D}>
                         <div
                           id="container"
-                          style={{ marginTop: "-98px", marginLeft: "3%" }}
+                          height = "100%"
+                          style={{marginLeft:"10px", marginTop: "2%", marginBottom: "3%", width: '90%',padding: "10px" }}
+                          
                         >
                           <img
                             id="someimg"
                             src={image}
-                            height="140%" width="140%"
+                            style={{height:"120%" ,width:"102%",
+                            borderRadius :"10px"}}
+                            
                           />
                           <div
-                            id="overlay"
+                            id="overload"
                             style={{
+                              
                               color: "white",
-                              fontSize: "15px",
+                              fontSize: "30px",
                               fontWeight: "bold",
+                              bottomMargin :"10px",
+                              borderRadius: "10px",
+                              boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
+                              height : "100%",
+                              padding: "1% 1%"
+                              
                             }}
                           >
-                            <p>3D Virtual Tour</p>
+                            <p>
+                            3D Virtual Tour</p>
                           </div>
                         </div>
                       </Link>
                     </div>
                   ) : (
-                    <img src={image} height="140%" width="140%" />
+                    <img src={image}  style={{ borderRadius: '5px', objectFit: 'cover', width :'100%', marginTop:"1px" }} />
                   )}
                 </div>
               ))}
             </div>
 
-            <Link to={property.tourLink3D}>
+           {/* <Link to={property.tourLink3D}>
               <div
                 id="container"
                 style={{ marginTop: "-98px", marginLeft: "3%" }}
@@ -203,6 +256,7 @@ function DetailImgView() {
                   src={property.images[0]}
                   height={55}
                   width={100}
+                 
                 />
                 <div
                   id="overlay"
@@ -212,11 +266,11 @@ function DetailImgView() {
                     fontWeight: "bold",
                   }}
                 >
-                  <p>3D Virtual Tour</p>
+                  <p>3 Virtual Tour</p>
                 </div>
               </div>
             </Link>
-
+                */}
             {/* <div className="legend"  style={{ marginLeft:"-65%",marginTop:"-95px"}}>
           <Link to={property.tourLink3D}>
             <img src={property.images[0]} height={55} width={100} style={{position:"relative", background:"rgba(0, 0, 0, 0.7)", textAlign:"center", padding:"0px"}}/></Link>
@@ -232,19 +286,22 @@ function DetailImgView() {
             //     background: '#DAF0EE',
             //   }}
             >
-              <b>
+                  <b>
                 <h2 style={{ marginBottom: "-10px" }}> {property.houseName}</h2>
               </b>
               <div
                 style={{
+                 boxShadow:"2px 2px 5px rgba(0, 0, 0, 0.3)" ,
                   marginLeft: "20px",
-                  height: "140px",
-                  width: "370px",
+                  height: "100%",
+                  width: "93%",
+                  marginRight:"20px",
                   borderRadius: "8px",
                   backgroundColor: "#E8E7E7",
+                  marginTop: "10px",
                 }}
               >
-                <h3 style={{ marginLeft: "-150px", marginTop: "10px" }}>
+                <h3 style={{ marginLeft: "-55%", marginTop: "30px",paddingTop: "10px"}}>
                   About the Society
                 </h3>
                 <div
@@ -265,24 +322,27 @@ function DetailImgView() {
                         powerBackup: powerBackup,
                         groceryStore: groceryStore,
                         clubHouse: clubHouse,
-                        // AirCondition: ac,
-                        // carParking: carParking,
-                        // bikeParking: bikeParking,
-                        // nonVeg: nonVeg,
-                        // bathroom: bathroom,
+                        AirCondition: ac,
+                        carParking: carParking,
+                        bikeParking: bikeParking,
+                        nonVeg: nonVeg,
+                        bathroom: bathroom,
+                        swimmingPool: swimmingPool,
+                        gym: gym,
                       };
                       // Use the key to dynamically select the image source
+                      //<div className="imageContainer">
                       const imageSrc = imageSources[key]; // You can set a default image source if needed
-
+                      
                       // return <li key={key}>{key}</li>;
                       return (
                         <div
                           className=""
                           // style={{ disp: "3%" }}
                         >
-                          <img
+                          <img 
                             src={imageSrc}
-                            height={22}
+                            height={25}
                             style={{ marginLeft: "1px" }}
                           />{" "}
                           <p style={{ fontSize: "10px" }}> {keyNames[key]} </p>{" "}
@@ -313,15 +373,16 @@ function DetailImgView() {
               <div
                 style={{
                   marginLeft: "20px",
-                  height: "360px",
-                  width: "370px",
+                  height: "100%",
+                  width: "93%",
                   backgroundColor: "#DAF0EE",
                   borderRadius: "5px",
+                  boxShadow:"2px 2px 5px rgba(0, 0, 0, 0.3)" ,
                 }}
               >
-                <h3 style={{ marginLeft: "-170px" }}>House Details</h3>
+                <h3 style={{ marginLeft: "-64%" ,paddingTop: "10px",paddingBottom: "5px"}}>House Details</h3>
 
-                <div>
+                <div >
                   <div
                     style={{ display: "flex", justifyContent: "space-around" }}
                   >
@@ -330,7 +391,7 @@ function DetailImgView() {
                         src={house_Config}
                         alt="Tenant"
                         height={30}
-                        // style={{ marginLeft: "-14px", marginTop: "14px" }}
+                        //style={{ marginLeft: "-14px", marginTop: "14px" }}
                       />
                       <h6 style={{ marginTop: "-1px" }}>
                         {property.propertyDetails.propertyInfo.houseConfig}{" "}
@@ -347,21 +408,21 @@ function DetailImgView() {
                         {property.propertyDetails.featureInfo.balconies}{" "}
                         balconies
                       </h6>
-                      {/* <p style={{ marginTop: "-20px", fontSize: "10px" }}>
+                       <p style={{ marginTop: "-20px", fontSize: "10px" }}>
                         +{property.propertyDetails.featureInfo.bathrooms}{" "}
                         Bathrooms
-                      </p> */}
+                      </p> 
                     </div>
 
                     <div>
-                      <img src={carParking} alt="Tenant" height={40} />
+                      <img src={carParking} alt="Tenant" height={30} />
                       <h6 style={{ marginTop: "-1px" }}>
                         Available
                         {/* {property.propertyDetails.featureInfo.parking}{" "} */}
                       </h6>
                       <p style={{ marginTop: "-20px", fontSize: "10px" }}>
-                        {property.propertyDetails.featureInfo.parking.bike} bike
-                        + {property.propertyDetails.featureInfo.parking.car}{" "}
+                      {property.propertyDetails.featureInfo.parking.bike} bike + {property.propertyDetails.featureInfo.parking.car}{" "}
+                        
                       </p>
                     </div>
 
@@ -369,9 +430,10 @@ function DetailImgView() {
                       <img src={space_or_area} alt="Tenant" height={30} />
 
                       <h6 style={{ marginTop: "-1px" }}>
-                        {property.propertyDetails.featureInfo.carpetArea} sft
+                        {property.propertyDetails.featureInfo.carpetArea}{" "}sft
                       </h6>
                       <p style={{ marginTop: "-20px", fontSize: "10px" }}>
+                        
                         spacious than most
                       </p>
                     </div>
@@ -398,9 +460,12 @@ function DetailImgView() {
                     <div>
                       <img src={key} alt="Tenant" height={30} />
 
-                      <h6 style={{ marginTop: "-1px" }}>Immediate </h6>
+                      <h6 style={{ marginTop: "-1px" }}>
+                        Immediate{" "}
+                      </h6>
                       <p style={{ marginTop: "-20px", fontSize: "10px" }}>
                         possesion Time{" "}
+                       
                       </p>
                     </div>
 
@@ -408,26 +473,30 @@ function DetailImgView() {
                       <img src={floors} alt="Tenant" height={30} />
 
                       <h6 style={{ marginTop: "-1px" }}>
-                        {property.propertyDetails.propertyInfo.houseConfig}{" "}
-                      </h6>
-                      <p style={{ marginTop: "-20px", fontSize: "10px" }}>
-                        +{property.propertyDetails.featureInfo.bathrooms}{" "}
-                        Bathrooms
-                      </p>
-                    </div>
-
-                    <div>
-                      <img src={nonVeg} alt="Tenant" height={30} />
-
-                      <h6 style={{ marginTop: "-1px" }}>
                         Floor {property.propertyDetails.featureInfo.floors.your}{" "}
                       </h6>
                       <p style={{ marginTop: "-20px", fontSize: "10px" }}>
-                        Total{" "}
-                        {property.propertyDetails.featureInfo.floors.total}{" "}
+                        Total {property.propertyDetails.featureInfo.floors.total}{" "}
+                        
                       </p>
                     </div>
+                  {property.propertyDetails.featureInfo.nonVeg ? (
+                    <div>
+                      <img src={nonVeg} alt="Tenant" height={30} />
+                      <h6 style={{ marginTop: "-1px" }}>Non-Veg Allowed</h6>
+                      <p style={{ marginTop: "-20px", fontSize: "10px" }}>No Food Restriction</p>
+                    </div>
+                  ) : (
+                    <div>
+                      
+                      <img src={nonVeg} alt="Tenant" height={30} />
+                      <h6 style={{ marginTop: "-1px" }}> Veg</h6>
+                      <p style={{ marginTop: "-20px", fontSize: "10px" }}>Restriction: Veg only</p>
+                    </div>)}
+
+
                   </div>
+                  
                   <div
                     style={{
                       display: "flex",
@@ -435,49 +504,57 @@ function DetailImgView() {
                       marginTop: "10%",
                     }}
                   >
-                    <div>
-                      <img src={rent_1} alt="Tenant" height={30} />
+
+                  <div>
+                  <img src={rent_1} alt="Tenant" height={30} />
+
 
                       <h6 style={{ marginTop: "-1px" }}>
                         {property.propertyDetails.featureInfo.rentAmount}{" "}
                       </h6>
                       <p style={{ marginTop: "-20px", fontSize: "10px" }}>
-                        Total Rent
+                       Total Rent
+                        
                       </p>
                     </div>
 
                     <div>
-                      <img src={rent_1} alt="Tenant" height={30} />
+                    <img src={rent_1} alt="Tenant" height={30} />
+
 
                       <h6 style={{ marginTop: "-1px" }}>
                         {property.propertyDetails.featureInfo.rentDeposit}{" "}
                       </h6>
                       <p style={{ marginTop: "-20px", fontSize: "10px" }}>
+                         
                         Security Deposit
                       </p>
                     </div>
 
                     <div>
-                      <img src={calender} alt="Tenant" height={30} />
+                    <img src={calender} alt="Tenant" height={30} />
+
 
                       <h6 style={{ marginTop: "-1px" }}>
                         {property.propertyDetails.updatedAt.slice(0, 10)}{" "}
                       </h6>
                       <p style={{ marginTop: "-20px", fontSize: "10px" }}>
-                        posted on
+                       Posted on
                       </p>
                     </div>
 
                     <div>
-                      <img src={construction_year} alt="Tenant" height={30} />
+                    <img src={construction_year} alt="Tenant" height={30} />
+
 
                       <h6 style={{ marginTop: "-1px" }}>
                         {property.propertyDetails.featureInfo.constructionYear}{" "}
                       </h6>
                       <p style={{ marginTop: "-20px", fontSize: "10px" }}>
-                        Construction year
+                      Construction year
                       </p>
                     </div>
+
                   </div>
                   <p style={{ fontSize: "10px" }}> </p>{" "}
                 </div>
@@ -494,10 +571,10 @@ function DetailImgView() {
                 Loved this property?
               </p>
               <div className="Apps">
-                <Heart isClick={isClick} onClick={() => setClick(!isClick)} />
+                <Heart isClick={isClickArray[propertyIndex]} onClick={() => shortlist(propertyId,propertyIndex)} />
               </div>
 
-              {isClick ? (
+              {isClickArray[propertyIndex] ? (
                 <p
                   style={{
                     fontStyle: "Glida Display",
@@ -510,6 +587,7 @@ function DetailImgView() {
                   {" "}
                   Shortlisted{" "}
                 </p>
+                
               ) : (
                 <p
                   style={{
@@ -523,11 +601,9 @@ function DetailImgView() {
                   Shortlist{" "}
                 </p>
               )}
+              
 
-              <Link to="/TenantSideView"></Link>
-              <button onClick={handleClick} className="newBtn">
-                See other properties
-              </button>
+              <Link to="/TenantSideView"></Link><button onClick={handleClick} className="newBtn">See other properties</button>
             </div>
             <Footer />
           </div>

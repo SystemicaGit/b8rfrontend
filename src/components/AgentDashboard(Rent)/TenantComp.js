@@ -161,6 +161,7 @@ const TenantComp = ({ props, name }) => {
                 padding: "1rem 0",
               }}
             >
+
               {values.status === "WaitingForProperty" && (
                 <>
                   <div>

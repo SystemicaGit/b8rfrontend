@@ -14,7 +14,7 @@ function OTPscreen() {
   const queryParameters = new URLSearchParams(window.location.search);
   const boardId = queryParameters.get("boardId");
   // const path = queryParameters.get("path");
-  console.log(boardId);
+  //console.log(boardId);
 
   
   const [formData, setFormData] = useState({
@@ -34,7 +34,9 @@ function OTPscreen() {
   const token = localStorage.getItem("token");
   // const [responseDataTotalProperties, setResponseDataTotalProperties] = useState("");
   const [responseDataPropertyId, setResponseDataTenantPropertyId] = useState("");
-
+  
+  console.log("TOKEN ",token);
+  
   let axiosConfig = {
     headers: {
       "Content-Type": "application/json;charset=UTF-8",
@@ -55,6 +57,8 @@ function OTPscreen() {
         // const responseData = response.data.data.tenant.tenantDetails;
         const responseDataBoardData = response.data.data.board;
         const responseDataTenantData = response.data.data.board.tenantId;
+        const responseDataTenantId = response.data.data.board.tenantId._id;
+        console.log("teney id",responseDataTenantId )
         setResponseDataTenantNunber(response.data.data.board.tenantId.phoneNumber);
         setResponseDataTenantPropertyId(response.data.data.board.propertyId);
 
@@ -64,7 +68,7 @@ function OTPscreen() {
         //  setResponseDataTotalProperties(responseDataPropertiesData.length);
 
 
-        console.log(responseDataTenantData);
+       // console.log(responseDataTenantData);
 
 
 
@@ -85,32 +89,42 @@ function OTPscreen() {
 
 
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
-  };
+    const handleChange = (event) => {
+      const { name, value } = event.target;
+      
+      // Validate phone number length
+      
+        setFormData((prevState) => ({ ...prevState, [name]: value }));
+      
+    };
 
   // const handleOTPChange = (event) => {
   //   setOTP(event.target.value);
   // };
 
   const handleSubmit = (event) => {
+    
     event.preventDefault();
-    console.log(formData["phone"]);
+    
+    //console.log(formData["phone"]);
     const phone = formData["phone"];
+    if(phone.length !== 10){
+      alert("Phone number less than 10 digits");
+    }
+    else{
     if(responseDataTenantNumber == phone){
       try {
         axios
           .get(`https://2factor.in/API/V1/c68dfb13-f09f-11ed-addf-0200cd936042/SMS/+91.${phone}/AUTOGEN`, formData)
           .then((response) => {
-            console.log(response.data);
+            //console.log(response.data);
             // do something with the response
             // const token = response.data.token;
           
             const OTP_SESSION = response.data.Details;
             setOtpSession(OTP_SESSION);
             setFormDisable(false);
-            alert("OTP has been send!");
+            alert("OTP has been sent!");
             //redirect user to Dashboard
             // window.location.href = `/EnterOTP?sessionId=${OTP_SESSION}&phone=${phone}`;
           })
@@ -124,15 +138,25 @@ function OTPscreen() {
     } else {
         alert("Please login with Registered Mobile Number")
     }
+  }
     // console.log(`https://2factor.in/API/V1/c68dfb13-f09f-11ed-addf-0200cd936042/SMS/+91.${phone}/AUTOGEN`);
   
   };
-
-console.log(OtpSession);
+  ////////////////////////////
+  const maskPhoneNumber = (phoneNumber) => {
+    if (phoneNumber && phoneNumber.length === 10) {
+      const masked = '******' + phoneNumber.slice(-4);
+      return masked;
+    }
+    return phoneNumber;
+  };
+  
+  /////////////////////////////////
+//console.log(OtpSession);
   const handleSubmitVeriy = (event) => {
     event.preventDefault();
 
-    console.log(formData["enter_otp"]);
+    //console.log(formData["enter_otp"]);
     const enter_otp = formData["enter_otp"];
     // 599325
     console.log(
@@ -145,7 +169,7 @@ console.log(OtpSession);
           formData
         )
         .then((response) => {
-          console.log(response.data);
+          //console.log(response.data);
           // alert(response.data);
           const OTP_CHECK = response.data.Details;
           alert(OTP_CHECK);
@@ -158,13 +182,13 @@ console.log(OtpSession);
               }
             )
             .then((response) => {
-              console.log(response.data);
+             // console.log(response.data);
               alert(response.data.message);
               const token = response.data.data.jwtToken;
               // const name = response.data.data.agent.name;
               const phone = response.data.data.tenant.phoneNumber;
               // const tenantDetails = response.data.data.tenant.tenantDetails;
-              console.log(response.data.data.tenant._id);
+              console.log("Tenent id ",response.data.data.tenant._id);
       
               //set JWT token to local
               // if (typeof localStorage !== 'undefined') {
@@ -173,6 +197,11 @@ console.log(OtpSession);
                 localStorage.setItem("token", token);
                 localStorage.removeItem( "name");
                 localStorage.setItem("phone", phone);
+                axios
+            .get(
+              `https://b8rliving.com/tenant/board/${response.data.data.tenant._id}`,
+              axiosConfig
+              );
               window.location.href = `/TenantSideView?tenantId=${response.data.data.tenant._id}&boardId=${boardId}`;
               // alert("Your Password has been Updated!");
             })
@@ -221,14 +250,14 @@ console.log(OtpSession);
           </div>
 
           <div className="TenantSideF">
-            <p className="titleF"><b>
+            <p className="titleF" style = {{marginTop:"1px"}}><strong>
               Welcome to betterhomes
-              </b>
+              </strong>
             </p>
             <br />
-            <p style={{textAlign:"left",marginLeft:"10px",marginRight:"10px"}}>
-              Your agent has shared {responseDataPropertyId} awesome properties. <br />
-              Log in using {responseDataTenantNumber}, mobile number to view details
+            <p style={{textAlign:"left",marginLeft:"10px",marginRight:"10px", marginTop:"0px"}}>
+              Your agent has shared <strong>{responseDataPropertyId}</strong> awesome properties.  <br /> <br />
+              Log in using <strong>{maskPhoneNumber(responseDataTenantNumber)}</strong>, mobile number to view details
             </p>
           </div>
 
@@ -237,7 +266,7 @@ console.log(OtpSession);
             <input
               type="number"
               id="phone"
-              value={formData.phone}
+              value={formData.phone} 
               onChange={handleChange}
               name="phone"
               required
@@ -248,12 +277,12 @@ console.log(OtpSession);
           
           </form>
           <br></br>
-
+         
         <form className="login-form" onSubmit={handleSubmitVeriy} >
 
 
-          <div className="SpaceAbove" >
-            <label className="Inputfield" htmlFor="enter_otp">Enter OTP</label>
+          <div className="SpaceAbove"  >
+            <label className="Inputfield" htmlFor="enter_otp">   Enter OTP Recieved </label>
             <input 
             className="InputF" 
             type="number" 
@@ -262,7 +291,7 @@ console.log(OtpSession);
             id="enter_otp" 
             value={formData.enter_otp} 
             onChange={handleChange} 
-            style={{height:"40px",width:"311px",borderColor:"#52796F",border:"3px"}}/>
+            style={{height:"40px",width:"311px",borderColor:"#52796F",border:"3px",marginRight : "10px"}}/>
             <CommonBtn title="Confirm OTP" margin="25%" fontweight="bolder" color="#DAF0EE" />
           </div>
 
