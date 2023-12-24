@@ -203,6 +203,8 @@ function Dashboard() {
     // console.log(CountTenants.Total)
   }, [CountProperties]);
 
+  // console.log(CountProperties);
+
   var pendingCounting = 0;
   var activeCounting = 0;
   const number = CountTenants.Total - CountTenants.Deactivate;
@@ -358,7 +360,7 @@ function Dashboard() {
                   <div className="flex justify-center items-center pb-[0.5rem]">
                     <RiHomeHeartLine className="text-[#52796F] text-[2.5rem]" />
                     <p className="text-[2rem] text-center px-[0.5rem] font-bold">
-                      {CountProperties.Sortlisted}
+                      {CountProperties.Shortlisted}
                     </p>
                   </div>
                   {/* text */}
