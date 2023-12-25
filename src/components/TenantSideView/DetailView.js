@@ -220,7 +220,8 @@ function DetailView() {
               </Carousel></Link>
             </div>
 
-            <Link to={property.tourLink3D}>
+            <Link to={`/VirtualTour?propertyId=${property._id}`}>
+           
               <div
                 id="container"
                 style={{ marginTop: "-98px", marginLeft: "3%" }}

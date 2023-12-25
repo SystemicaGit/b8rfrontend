@@ -32,6 +32,7 @@ function OTPscreen() {
   const [responseDataTenant, setResponseDataTenant] = useState([]);
   const [responseDataTenantNumber, setResponseDataTenantNunber] = useState("");
   const token = localStorage.getItem("token");
+  console.log("TOKEN", token);
   // const [responseDataTotalProperties, setResponseDataTotalProperties] = useState("");
   const [responseDataPropertyId, setResponseDataTenantPropertyId] = useState("");
   
