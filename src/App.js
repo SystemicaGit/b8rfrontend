@@ -287,6 +287,7 @@ function App(props) {
             <Route exact path="TenantSideView" element={<TenantSideView />} />
             <Route exact path="DetailImgView" element={<DetailImgView />} />
             <Route exact path="VirtualTour" element={<VirtualTour />} />
+
             {/* OTP VERIFY */}
 
             {/* <Route exact path="SuccesfulSignup" element={<SuccessfulSignup />} /> */}

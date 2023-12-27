@@ -83,10 +83,10 @@ function My_PropertySNA() {
   return (
     <>
       <div
-        className="form"
+        className=""
         style={{
-          borderRadius: "16px",
-          marginTop: "10%",
+          // borderRadius: "16px",
+          // marginTop: "10%",
           backgroundRepeat: "no-repeat",
           backgroundImage: `url(${PVbackground})`,
           backgroundRepeat: "no-repeat",
@@ -97,53 +97,61 @@ function My_PropertySNA() {
         <CommonHeader title="My Properties" color="#52796F" />
 
         {/* -------------------------------button---------------------------------------------- */}
-        <div>
-          <Link to="/My_PropertyPV">
-            <CommonTopButton
-              bgColor="#D2D7D6"
-              borderColor="#DAF0EE"
-              color="#77A8A4"
-              text="Pending Verification"
-              //        onclicked={handlePageAvailable}
-            />
-          </Link>
-          <Link to="/My_PropertyYTS">
-            <CommonTopButton
-              bgColor="#D2D7D6"
-              borderColor="#DAF0EE"
-              color="#77A8A4"
-              text="Yet to Share "
-              //        onclicked={handlePageAvailable}
-            />
-          </Link>
+        <div className="px-[0.5rem] py-[1rem] pt-[2rem]">
+          <div className="grid grid-cols-2 gap-x-[0.5rem]">
+            <Link to="/My_PropertyPV">
+              <CommonTopButton
+                bgColor="#D2D7D6"
+                borderColor="#DAF0EE"
+                color="#77A8A4"
+                text="Pending Verification"
+                //        onclicked={handlePageAvailable}
+              />
+            </Link>
+            <Link to="/My_PropertyYTS">
+              <CommonTopButton
+                bgColor="#D2D7D6"
+                borderColor="#DAF0EE"
+                color="#77A8A4"
+                text="Yet to Share "
+                //        onclicked={handlePageAvailable}
+              />
+            </Link>
+          </div>
         </div>
-        <div style={{ marginTop: "10px" }}>
-          <Link to="/My_PropertyS">
-            <CommonTopButton
-              bgColor="#D2D7D6"
-              borderColor="#DAF0EE"
-              color="#77A8A4"
-              text="Shortlisted"
-              //        onclicked={handlePageAvailable}
-            />
-          </Link>
-          <Link to="/My_PropertySNA">
-            <CommonTopButton
-              bgColor="#52796F"
-              borderColor="#DAF0EE"
-              color="#DAF0EE"
-              text="Shared, No Action"
-              //        onclicked={handlePageAvailable}
-            />
-          </Link>
+        <div className="px-[0.5rem]">
+          <div className="grid grid-cols-2 gap-x-[0.5rem]">
+            <Link to="/My_PropertyS">
+              <CommonTopButton
+                bgColor="#D2D7D6"
+                borderColor="#DAF0EE"
+                color="#77A8A4"
+                text="Shortlisted"
+                //        onclicked={handlePageAvailable}
+              />
+            </Link>
+            <Link to="/My_PropertySNA">
+              <CommonTopButton
+                bgColor="#52796F"
+                borderColor="#DAF0EE"
+                color="#DAF0EE"
+                text="Shared, No Action"
+                //        onclicked={handlePageAvailable}
+              />
+            </Link>
+          </div>
         </div>
-
         {/* -------------------------------button---------------------------------------------- */}
 
         {/* BODY */}
-        <div style={{ textAlign: "left", marginTop: "40px" }}>
+        <div className="px-[1rem] py-[2rem] text-[1.2rem]">
+          {/* <text>
+            Hey {name},<br />
+            Properties shown here are <b>NOT VERIFIED</b>. Correct wherever
+            necessary to get them ready to share
+          </text> */}
+          <p className="pb-[0.5rem] font-bold">Hey {name} ,</p>
           <p>
-            Hey {name}, <br />
             Properties here are active & shared{" "}
             <b>but none of the Tenants have shortlisted them</b>
           </p>
@@ -151,10 +159,9 @@ function My_PropertySNA() {
         {/* --------------------------------------first tab-------------------------------------------- */}
         <SharedNoactcomp responseProperty={responseProperty} />
         {/* --------------------------------------first tab-------------------------------------------- */}
-
-        <div style={{ marginTop: "310px" }}></div>
-
-        <Footer />
+        <div className="pt-[2rem] pb-[1rem]">
+          <Footer />
+        </div>
       </div>
     </>
   );

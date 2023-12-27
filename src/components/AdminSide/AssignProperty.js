@@ -106,7 +106,7 @@ function AssignProperty() {
     console.log("world",formData.propertyId);
     formData.fieldAgentId = selectedUser._id;
     formData.propertyId = selectedProperty._id;
-    axios
+   axios
       .post("https://b8rliving.com/property/assign", formData)
       .then((response) => {
         console.log(response.data);
@@ -147,6 +147,7 @@ function AssignProperty() {
         // handle the error
       });
   };
+  
   
  //handleUserChange
 

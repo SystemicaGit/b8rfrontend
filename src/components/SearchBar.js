@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { BsSearchHeart } from "react-icons/bs";
 import searchImg from "./Assets/Search.png";
+import { FaSearch } from "react-icons/fa";
 
 // import "./SearchBar.css";
 
@@ -26,21 +27,30 @@ function SearchBar(props) {
   };
 
   return (
-    <div style={{display:"flex"}}>
-
-      <input
-        type="text"
-        placeholder={placeholder}
-        value={searchValue}
-        onChange={handleInputChange}
-        onKeyPress={handleKeyPress}
-        style={{width:"350px",textAlign:"center"}}
-      />
-      {/* <BsSearchHeart className="BsSearchHeart" onClick={handleSearch} /> */}
-      <img src={searchImg} onClick={handleSearch} style={{ float:"top",marginLeft:"-100px",marginTop:"5px"}} height={30} />
-
-      {/* <IoSearch className="AiOutlineInfoCircle" onClick={handleSearch} /> */}
-      {/* <FontAwesomeIcon icon="fa-brands fa-searchengin" /> */}
+    <div className="px-[1rem]">
+      <div
+        className="flex justify-center items-center px-[1rem]
+      rounded-[0.5rem] "
+        style={{
+          boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.2)",
+        }}
+      >
+        <input
+          type="text"
+          placeholder={placeholder}
+          value={searchValue}
+          onChange={handleInputChange}
+          // onKeyPress={handleKeyPress}
+          style={{
+            outline: "none",
+            marginBottom: "0",
+            boxShadow: "none",
+          }}
+        />
+        <button className="flex justify-center items-center">
+          <FaSearch className="text-[1.5rem]" />
+        </button>
+      </div>
     </div>
   );
 }

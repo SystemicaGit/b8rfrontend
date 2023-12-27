@@ -25,13 +25,8 @@ function My_PropertyYTS() {
   const token = localStorage.getItem("token");
   console.log(token);
 
-  
   const [loading, setLoading] = useState(false);
   const [responseProperty, setresponseProperty] = useState([]);
- 
-
-
-
 
   let axiosConfig = {
     headers: {
@@ -54,12 +49,9 @@ function My_PropertyYTS() {
           const yetToShareProperties = propertiesData.filter((property) => {
             return (
               property.status === "Verified" &&
-              property.sharedProperty.length === 0 
-             
+              property.sharedProperty.length === 0
             );
           });
-
-         
 
           // var myArrayPropertyCount = response.data.data.properties;
           //   setresponseNoImageProperty(noImageProperties);
@@ -90,10 +82,10 @@ function My_PropertyYTS() {
   return (
     <>
       <div
-        className="form"
+        className=""
         style={{
-          borderRadius: "16px",
-          marginTop: "10%",
+          // borderRadius: "16px",
+          // marginTop: "10%",
           backgroundRepeat: "no-repeat",
           backgroundImage: `url(${PVbackground})`,
           backgroundRepeat: "no-repeat",
@@ -104,53 +96,61 @@ function My_PropertyYTS() {
         <CommonHeader title="My Properties" color="#52796F" />
 
         {/* -------------------------------button---------------------------------------------- */}
-        <div>
-          <Link to="/My_PropertyPV">
-            <CommonTopButton
-              bgColor="#D2D7D6"
-              borderColor="#A9C0BA"
-              color="#77A8A4"
-              text="Pending Verification"
-              //        onclicked={handlePageAvailable}
-            />
-          </Link>
-          <Link to="/My_PropertyYTS">
-            <CommonTopButton
-              bgColor="#52796F"
-              borderColor="#DAF0EE"
-              color="#DAF0EE"
-              text="Yet to Share "
-              //        onclicked={handlePageAvailable}
-            />
-          </Link>
+        <div className="px-[0.5rem] py-[1rem] pt-[2rem]">
+          <div className="grid grid-cols-2 gap-x-[0.5rem]">
+            <Link to="/My_PropertyPV">
+              <CommonTopButton
+                bgColor="#D2D7D6"
+                borderColor="#A9C0BA"
+                color="#77A8A4"
+                text="Pending Verification"
+                //        onclicked={handlePageAvailable}
+              />
+            </Link>
+            <Link to="/My_PropertyYTS">
+              <CommonTopButton
+                bgColor="#52796F"
+                borderColor="#DAF0EE"
+                color="#DAF0EE"
+                text="Yet to Share "
+                //        onclicked={handlePageAvailable}
+              />
+            </Link>
+          </div>
         </div>
-        <div style={{ marginTop: "10px" }}>
-          <Link to="/My_PropertyS">
-            <CommonTopButton
-              bgColor="#D2D7D6"
-              borderColor="#A9C0BA"
-              color="#77A8A4"
-              text="Shortlisted"
-              //        onclicked={handlePageAvailable}
-            />
-          </Link>
-          <Link to="/My_PropertySNA">
-            <CommonTopButton
-              bgColor="#D2D7D6"
-              borderColor="#A9C0BA"
-              color="#77A8A4"
-              text="Shared, No Action "
-              //        onclicked={handlePageAvailable}
-            />
-          </Link>
+        <div className="px-[0.5rem]">
+          <div className="grid grid-cols-2 gap-x-[0.5rem]">
+            <Link to="/My_PropertyS">
+              <CommonTopButton
+                bgColor="#D2D7D6"
+                borderColor="#A9C0BA"
+                color="#77A8A4"
+                text="Shortlisted"
+                //        onclicked={handlePageAvailable}
+              />
+            </Link>
+            <Link to="/My_PropertySNA">
+              <CommonTopButton
+                bgColor="#D2D7D6"
+                borderColor="#A9C0BA"
+                color="#77A8A4"
+                text="Shared, No Action "
+                //        onclicked={handlePageAvailable}
+              />
+            </Link>
+          </div>
         </div>
-
         {/* -------------------------------button---------------------------------------------- */}
 
         {/* BODY */}
-        <div style={{ textAlign: "left", marginTop: "40px" }}>
+        <div className="px-[1rem] py-[2rem] text-[1.2rem]">
+          {/* <text>
+            Hey {name},<br />
+            Properties shown here are <b>NOT VERIFIED</b>. Correct wherever
+            necessary to get them ready to share
+          </text> */}
+          <p className="pb-[0.5rem] font-bold">Hey {name} ,</p>
           <p>
-            Hey {name}, <br />
             Properties shown here are ready to be <b>rented out</b> & but are{" "}
             <b>
               <span style={{ color: "#B30808" }}>not yet shared</span>
@@ -161,7 +161,7 @@ function My_PropertyYTS() {
 
         <YetToShareComp responseProperty={responseProperty} />
 
-        <div style={{ marginTop: "50px", marginLeft: "50px" }}>
+        <div className="py-[2rem] flex justify-center items-center">
           <Link to="/AllTenantOne">
             <CommonBtn title="Share with Tenant" />
           </Link>

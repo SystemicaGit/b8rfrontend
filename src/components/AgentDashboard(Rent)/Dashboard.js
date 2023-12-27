@@ -5,12 +5,10 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import UserLoginDetails from "../UserLoginDetails";
 import DashComponent from "./DashComponent";
-
 import Footer from "../Footer";
 import vector from "../Assets/Images/vector.png";
 import backgroundSecond from "../Assets/Images/other_bg.png";
 import listing from "../Assets/Images/AgentDashboard/listing.png";
-
 import CommonHeader from "../CommonHeader";
 import CommonBtn from "../CommonButton";
 import CommonTopButton from "../CommonTopButton";
@@ -24,8 +22,17 @@ import shortlisted from "../Assets/Images/AgentDashboard/shortListed.png";
 import tenantI from "../Assets/Images/AgentDashboard/tenantI.png";
 import CurrentlyViewing from "../Assets/Images/AgentDashboard/CurrentlyViewing.png";
 import ActiveLeads from "../Assets/Images/AgentDashboard/activeLeads.png";
-
 import ExtraCommonButton from "../ExtraCommonButton";
+// -------------------// icons //----------------------------//
+import { FaHouse } from "react-icons/fa6";
+import { FaCircleUser } from "react-icons/fa6";
+import { TbBrandGoogleHome } from "react-icons/tb";
+import { BsFillBookmarkCheckFill } from "react-icons/bs"; //check
+import { MdOutlineMobileScreenShare } from "react-icons/md"; //share
+import { RiHomeHeartLine } from "react-icons/ri"; //shortlist
+import { TbShareOff } from "react-icons/tb"; //yet to share
+import { FaEye } from "react-icons/fa6"; //eye
+import { RiQuestionnaireFill } from "react-icons/ri"; //question
 
 function Dashboard() {
   // const [CountProperties, setCountProperties] = useState([]);
@@ -63,10 +70,9 @@ function Dashboard() {
 
           const ytsCount = myArrayPropertyCount.filter((property) => {
             return (
-              property.status === "Verified"  &&
+              property.status === "Verified" &&
               // (property.sharedBuyerProperty.length === 0
-                 property.sharedProperty.length === 0
-             
+              property.sharedProperty.length === 0
             );
           });
 
@@ -74,7 +80,7 @@ function Dashboard() {
           // console.log(ytsCount);
 
           const sharedPropertyCount = myArrayPropertyCount.filter(
-            (property) =>{
+            (property) => {
               return (
                 property.sharedProperty.length > 0 &&
                 property.status == "Verified"
@@ -98,63 +104,61 @@ function Dashboard() {
 
       //Get Shared Property
       axios
-      .get("https://b8rliving.com/tenant", axiosConfig)
-      .then((response) => {
-        var myArrayTenantCount = response.data.data.tenants;
-    
-        const sharedTenantCount = myArrayTenantCount.filter(
-          (tenant) => tenant.status == "Shared"
-        );
-        const boardIds = [];
-    
-        // Create a function to get property count for a specific boardId
-        function getPropertyCount(boardId) {
+        .get("https://b8rliving.com/tenant", axiosConfig)
+        .then((response) => {
+          var myArrayTenantCount = response.data.data.tenants;
 
-          return axios
-            .get(`https://b8rliving.com/board/${boardId}`, axiosConfig)
-            .then((response) => {
-            setSharedPropertyCount(response.data.data.board.propertyId.length); // Set sharedC in your state
-              return response.data.data.board.propertyId.length;
-            })
-            .catch((error) => {
-              console.log(error);
-              return 0; // Handle the error by returning 0 properties
-            });
-        }
+          const sharedTenantCount = myArrayTenantCount.filter(
+            (tenant) => tenant.status == "Shared"
+          );
+          const boardIds = [];
 
-        // for( var i=0;  i<1;  i++ ){
-        //   getPropertyCount(sharedTenantCount[i].boardId);
-        // }
-    
-        // Use Promise.all to handle all requests and accumulate counts
-        // Promise.all(
-        //   sharedTenantCount.map((tenant) => getPropertyCount(tenant.boardId))
-        // )
-        //   .then((propertyCounts) => {
-        //     // Sum the property counts
-        //     var sharedC = propertyCounts.reduce(
-        //       (accumulator, currentValue) => accumulator + currentValue,
-        //       0
-        //     );
-        //     console.log(sharedC);
-    
-        //     // Now, you can set the sharedC in your state or do any other operation with it
-        //     setSharedPropertyCount(sharedC); // Set sharedC in your state
-        //     // Other actions with sharedC
-        //   })
+          // Create a function to get property count for a specific boardId
+          function getPropertyCount(boardId) {
+            return axios
+              .get(`https://b8rliving.com/board/${boardId}`, axiosConfig)
+              .then((response) => {
+                setSharedPropertyCount(
+                  response.data.data.board.propertyId.length
+                ); // Set sharedC in your state
+                return response.data.data.board.propertyId.length;
+              })
+              .catch((error) => {
+                console.log(error);
+                return 0; // Handle the error by returning 0 properties
+              });
+          }
+
+          // for( var i=0;  i<1;  i++ ){
+          //   getPropertyCount(sharedTenantCount[i].boardId);
+          // }
+
+          // Use Promise.all to handle all requests and accumulate counts
+          // Promise.all(
+          //   sharedTenantCount.map((tenant) => getPropertyCount(tenant.boardId))
+          // )
+          //   .then((propertyCounts) => {
+          //     // Sum the property counts
+          //     var sharedC = propertyCounts.reduce(
+          //       (accumulator, currentValue) => accumulator + currentValue,
+          //       0
+          //     );
+          //     console.log(sharedC);
+
+          //     // Now, you can set the sharedC in your state or do any other operation with it
+          //     setSharedPropertyCount(sharedC); // Set sharedC in your state
+          //     // Other actions with sharedC
+          //   })
           // .catch((error) => {
           //   console.log(error);
           //   // handle the error
           // });
-      })
-      .catch((error) => {
-        console.log(error);
-        // handle the error
-      });
-    
+        })
+        .catch((error) => {
+          console.log(error);
+          // handle the error
+        });
 
-
-      
       setLoading(false);
     };
 
@@ -201,10 +205,12 @@ function Dashboard() {
     // console.log(CountTenants.Total)
   }, [CountProperties]);
 
+  // console.log(CountProperties);
+
   var pendingCounting = 0;
   var activeCounting = 0;
   const number = CountTenants.Total - CountTenants.Deactivate;
-  const AvailablePropertyNumner = CountProperties.Total - CountProperties.Closed;
+  const AvailablePropertyNumber = CountProperties.Total - CountProperties.Closed;
   responseProperties.map((element) => {
     // console.log(element.status);
     if (
@@ -221,22 +227,11 @@ function Dashboard() {
 
   return (
     <>
-      <div
-        className="form"
-        style={{
-          borderRadius: "16px",
-          marginTop: "10%",
-          backgroundRepeat: "no-repeat",
-          backgroundImage: `url(${backgroundSecond})`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "100% 100%",
-        }}
-      >
-        {/* <h2 style={{color:"#52796F"}}>Agent Dashboard</h2> */}
-        <CommonHeader title="My Dashboard" color="#52796F" />
-
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <div style={{ marginRight: "8px", marginLeft:"10px",boxShadow: "0 4px 8px -3px rgba(0, 0, 0, 0.8)", borderRadius:"8px" }}>
+      <CommonHeader title="My Dashboard" color="#52796F" />
+      {/* top-btn */}
+      <div className="p-[1rem]">
+        <div className="grid grid-cols-2 gap-x-[1rem]">
+          <div>
             <CommonTopButton
               text="For Rent"
               bgcolor="#1E0058"
@@ -244,187 +239,250 @@ function Dashboard() {
               color="#DAF0EE"
             />
           </div>
-          <div style={{marginRight:"10px",boxShadow: "0 4px 8px -3px rgba(0, 0, 0, 0.8)", borderRadius:"8px" }}>
-            <Link to="/DashboardS">
-              <CommonTopButton
-                text="For Sale"
-                bgColor="#F5F5F5"
-                borderColor="#B3A8C8"
-                color="#B3A8C8"
-              />
-            </Link>
-          </div>
+          <Link to="/DashboardS">
+            <CommonTopButton
+              text="For Sale"
+              bgColor="#F5F5F5"
+              borderColor="#B3A8C8"
+              color="#B3A8C8"
+            />
+          </Link>
+        </div>
+      </div>
+      {/* main content */}
+      <div className="p-[1rem]">
+        {/* listing & tenant */}
+        <div className="px-[1rem] grid grid-cols-2">
           {/* Listing */}
-        </div>
+          <div className="flex justify-center items-center text-[#52796F]">
+            <FaHouse className="text-[1.7rem]" />
+            <p className="px-[0.6rem] text-[1.4rem] font-bold">Listing</p>
 
-        {/* BODY */}
-        <div className="mainDashboardContainer d-flex">
-          {/* left starts */}
-          <div className="leftDashboard">
-            <div className="lMenusHead">
-              <img src={listing} height={30} />
-              <label style={{ color: "#52796F" }}>Listings</label>
-            </div>
-
-            <div></div>
-            <div className="newboxSizingl">
-              <Link className="leftlink" to="/AvailablePropertyrental">
-                <DashComponent
-                  img={AvailaibleProperty}
-                  title="Available Properties"
-                  number={AvailablePropertyNumner}
-                />
-              </Link>
-              <div style={{ marginTop: "5px" }}></div>
-              <Link to="/My_propertyPV" className="leftlink">
-                {" "}
-                <DashComponent
-                  img={PendingVerification}
-                  title="Pending Verification"
-                  number={CountProperties.Pending}
-                />
-              </Link>
-              <div style={{ marginTop: "5px" }}></div>
-              <Link to="/AllActiveProperties" className="leftlink">
-                <DashComponent
-                  img={ActiveListing}
-                  title="Active Listing"
-                  number={CountProperties.Verified}
-                />
-              </Link>
-              <div style={{ marginTop: "5px" }}></div>
-              <Link to="/My_PropertyYTS" className="leftlink">
-                <DashComponent
-                  img={yetToShare}
-                  title="Yet To Share"
-                  number={ytsCount}
-                />
-              </Link>
-              <div style={{ marginTop: "5px" }}></div>
-              <Link to="/My_PropertySNA" className="leftlink">
-                <DashComponent
-                  img={sharedOut}
-                  title="Shared"
-                  number={SharedPropertyCount}
-                />
-              </Link>
-              <div style={{ marginTop: "5px" }}></div>
-              <Link to="/My_PropertyS" className="leftlink">
-                <DashComponent
-                  img={shortlisted}
-                  title="Shortlisted"
-                  number={CountProperties.Shortlisted}
-                />
-              </Link>
-            </div>
-            <label>{CountProperties.Closed} Closed</label>
-
-            {/* left end */}
           </div>
-
-          {/* Right starts */}
-
-          <div className="rightDashboard">
-            <div className="rMenusHead">
-              <img src={Tenimg} height={30} />
-              <label className="labelH" style={{ color: "#000000 !important" }}>
-                Tenants
-              </label>
-            </div>
-
-            <div className="newboxSizingr">
-              <Link className="Link" to="/ActiveLeads">
-                <DashComponent
-                  img={ActiveLeads}
-                  title="Active Leads"
-                  number={number}
-                />
-              </Link>
-              <div style={{ marginTop: "5px" }}></div>
-              <Link className="Link" to="/AllTenantOne">
-                <DashComponent
-                  img={PendingVerification}
-                  title="Waiting For Property"
-                  number={CountTenants.WaitingForProperty}
-                />
-              </Link>
-              <div style={{ marginTop: "5px" }}></div>
-              <Link to="/AllTenantOne" className="Link">
-                <DashComponent
-                  img={CurrentlyViewing}
-                  title="Currently Viewing"
-                  number={CountTenants.CurrentlyViewing}
-                />
-              </Link>
-              <div style={{ marginTop: "5px" }}></div>
-              <Link to="/AllTenantOne" className="Link">
-                <DashComponent
-                  img={shortlisted}
-                  title="ShortListed"
-                  number={CountTenants.Shortlisted}
-                />
-              </Link>
-            </div>
-            <label>{CountTenants.Deactivate} Closed</label>
-            {/* Right ENd */}
-          </div>
-
-          {/* Container ENd */}
-        </div>
-
-        <div className="btnGroup">
-          <div
-            className="btnGroupOne"
-            style={{ display: "flex", flexDirection: "row" }}
-          >
-            <Link to="/AllProperty">
-              <CommonBtn
-                title="All Properties"
-                margin="1.2%"
-                fontweight="bolder"
-                bgColor="#5D6560"
-              />
-            </Link>
-            <Link to="/AllTenantOne">
-              <CommonBtn title="All Tenants" margin="52%" fontweight="bolder" />
-            </Link>
-          </div>
-
-          {/* <div className="btnGroupTwo" style={{display:"flex", flexDirection:"row",marginTop:"80px" }}>
-            
-            <CommonBtn style={{display:"flex"}} title="Add New Property"  margin="3px" fontweight="bolder" bgColor="#5D6560" isHeight="true" />
-            <CommonBtn title="Add New Tenant"  margin="40%" fontweight="bolder" isHeight="true" />
-            </div> */}
-
-          <div
-            className="btnGroupTwo"
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              marginTop: "80px",
-              justifyContent: "space-between",
-            }}
-          >
-            <Link to="/Propertyinfo">
-              <ExtraCommonButton
-                title="Add New Property"
-                margin="10px 0px 0px 25px"
-                fontweight="bolder"
-                bgColor="#5D6560"
-                isHeight="true"
-              />
-            </Link>
-            <Link to="/AddTenant">
-              <ExtraCommonButton
-                title="Add New Tenant"
-                margin="10px 15px 0px 20px"
-                fontweight="bolder"
-                isHeight="true"
-              />
-            </Link>
+          {/* tenant */}
+          <div className="flex justify-center items-center">
+            <FaCircleUser className="text-[1.7rem]" />
+            <p className="px-[0.6rem] text-[1.4rem] font-bold">Tenants</p>
           </div>
         </div>
-
+        {/* main-container */}
+        <div className="px-[1rem] py-[1rem]">
+          <div className="grid grid-cols-2 gap-x-[1rem]">
+            {/* left-container */}
+            <div>
+              <div className="flex justify-center items-center flex-col bg-[#DAF0EE] rounded-[0.8rem] gap-y-[0.5rem] p-[1rem]">
+                {/* AvailableProperties */}
+                <Link
+                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%] flex-col"
+                  to="/AvailablePropertyrental"
+                >
+                  {/* icon */}
+                  <div className="flex justify-center items-center pb-[0.5rem]">
+                    <TbBrandGoogleHome className="text-[#52796F] text-[2.5rem]" />
+                    <p className="text-[2rem] text-center px-[0.5rem] font-bold">
+                      {CountProperties.Total}
+                    </p>
+                  </div>
+                  {/* text */}
+                  <div className="font-bold flex justify-center items-center">
+                    <p className="text-center">Available Properties</p>
+                  </div>
+                </Link>
+                {/* PendingVerification */}
+                <Link
+                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%] flex-col"
+                  to="/My_propertyPV"
+                >
+                  {/* icon */}
+                  <div className="flex justify-center items-center pb-[0.5rem]">
+                    <RiQuestionnaireFill className="text-[#52796F] text-[2.5rem]" />
+                    <p className="text-[2rem] text-center px-[0.5rem] font-bold">
+                      {CountProperties.Pending}
+                    </p>
+                  </div>
+                  <div className="font-bold flex justify-center items-center flex-col">
+                    <p className="text-center">Pending Verification</p>
+                  </div>
+                </Link>
+                {/* ActiveListing */}
+                <Link
+                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%] flex-col"
+                  to="/AllActiveProperties"
+                >
+                  {/* icon */}
+                  <div className="flex justify-center items-center pb-[0.5rem]">
+                    <BsFillBookmarkCheckFill className="text-[#52796F] text-[2.5rem]" />
+                    <p className="text-[2rem] text-center px-[0.5rem] font-bold">
+                      {CountProperties.Verified}
+                    </p>
+                  </div>
+                  {/* text */}
+                  <div className="font-bold flex justify-center items-center flex-col">
+                    <p className="text-center">Active Listing</p>
+                  </div>
+                </Link>
+                {/* yetToShare */}
+                <Link
+                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%] flex-col"
+                  to="/My_PropertyYTS"
+                >
+                  {/* icon */}
+                  <div className="flex justify-center items-center pb-[0.5rem]">
+                    <TbShareOff className="text-[#52796F] text-[2.5rem]" />
+                    <p className="text-[2rem] text-center px-[0.5rem] font-bold">
+                      {ytsCount}
+                    </p>
+                  </div>
+                  {/* text */}
+                  <div className="font-bold flex justify-center items-center flex-col">
+                    <p className="text-center">Yet to share</p>
+                  </div>
+                </Link>
+                {/* shared */}
+                <Link
+                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%] flex-col"
+                  to="/My_PropertySNA"
+                >
+                  {/* icon */}
+                  <div className="flex justify-center items-center pb-[0.5rem]">
+                    <MdOutlineMobileScreenShare className="text-[#52796F] text-[2.5rem]" />
+                    <p className="text-[2rem] text-center px-[0.5rem] font-bold">
+                      {SharedPropertyCount}
+                    </p>
+                  </div>
+                  {/* text */}
+                  <div className="font-bold flex justify-center items-center flex-col">
+                    <p className="text-center">Shared</p>
+                  </div>
+                </Link>
+                {/* shortlisted */}
+                <Link
+                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%] flex-col"
+                  to="/My_PropertyS"
+                >
+                  {/* icon */}
+                  <div className="flex justify-center items-center pb-[0.5rem]">
+                    <RiHomeHeartLine className="text-[#52796F] text-[2.5rem]" />
+                    <p className="text-[2rem] text-center px-[0.5rem] font-bold">
+                      {CountProperties.Shortlisted}
+                    </p>
+                  </div>
+                  {/* text */}
+                  <div className="font-bold flex justify-center items-center flex-col">
+                    <p className="text-center">Shortlisted</p>
+                  </div>
+                </Link>
+              </div>
+              <p className="font-bold text-[1.2rem] text-center py-[1rem]">
+                {CountProperties.Closed} Closed
+              </p>
+            </div>
+            {/* right-container */}
+            <div>
+              <div className="flex flex-col bg-[#E8E7E7] rounded-[0.8rem] gap-y-[0.5rem] p-[1rem] h-max">
+                {/* active leads */}
+                <Link
+                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%] flex-col"
+                  to="/ActiveLeads"
+                >
+                  {/* icon */}
+                  <div className="flex justify-center items-center pb-[0.5rem]">
+                    <FaCircleUser className="text-[#52796F] text-[2.5rem]" />
+                    <p className="text-[2rem] text-center px-[0.5rem] font-bold">
+                      {number}
+                    </p>
+                  </div>
+                  {/* text */}
+                  <div className="font-bold flex justify-center items-center flex-col">
+                    <p className="text-center">Active Leads</p>
+                  </div>
+                </Link>
+                {/* waiting for property */}
+                <Link
+                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%] flex-col"
+                  to="/AllTenantOne"
+                >
+                  {/* icon */}
+                  <div className="flex justify-center items-center pb-[0.5rem]">
+                    <RiQuestionnaireFill className="text-[#52796F] text-[2.5rem]" />
+                    <p className="text-[2rem] text-center px-[0.5rem] font-bold">
+                      {CountTenants.WaitingForProperty}
+                    </p>
+                  </div>
+                  {/* text */}
+                  <div className="font-bold flex justify-center items-center flex-col">
+                    <p className="text-center">Waiting for Property</p>
+                  </div>
+                </Link>
+                {/* currently viewing */}
+                <Link
+                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%] flex-col"
+                  to="/AllTenantOne"
+                >
+                  {/* icon */}
+                  <div className="flex justify-center items-center pb-[0.5rem]">
+                    <FaEye className="text-[#52796F] text-[2.5rem]" />
+                    <p className="text-[2rem] text-center px-[0.5rem] font-bold">
+                      {CountTenants.CurrentlyViewing}
+                    </p>
+                  </div>
+                  {/* text */}
+                  <div className="font-bold flex justify-center items-center flex-col">
+                    <p className="text-center">Currently Viewing</p>
+                  </div>
+                </Link>
+                {/* shortlisted */}
+                <Link
+                  className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%] flex-col"
+                  to="/AllTenantOne"
+                >
+                  {/* icon */}
+                  <div className="flex justify-center items-center pb-[0.5rem]">
+                    <RiHomeHeartLine className="text-[#52796F] text-[2.5rem]" />
+                    <p className="text-[2rem] text-center px-[0.5rem] font-bold">
+                      {CountTenants.Shortlisted}
+                    </p>
+                  </div>
+                  {/* text */}
+                  <div className="font-bold flex justify-center items-center flex-col">
+                    <p className="text-center">Shortlisted</p>
+                  </div>
+                </Link>
+              </div>
+              <p className="font-bold text-[1.2rem] text-center py-[1rem]">
+                {CountTenants.Deactivate} Closed
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* buttons-containers */}
+      <div className="px-[1rem] py-[1rem]">
+        {/* btngrp1 */}
+        <div className="grid grid-cols-2 gap-x-[0.5rem]">
+          <Link to="/AllProperty" className="flex justify-center items-center">
+            <CommonBtn
+              title="All Properties"
+              margin="1.2%"
+              fontweight="bolder"
+              bgColor="#5D6560"
+            />
+          </Link>
+          <Link to="/AllTenantOne" className="flex justify-center items-center">
+            <CommonBtn title="All Tenants" margin="52%" fontweight="bolder" />
+          </Link>
+        </div>
+        {/* btngrp2 */}
+        <div className="grid grid-cols-2 gap-x-[0.5rem] py-[1.5rem]">
+          <Link to="/Propertyinfo" className="flex justify-center items-center">
+            <CommonBtn title="Add New Property" bgColor="#5D6560" />
+          </Link>
+          <Link to="/AddTenant" className="flex justify-center items-center">
+            <CommonBtn title="Add New Tenant" />
+          </Link>
+        </div>
+      </div>
+      <div className="py-[1rem]">
         <Footer />
       </div>
     </>

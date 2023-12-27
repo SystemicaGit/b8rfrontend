@@ -1,68 +1,88 @@
-import React from "react";
-import {Link} from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import backgroundSecond from "../Assets/Images/other_bg.png";
 import greenTick from "../Assets/Images/greenTick.png";
-import vector from "../Assets/Images/vector.png"
-import Footer from '../Footer';
+import vector from "../Assets/Images/vector.png";
+import Footer from "../Footer";
 // import key_1 from "./PropertyAdditionPageIcons/key_1/24.png";
 // import rent_1 from "./PropertyAdditionPageIcons/rent_1/24.png";
 import BackButton from "../CommonButtonBack";
 import CommonHeader from "../CommonHeader";
 import CommonBtn from "../CommonButton";
 import CommonTopButton from "../CommonTopButton";
+import { IoCloudDoneSharp } from "react-icons/io5";
 
-function VerificationComplete()
-{
-    return(
-            
-        <div className="login-page">
-          <div className="form" style={{  borderRadius: "16px", marginTop: "10%", backgroundRepeat: 'no-repeat' , backgroundRepeat: 'no-repeat' , backgroundSize : '100% 100%' }} >
-          <h2 style={{color:"#000000"}}>Verification Complete</h2>
+function VerificationComplete() {
+  const token = localStorage.getItem("token");
+  const queryParameters = new URLSearchParams(window.location.search);
+  const pId = queryParameters.get("propertyId");
+  const [propertyData, setPropertyData] = useState();
 
-            
+  let axiosConfig = {
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8",
+      "Access-Control-Allow-Origin": "*",
+      Authorization: `Basic ${token}`,
+    },
+  };
 
-            {/* -----------for name----------- */}
-            <div style={{marginTop:"70px"}}>
-            <h4 style={{fontWeight:"lighter",textDecoration:"underline"}}>Society Name</h4>
-            <h2 style={{color:"#52796F"}}>Society Name</h2>
-            </div>
-
-             {/* -----------budget details----------- */}
-             <div  style={{marginTop:"40px"}}>
-             <h4 style={{fontWeight:"lighter",textDecoration:"underline"}}>Features</h4>
-             <h2 style={{color:"#52796F"}}>2BHK</h2>
-             </div>
-
-
-              {/* -----------button----------- */}
-              {/* <div style={{marginTop:"40px"}}>
-              <button className="CommonnButton" style={{  fontWeight: "1000" , textAlign: "left", fontStyle: "normal", width: "75%" }}>Go to Agent Dashboard<img className="vectorSignIn" src={vector} alt="fireSpot"/></button>
-              </div> */}
-   
-                
-
-                
-
-              
-
-                
-              <CommonBtn title="Go to Agent Dashboard" margin="11%" fontweight="bolder"  color="#DAF0EE" />
-                      
-           
-              
-         
-                  
-
-               <Footer/>
-                
-            </div>
+  useEffect(() => {
+    const fetchPropertyData = async () => {
+      if (pId) {
+        try {
+          const res = await axios.get(
+            `https://b8rliving.com/property/${pId}`,
+            axiosConfig
+          );
+          //   console.log(res.data.data.property);
+          setPropertyData(res.data.data.property);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+    fetchPropertyData();
+  }, []);
+  return (
+    <>
+      {/* <CommonHeader title="Upload Photos" color="#52796F" /> */}
+      <div className="px-[1rem] py-[4rem]">
+        <div className="flex justify-center items-center text-[#52796F]">
+          <IoCloudDoneSharp className="text-[4rem]" />
+          <p className="text-[1.5rem] px-[0.5rem] font-bold">
+            Verification Complete
+          </p>
         </div>
-           
-        
-       
-        
-    );
-
+        <div className="flex justify-center items-center py-[2rem] flex-col text-center">
+          <p className="text-[2rem] font-bold py-[2rem]">
+            {propertyData && propertyData.houseName}
+          </p>
+          <p className="text-[1.4rem] font-semibold">
+            <u>Society Name</u>
+          </p>
+          <p className="text-[2rem] font-bold">
+            {propertyData && propertyData.societyName}
+          </p>
+        </div>
+        <div className="flex justify-center items-center flex-col py-[3rem] text-center">
+          <p className="text-[1.3rem] font-semibold text-center">
+            <u>Features</u>
+          </p>
+          <p className="text-[2rem] font-bold text-[#52796F]">
+            {propertyData &&
+              propertyData.propertyDetails.propertyInfo.houseConfig}
+          </p>
+          <p className="text-[1.4rem] font-semibold">
+            {`(${
+              propertyData &&
+              propertyData.propertyDetails.featureInfo.furnishingType
+            })`}
+          </p>
+        </div>
+      </div>
+      <Footer />
+    </>
+  );
 }
 export default VerificationComplete;
