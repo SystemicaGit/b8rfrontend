@@ -11,12 +11,12 @@ import CommonBtn from "../CommonButton";
 import BackButton from "../CommonButtonBack";
 import CommonHeader from "../CommonHeader";
 import { useNavigate } from "react-router-dom";
+import { MdVpnKey } from "react-icons/md";
 
 function AddBuyer() {
   const [checkedStateOne, setCheckedStateOne] = useState(true);
 
   const [formData, setFormData] = useState({
-
     phoneNumber: "",
     buyerData: {
       name: "",
@@ -48,7 +48,7 @@ function AddBuyer() {
   const handleChange = (event) => {
     const { name, value } = event.target;
     console.log(name, value);
-    
+
     if (name === "phoneNumber") {
       setFormData((prevState) => ({
         ...prevState,
@@ -79,8 +79,8 @@ function AddBuyer() {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(JSON.stringify(formData));
-    const Jdata =  JSON.stringify(formData, null, 2);
-    console.log("JSON VARIABLE",Jdata);
+    const Jdata = JSON.stringify(formData, null, 2);
+    console.log("JSON VARIABLE", Jdata);
 
     //Validation
     let inputError = {
@@ -89,11 +89,7 @@ function AddBuyer() {
     };
 
     axios
-      .post(
-        "https://b8rliving.com/buyer",
-        formData,
-        axiosConfig
-      )
+      .post("https://b8rliving.com/buyer", formData, axiosConfig)
       .then((response) => {
         alert("Your Buyer details has been submitted");
         //redirect user to Dashboard
@@ -116,8 +112,8 @@ function AddBuyer() {
             <div
               className="form"
               style={{
-                borderRadius: "16px",
-                marginTop: "10%",
+                // borderRadius: "16px",
+                // marginTop: "10%",
                 backgroundRepeat: "no-repeat",
                 backgroundImage: `url(${bgm})`,
                 backgroundRepeat: "no-repeat",
@@ -131,7 +127,8 @@ function AddBuyer() {
                 className="login-form inner-background-add"
               >
                 <label htmlFor="name" className="fieldTitle">
-                  Buyer Name
+                  Buyer Name{" "}
+                  <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
                 </label>
                 <input
                   className={"fieldInput-add"}
@@ -144,7 +141,8 @@ function AddBuyer() {
                 />
 
                 <label htmlFor="email" className="fieldTitle">
-                  Buyer Email
+                  Buyer Email{" "}
+                  <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
                 </label>
                 <input
                   className={"fieldInput-add"}
@@ -158,7 +156,8 @@ function AddBuyer() {
                 <p className="error-message">{formError.email}</p>
 
                 <label htmlFor="phoneNumber" className="fieldTitle">
-                  Buyer mobile number
+                  Buyer mobile number{" "}
+                  <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
                 </label>
                 <input
                   className={"fieldInput-add"}
@@ -170,7 +169,8 @@ function AddBuyer() {
                   required
                 />
                 <label htmlFor="panNumber" className="fieldTitle">
-                  Pan Card Number
+                  Pan Card Number{" "}
+                  <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
                 </label>
                 <input
                   className={"fieldInput-add"}
@@ -182,10 +182,10 @@ function AddBuyer() {
                   required
                 />
 
-                <div style={{ display: "flex", flexDirection: "row" }}>
-                  <div onClick={handleClick}>
-                  <BackButton title="Back" margin="" fontweight="bolder" />
-                  </div>
+                <div className="flex justify-center items-center py-[1rem]">
+                  {/* <div onClick={handleClick}>
+                    <BackButton title="Back" margin="" fontweight="bolder" />
+                  </div> */}
                   <CommonBtn
                     title="Submit"
                     margin="50%"
@@ -207,8 +207,8 @@ function AddBuyer() {
           <div
             className="form"
             style={{
-              borderRadius: "16px",
-              marginTop: "10%",
+              // borderRadius: "16px",
+              // marginTop: "10%",
               backgroundRepeat: "no-repeat",
               backgroundImage: `url(${bgm})`,
               backgroundRepeat: "no-repeat",
@@ -218,7 +218,7 @@ function AddBuyer() {
             {/* <h2 style={{color:"#52796F"}}>Tenant Details (1/2)</h2> */}
             <CommonHeader title="Buyer Details" color="#1E0058" />
 
-            <form className="login-form" onSubmit={handleSubmit}>
+            <form className="login-form pt-[2rem]" onSubmit={handleSubmit}>
               <label
                 for="houseConfiguration"
                 style={{
@@ -239,6 +239,7 @@ function AddBuyer() {
                 style={{
                   backgroundColor: "white",
                   padding: "10px",
+                  width: "90%",
                   borderRadius: "5px",
                   border: "1px solid #52796F",
                 }}
@@ -248,11 +249,8 @@ function AddBuyer() {
                 <option value="Studio">Studio</option>
                 <option value="1 BHK">1 BHK</option>
                 <option value="2 BHK">2 BHK</option>
-                
                 <option value="3 BHK">3 BHK</option>
-                
                 <option value="4 BHK">4 BHK</option>
-               
               </select>
 
               <label
@@ -276,10 +274,10 @@ function AddBuyer() {
                   backgroundColor: "white",
                   padding: "10px",
                   borderRadius: "5px",
+                  width: "90%",
                   border: "1px solid #52796F",
                 }}
               >
-                
                 <option value=" ">Type of Furnishing</option>
                 <option value="Full-furnished">Full-Furnished</option>
                 <option value="Semi-furnished">Semi-Furnished</option>
@@ -306,6 +304,7 @@ function AddBuyer() {
                 style={{
                   backgroundColor: "white",
                   padding: "10px",
+                  width: "90%",
                   borderRadius: "5px",
                   border: "1px solid #52796F",
                 }}
@@ -313,7 +312,8 @@ function AddBuyer() {
                 <option value="Selectfromdropdown">
                   Select from Drop Down
                 </option>
-                houseType" must be one of [Flat (in Gated Society…r Floor, Standalone Individual House, 0, 1, 2, 3]
+                {/* houseType" must be one of [Flat (in Gated Society…r Floor,
+                Standalone Individual House, 0, 1, 2, 3] */}
                 <option value="Gated Society)">Flat(in Gated Society)</option>
                 {/* <option value="Individual"> Individual Builder Floor</option>
                 <option value="Individual House">
@@ -365,49 +365,53 @@ function AddBuyer() {
                 required
               />
               <br></br>
-
-              <div style={{ display: "flex", marginBottom: "20px" }}>
+              <div className="flex justify-center items-center py-[1rem]">
                 <div
+                  className="p-[0.5rem] flex justify-center items-center flex-col"
                   style={{
-                    width: "150px",
-                    height: "130px",
                     background:
                       "linear-gradient(180deg, rgba(207, 211, 210, 0.5) 0%, rgba(232, 231, 231, 0) 100%)",
-                    marginRight: "10px",
+                    // marginRight: "10px",
                     boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                     borderRadius: "5px",
                   }}
                 >
-                  {/* <div class="grid-item"  style={{marginTop:"20px",width:"150px",marginBottom:"10px",boxShadow:"0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24", border:"none",background:"linear-gradient(180deg, rgba(207, 211, 210, 0.5) 0%, rgba(232, 231, 231, 0) 100%)", boxShadow:" 0px 4px 4px rgba(0, 0, 0, 0.25)",boxShadow:"5px"}}> */}
-                  <img src={key_1} alt="Icon description" />
-                  <h5 style={{ marginTop: "-5px" }}>Move in from</h5>
+                  <MdVpnKey className="text-[2rem] my-[0.5rem]" />
+                  <p className="font-semibold text-center pb-[0.5rem]">
+                    Move-in from
+                    <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
+                  </p>
                   <input
                     type="date"
                     id="moveIn"
                     value={formData.buyerData.moveIn}
                     onChange={handleChange}
                     name="moveIn"
+                    required
+   
                     // placeholder="username"
                     style={{
                       backgroundColor: "white",
                       padding: "10px",
                       borderRadius: "5px",
-                      marginTop: "-10px",
+                      // marginTop: "-10px",
                       border: "1px solid #52796F",
                       boxShadow:
                         "0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24)",
                     }}
                   />
-
                 </div>
               </div>
 
-              <div style={{ display: "flex", flexDirection: "row" }}>
-                <div>
-
-               
-                <BackButton title="Back" margin="" fontweight="bolder" onClick={handleClick}/>
-                </div>
+              <div className="flex justify-center items-center py-[1rem]">
+                {/* <div>
+                  <BackButton
+                    title="Back"
+                    margin=""
+                    fontweight="bolder"
+                    onClick={handleClick}
+                  />
+                </div> */}
                 <CommonBtn
                   title="Save & Next"
                   margin="40%"

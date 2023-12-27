@@ -161,7 +161,6 @@ const TenantComp = ({ props, name }) => {
                 padding: "1rem 0",
               }}
             >
-
               {values.status === "WaitingForProperty" && (
                 <>
                   <div>
@@ -180,7 +179,7 @@ const TenantComp = ({ props, name }) => {
                   </div>
 
                   <div className="text-[0.9rem] font-semibold px-[0.2rem]">
-                    2 properties shortlisted
+                    {values.numberShortlisted} properties shortlisted
                   </div>
                 </>
               )}
@@ -191,7 +190,7 @@ const TenantComp = ({ props, name }) => {
                   </div>
 
                   <div className="text-[0.9rem] font-semibold px-[0.2rem]">
-                    4 properties shared
+                    {values.numberShared} properties shared
                   </div>
                 </>
               )}

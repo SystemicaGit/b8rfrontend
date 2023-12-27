@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import backgroundImg from "../../Assets/Images/Sale/RestBg.png";
 import CommonHeader from "../../CommonHeader";
 import CommonBtn from "../../CommonButton";
-import CommonTopButton from '../../CommonTopButton';
+import CommonTopButton from "../../CommonTopButton";
 import Footer from "../../Footer";
 import { Link } from "react-router-dom";
 import CreateBoardUpper from "../../Assets/Byerboard.png";
 import CreateBoardAmm from "../../Assets/CreateBoardAmm.png";
-import axios from 'axios';
+import axios from "axios";
 import searchImg from "../../Assets/Search.png";
 import SearchBar from "../../SearchBar";
 import ApartmentType from "../../Assets/Images/BoardCreation/ApartmentType.png";
@@ -32,16 +32,41 @@ import onboarded from "../../Assets/Images/PropertyAdditionPageIcons/Power_backu
 import swimmingPool from "../../Assets/Images/PropertyAdditionPageIcons/swimming_pool/24.png";
 import nonVeg from "../../Assets/Images/PropertyAdditionPageIcons/veg_non-veg_1/24.png";
 import PropertyComp from "./PropertyComp";
+import { MdBed } from "react-icons/md";
+import { MdChair } from "react-icons/md";
+import { LuParkingCircle } from "react-icons/lu";
+import { LuParkingCircleOff } from "react-icons/lu";
+import {
+  MdOutlineSecurity,
+  MdPower,
+  MdOutlineSportsHandball,
+} from "react-icons/md";
+import { FaCartShopping } from "react-icons/fa6";
+import { BiSwim } from "react-icons/bi";
+import { CgGym } from "react-icons/cg";
+import { RxDimensions } from "react-icons/rx";
+import { HiMiniBuildingOffice } from "react-icons/hi2";
+import { RiParkingBoxFill } from "react-icons/ri";
+import { FaBath } from "react-icons/fa6";
+import { MdBalcony, MdOutlineCleaningServices } from "react-icons/md";
+import { LuArmchair } from "react-icons/lu";
+import { TbAirConditioning } from "react-icons/tb";
+import { GiRoastChicken } from "react-icons/gi";
+import { BiSolidCalendarEdit } from "react-icons/bi";
+import { MdVpnKey } from "react-icons/md";
+import { HiCurrencyRupee } from "react-icons/hi2";
+import { FaUserLock } from "react-icons/fa";
+import { GrHostMaintenance } from "react-icons/gr";
+import { BsFillHouseLockFill } from "react-icons/bs";
+import { FaSearch } from "react-icons/fa";
 
-
-function CreateBoardS()
-{
+function CreateBoardS() {
   const queryParameters = new URLSearchParams(window.location.search);
   const name = queryParameters.get("name");
   const buyerId = queryParameters.get("buyerId");
   const boardId = queryParameters.get("boardId");
 
-  console.log(buyerId)
+  console.log(buyerId);
 
   const [searchValue, setSearchValue] = useState("");
   const [responseDataTenantBoard, setResponseDataTenantBoard] = useState("");
@@ -66,7 +91,7 @@ function CreateBoardS()
 
   useEffect(() => {
     const fetchTenantDetails = async () => {
-      setLoading(true);
+      // setLoading(true);
       try {
         const response = await axios.get(
           `https://b8rliving.com/buyer/${buyerId}`,
@@ -77,7 +102,7 @@ function CreateBoardS()
         const responseDataTenant = response.data.data.buyer.boardId;
         console.log(response.data.data.buyer.boardId);
         const responseDataTenantBoardId = response.data.data.buyer.boardId;
-        
+
         setResponseDataTenantBoard(responseDataTenantBoardId);
         // Update the formData state with the response data
         setResponseDataTenant(responseData);
@@ -102,7 +127,7 @@ function CreateBoardS()
 
       //Get All Properties
       try {
-        setLoading(true);
+        // setLoading(true);
         const response = await axios.get(
           `https://b8rliving.com/property`,
           axiosConfig
@@ -135,7 +160,6 @@ function CreateBoardS()
     fetchTenantDetails(); // Call the fetch function
   }, [buyerId]);
 
-
   console.log(responseDataProperty);
 
   // console.log(responseDataTenantData);
@@ -155,14 +179,13 @@ function CreateBoardS()
     bathroom: "Bathroom",
   };
 
-  
-    return(
-        <div>
-        <div
-        className="form"
+  return (
+    <div>
+      <div
+        className=""
         style={{
-          borderRadius: "16px",
-          marginTop: "10%",
+          // borderRadius: "16px",
+          // marginTop: "10%",
           backgroundRepeat: "no-repeat",
           backgroundImage: `url(${backgroundImg})`,
           backgroundRepeat: "no-repeat",
@@ -173,139 +196,178 @@ function CreateBoardS()
 
         {/* <img src={CreateBoardUpper} style={{height:"190px"}}/> */}
         {/* upper component */}
-        { loading ? (
-            <div>
-              <img
-                src={loadingGif}
-                height={180}
-              />
-            </div>
-          ) : (
-
-
-            <>
-                    <div
-          style={{
-            height: "200px",
-            width: "90%",
-            background: "#E8C5ED",
-            marginTop: "20px",
-            marginLeft: "20px",
-            borderRadius: "6px",
-            boxShadow: "10px 12px 17px rgba(0, 0, 0, 0.4)",
-          }}
-        >
-          <h3 style={{ marginLeft: "-140px", marginTop: "10px" }}>
-            Tenant name: {name}
-          </h3>
-          <h5 style={{ marginLeft: "-140px" }}>
-            <b>
-              <u>Preference of Tenant</u>
-            </b>
-          </h5>
-            {responseDataTenant.map((values, index) => (
-              <div key={index}>
-                <div
-                  style={{
-                    height: "45px",
-                    width: "90%",
-                    background: "#FAFAFA",
-                    marginLeft: "20px",
-                    borderRadius: "8px",
-                    boxShadow: "0px 2px 7px rgba(0, 0, 0, 0.4)",
-                    display: "flex",
-                  }}
-                >
-                  <img
-                    src={area}
-                    height={15}
-                    style={{ marginTop: "10px", marginLeft: "10px" }}
-                  />{" "}
-                  <p style={{ fontSize: "12px" }}>
-                    {values.houseConfiguration}
+        {loading ? (
+          <div>
+            <img src={loadingGif} height={180} />
+          </div>
+        ) : (
+          <>
+            {/* maincontainer */}
+            <div className="p-[1rem]">
+              {/* first container */}
+              <div
+                className="bg-[#E8C5ED] px-[1rem] py-[0.5rem]"
+                style={{
+                  boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
+                }}
+              >
+                <p className="text-[1.4rem]">
+                  Tenant Name: <b>{name}</b>
+                </p>
+                <p className="text-[0.9rem]">(8 days since onboarded)</p>
+                {/* Preference */}
+                <div className="pt-[1.5rem]">
+                  <p className="font-bold text-[1.2rem]">
+                    <u>Preference of Tenant</u>
                   </p>
-                  <img
-                    src={Group}
-                    height={15}
-                    style={{ marginTop: "10px", marginLeft: "30px" }}
-                  />{" "}
-                  <p style={{ fontSize: "12px" }}>{values.furnishingType}</p>
-                  {values.carParking && values.bikeParking ? (
-                    values.carParking ? (
+                  <div
+                    className="bg-white py-[0.2rem] grid grid-cols-3"
+                    style={{
+                      boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
+                    }}
+                  >
+                    <div className="flex items-center justify-center flex-col">
+                      <MdBed className="text-[2.5rem]" />
+                      <p className="font-bold text-center">
+                        {responseDataTenant.length !== 0 &&
+                          responseDataTenant[0].houseConfiguration}
+                      </p>
+                    </div>
+                    <div className="flex items-center justify-center flex-col">
+                      <MdChair className="text-[2.5rem]" />
+                      <p className="font-bold text-center">
+                        {responseDataTenant.length !== 0 &&
+                          responseDataTenant[0].furnishingType}
+                      </p>
+                    </div>
+                    {responseDataTenant.length !== 0 &&
+                    (responseDataTenant[0].carParking ||
+                      responseDataTenant[0].bikeParking) ? (
                       <>
-                        <img
-                          src={parking}
-                          height={18}
-                          style={{ marginTop: "10px", marginLeft: "10px" }}
-                        />
-                        <p style={{ fontSize: "12px" }}>
-                          Car Parking Available
-                        </p>
+                        <div className="flex items-center justify-center flex-col">
+                          <LuParkingCircle className="text-[2.5rem]" />
+                          <p className="font-bold text-center">Available</p>
+                        </div>
                       </>
                     ) : (
                       <>
-                        {" "}
-                        <img
-                          src={parking}
-                          height={18}
-                          style={{ marginTop: "10px", marginLeft: "10px" }}
-                        />
-                        <p>Bike Parking Available</p>
+                        <div className="flex items-center justify-center flex-col">
+                          <LuParkingCircleOff className="text-[2.5rem]" />
+                          <p className="font-bold text-center">Not Available</p>
+                        </div>
                       </>
-                    )
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <div>
-                  <img
-                    src={Money}
-                    height={20}
-                    style={{ marginLeft: "-270px", marginTop: "10px" }}
-                  />
-                  <p style={{ marginLeft: "-200px", marginTop: "-23px" }}>
-                    {values.budget} Cr
-                  </p>
-                  <div
-                    style={{
-                      height: "25px",
-                      width: "40%",
-                      background: "#3B413D",
-                      marginLeft: "200px",
-                      borderRadius: "6px",
-                      marginTop: "-35px",
-                    }}
-                  >
-                    <img
-                      src={ApartmentType}
-                      style={{ marginLeft: "-110px", marginTop: "3px" }}
-                    />
-                    <p
-                      style={{
-                        color: "white",
-                        marginTop: "-20px",
-                        fontSize: "11px",
-                        padding: "1%",
-                      }}
-                    >
-                      {values.houseType}
-                    </p>
+                    )}
+                  </div>
+                  {/* rent and ApartmentType */}
+                  <div className="pt-[1rem] grid grid-cols-2">
+                    {/* rent */}
+                    <div className="flex justify-start items-center">
+                      <HiCurrencyRupee className="text-[2rem]" />
+                      <span className="text-[1.3rem] font-bold px-[0.2rem]">
+                        {responseDataTenant.length !== 0 &&
+                          responseDataTenant[0].rent}
+                        /month
+                      </span>
+                    </div>
+                    {/* ApartmentType */}
+                    <div className="flex justify-center items-center">
+                      <div
+                        className="p-[0.5rem] flex justify-center items-center text-white rounded-[0.5rem]"
+                        style={{
+                          background: "rgba(59, 65, 61, 0.70)",
+                        }}
+                      >
+                        <HiMiniBuildingOffice className="text-[2.5rem]" />
+                        <span className="text-[0.9rem] font-bold px-[1rem]">
+                          {responseDataTenant.length !== 0 &&
+                            responseDataTenant[0].houseType}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-
-          
               </div>
+              {/* second container */}
+              {/* <div
+                className="py-[0.5rem] px-[1rem] my-[1rem]"
+                style={{
+                  background: "#F5F5F5",
+                  border: "1px solid #52796F",
+                  boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
+                }}
+              >
+                <p className="font-bold text-[1.2rem] pb-[1rem]">
+                  <u>Amenities & Other Preference</u>
+                </p>
+                <div className="grid grid-cols-3 gap-y-[1.5rem]">
+                  {Object.entries(booleanValues).map(([key, value]) => {
+                    if (value === true) {
+                      const iconSources = {
+                        gatedSecurity: <MdOutlineSecurity />,
+                        powerBackup: <MdPower />,
+                        groceryStore: <FaCartShopping />,
+                        swimmingPool: <BiSwim />,
+                        gym: <CgGym />,
+                        clubHouse: <MdOutlineSportsHandball />,
+                        AirCondition: <TbAirConditioning />,
+                        carParking: <RiParkingBoxFill />,
+                        bikeParking: <RiParkingBoxFill />,
+                        nonVeg: <GiRoastChicken />,
+                        bathroom: <FaBath />,
+                      };
+                      const iconSrc = iconSources[key];
+                      return (
+                        <div className="flex justify-center items-center flex-col">
+                          <p className="text-[2rem]">{iconSrc}</p>
+                          <p className="font-semibold text-center">
+                            {keyNames[key]}
+                          </p>
+                        </div>
+                      );
+                    }
+                  })}
+                </div>
+              </div> */}
+            </div>
+            \ {/* CreateBoard - container */}
+            <div className="px-[1rem] py-[1rem]">
+              <p className="text-[#1E0058] text-[2rem] font-semibold text-center pb-[0.5rem]">
+                Create Tenant Board
+              </p>
+              <div
+                className="flex justify-center items-center px-[1rem]
+      rounded-[0.5rem] "
+                style={{
+                  boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.2)",
+                }}
+              >
+                <input
+                  type="text"
+                  placeholder="Search by property Name"
+                  value={searchValue}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  style={{
+                    outline: "none",
+                    marginBottom: "0",
+                    boxShadow: "none",
+                  }}
+                />
+                <button className="flex justify-center items-center">
+                  <FaSearch className="text-[1.5rem]" />
+                </button>
+              </div>
+              <PropertyComp
+                props={responseDataProperty}
+                responseDataTenantData={responseDataTenantData}
+                loading={loading}
+                Id={buyerId}
+                responseDataTenantBoard={responseDataTenantBoard}
+              />
+            </div>
+          </>
+        )}
 
-            ))}
-
-</div>
-
-
-            </>
-
-          )}
-
-          <div style={{ marginTop: "100px" }}> 
+        {/* <div style={{ marginTop: "100px" }}>
           <h3 style={{ color: "#1E0058" }}>Add Property to Board</h3>
           <input
             type="text"
@@ -313,13 +375,18 @@ function CreateBoardS()
             onChange={(e) => handleSearch(e.target.value)}
             placeholder="Search by property Name"
           />
-          <PropertyComp props={responseDataProperty} responseDataTenantData={responseDataTenantData} loading={loading} Id={buyerId} responseDataTenantBoard={responseDataTenantBoard} />
-          </div>
+          <PropertyComp
+            props={responseDataProperty}
+            responseDataTenantData={responseDataTenantData}
+            loading={loading}
+            Id={buyerId}
+            responseDataTenantBoard={responseDataTenantBoard}
+          />
+        </div> */}
 
-          <Footer />
-        </div>
-        </div>
-        
-    );
+        <Footer />
+      </div>
+    </div>
+  );
 }
 export default CreateBoardS;

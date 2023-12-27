@@ -241,8 +241,8 @@ function CreateBoard() {
         {/* upper component */}
         {loading ? (
           <div>
-            {/* <img src={loadingGif} height={180} /> */}
-            hello
+            <img src={loadingGif} height={180} />
+            {/* hello */}
           </div>
         ) : (
           <>
@@ -258,7 +258,7 @@ function CreateBoard() {
                 <p className="text-[1.4rem]">
                   Tenant Name: <b>{name}</b>
                 </p>
-                <p className="text-[0.9rem]">(8 days since onboarded)</p>
+                {/* <p className="text-[0.9rem]">(8 days since onboarded)</p> */}
                 {/* Preference */}
                 <div className="pt-[1.5rem]">
                   <p className="font-bold text-[1.2rem]">

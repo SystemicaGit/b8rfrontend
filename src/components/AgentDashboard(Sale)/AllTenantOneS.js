@@ -23,7 +23,6 @@ function AllTenantOneS() {
   const [activeColor, setColor] = useState("#77A8A4");
   const [loading, setLoading] = useState(false);
 
-  
   const [responseBuyer, setresponseBuyer] = useState([]);
 
   // const [responseTenatWaitingForProperty, setresponseTenatWaitingForProperty] =
@@ -32,7 +31,6 @@ function AllTenantOneS() {
   //   useState(false);
   const token = localStorage.getItem("token");
   console.log(token);
-
 
   const handleSearch = (searchValue) => {
     // Custom search handling logic
@@ -83,7 +81,7 @@ function AllTenantOneS() {
     }
   };
 
-  console.log(responseBuyer)
+  console.log(responseBuyer);
 
   const username = localStorage.getItem("username");
   const name = username.substring(0, username.indexOf(" "));
@@ -91,10 +89,10 @@ function AllTenantOneS() {
   return (
     <>
       <div
-        className="form"
+        className=""
         style={{
-          borderRadius: "16px",
-          marginTop: "10%",
+          // borderRadius: "16px",
+          // marginTop: "10%",
           backgroundRepeat: "no-repeat",
           backgroundImage: `url(${oneBg})`,
           backgroundRepeat: "no-repeat",
@@ -103,102 +101,93 @@ function AllTenantOneS() {
       >
         <CommonHeader title="All Buyer" color="#1E0058" />
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginBottom: "20px",
-          }}
-        >
-          <div style={{ marginRight: "8px" }}>
-            {waitingProperyData ? (
-              <CommonTopButton
-                bgColor="#1E0058"
-                borderColor="#DAF0EE"
-                color="#DAF0EE"
-                text="Wating For Property"
-                onclicked={() => setwaitingPropery((current) => !current)}
-              />
-            ) : (
-              <CommonTopButton
-                bgColor="#F5F5F5"
-                borderColor="#B3A8C8"
-                color="#B3A8C8"
-                text="Waiting For Property"
-                onclicked={() => setwaitingPropery((current) => !current)}
-              />
-            )}
+        <div className="p-[1rem]">
+          {/* grid-container */}
+          <div className="grid grid-cols-2 gap-[1rem]">
+            <div>
+              {waitingProperyData ? (
+                <CommonTopButton
+                  bgColor="#1E0058"
+                  borderColor="#DAF0EE"
+                  color="#DAF0EE"
+                  text="Wating For Property"
+                  onclicked={() => setwaitingPropery((current) => !current)}
+                />
+              ) : (
+                <CommonTopButton
+                  bgColor="#F5F5F5"
+                  borderColor="#B3A8C8"
+                  color="#B3A8C8"
+                  text="Waiting For Property"
+                  onclicked={() => setwaitingPropery((current) => !current)}
+                />
+              )}
+            </div>
+            <div>
+              {shortListedData ? (
+                <CommonTopButton
+                  bgColor="#1E0058"
+                  borderColor="#DAF0EE"
+                  color="#DAF0EE"
+                  text="Shortlisted"
+                  onclicked={() => setshortListed((current) => !current)}
+                />
+              ) : (
+                <CommonTopButton
+                  bgColor="#F5F5F5"
+                  borderColor="#B3A8C8"
+                  color="#B3A8C8"
+                  text="Shortlisted"
+                  onclicked={() => setshortListed((current) => !current)}
+                />
+              )}
+            </div>
+            <div>
+              {currentViewData ? (
+                <CommonTopButton
+                  bgColor="#1E0058"
+                  borderColor="#DAF0EE"
+                  color="#DAF0EE"
+                  text="Currently Viewing"
+                  onclicked={() => setcurrentView((current) => !current)}
+                />
+              ) : (
+                <CommonTopButton
+                  bgColor="#F5F5F5"
+                  borderColor="#B3A8C8"
+                  color="#B3A8C8"
+                  text="Currently Viewing"
+                  onclicked={() => setcurrentView((current) => !current)}
+                />
+              )}
+            </div>
+            <div>
+              {archiveData ? (
+                <CommonTopButton
+                  bgColor="#1E0058"
+                  borderColor="#DAF0EE"
+                  color="#DAF0EE"
+                  text="Archived"
+                  onclicked={handlePageAvailable}
+                />
+              ) : (
+                <CommonTopButton
+                  bgColor="#F5F5F5"
+                  borderColor="#B3A8C8"
+                  color="#B3A8C8"
+                  text="Archived"
+                  onclicked={handlePageAvailable}
+                />
+              )}
+            </div>
           </div>
-          <div>
-            {shortListedData ? (
-              <CommonTopButton
-                bgColor="#1E0058"
-                borderColor="#DAF0EE"
-                color="#DAF0EE"
-                text="Shortlisted"
-                onclicked={() => setshortListed((current) => !current)}
-              />
-            ) : (
-              <CommonTopButton
-                bgColor="#F5F5F5"
-                borderColor="#B3A8C8"
-                color="#B3A8C8"
-                text="Shortlisted"
-                onclicked={() => setshortListed((current) => !current)}
-              />
-            )}
-          </div>
-          {/* Listing */}
         </div>
 
-        {/* -------------------------------------------------------------------------------- */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginBottom: "20px",
-            marginTop: "-10px",
-          }}
-        >
-          <div style={{ marginRight: "8px" }}>
-            {currentViewData ? (
-              <CommonTopButton
-                bgColor="#D2D7D6"
-                borderColor="#A9C0BA"
-                color="#77A8A4"
-                text="Currently Viewing"
-                onclicked={() => setcurrentView((current) => !current)}
-              />
-            ) : (
-              <CommonTopButton
-                bgColor="#F5F5F5"
-                borderColor="#B3A8C8"
-                color="#B3A8C8"
-                text="Currently Viewing"
-                onclicked={() => setcurrentView((current) => !current)}
-              />
-            )}
-          </div>
-          <div>
-            {archiveData ? (
-              <CommonTopButton
-                bgColor="#1E0058"
-                borderColor="#A9C0BA"
-                color="#A9C0BA"
-                text="Archived"
-                onclicked={handlePageAvailable}
-              />
-            ) : (
-              <CommonTopButton
-                bgColor="#F5F5F5"
-                borderColor="#B3A8C8"
-                color="#B3A8C8"
-                text="Archived"
-                onclicked={handlePageAvailable}
-              />
-            )}
-          </div>
-          {/* Listing */}
+        <SearchBar onSearch={handleSearch} placeholder="Search by Buyer name" />
+
+        <div className="p-[1rem] text-[1.2rem]">
+          <p className="font-bold py-[1rem]">Hey {name},</p>
+          <p> Here are all the tenants that you have onboarded</p>
         </div>
 
         {/* <SearchBar
@@ -206,10 +195,8 @@ function AllTenantOneS() {
           placeholder="Search by Buyers' name"
         /> */}
 
-        {archiveData ? (
+        {/* {archiveData ? (
           <>
-            {/* <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between" , marginRight:"10px"}}> */}
-
             <div
               style={{
                 display: "flex",
@@ -232,7 +219,6 @@ function AllTenantOneS() {
                   bgColor="#D2D7D6"
                   borderColor="#A9C0BA"
                   color="#77A8A4"
-                  // margin="0px 0px 0px 1px"
                 />
               </div>
             </div>
@@ -259,7 +245,7 @@ function AllTenantOneS() {
             Hey <b>{name}</b>, <br />
             Here are all the Buyer that you have onboarded
           </p>
-        )}
+        )} */}
 
         <TenantComp props={responseBuyer} name="test" />
 
