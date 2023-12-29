@@ -80,6 +80,7 @@ function CreateBoard() {
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
   const [booleanValues, setBooleanValues] = useState([]); // Store boolean values here
+  const [boardData, setBoardData] = useState([]);
 
   const handleSearch = (searchTerm) => {
     setSearchValue(searchTerm);
@@ -92,6 +93,46 @@ function CreateBoard() {
       Authorization: `Basic ${token}`,
     },
   };
+
+  useEffect(() => {
+    const fetchBoardDetails = async () => {
+      console.log("7378");
+      if (boardId) {
+        // setLoading(true);
+        try {
+          const response = await axios.get(
+            `https://b8rliving.com/board/${boardId}`,
+            axiosConfig
+          );
+
+          // const responseData = response.data.data.tenant.tenantDetails;
+          // const responseDataBoardData = response.data.data.board;
+          const responseDataPropertiesData =
+            response.data.data.board.propertyId;
+
+          if (responseDataPropertiesData) {
+            // Filter properties where 'imagesApproved' is true
+            const filteredProperties = responseDataPropertiesData.filter(
+              (property) =>
+                property.status == "Verified" &&
+                property.closeListingDetails == null
+            );
+            setBoardData(filteredProperties); // Set All properties added to board
+          }
+          console.log(boardData);
+          // console.log(responseDataBoardData);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        } finally {
+          setLoading(false); // Set loading to false when the request is complete
+        }
+      }
+    };
+
+    fetchBoardDetails();
+  }, [boardId]);
+
+  console.log(boardData);
 
   useEffect(() => {
     const fetchTenantDetails = async () => {
@@ -221,6 +262,7 @@ function CreateBoard() {
     nonVeg: "Non-Veg",
     bathroom: "Bathroom",
   };
+  
 
   return (
     <>
@@ -370,12 +412,6 @@ function CreateBoard() {
                       );
                     }
                   })}
-                  {/* <div>1</div>
-                  <div>2</div>
-                  <div>3</div>
-                  <div>4</div>
-                  <div>5</div>
-                  <div>6</div> */}
                 </div>
               </div>
             </div>
@@ -413,6 +449,7 @@ function CreateBoard() {
                 loading={loading}
                 Id={tenantId}
                 name={name}
+                boardData={boardData}
                 responseDataTenantBoard={responseDataTenantBoard}
               />
             </div>

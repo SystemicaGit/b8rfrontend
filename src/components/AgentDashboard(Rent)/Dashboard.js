@@ -45,16 +45,23 @@ function Dashboard() {
   const [SharedPropertyCount, setSharedPropertyCount] = useState([]);
 
   const token = localStorage.getItem("token");
- 
+
   //console.log("TOKEN ",token);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
 
   let axiosConfig = {
     headers: {
       "Content-Type": "application/json;charset=UTF-8",
       "Access-Control-Allow-Origin": "*",
       Authorization: `Basic ${token}`,
-  }
-};
+    },
+  };
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true);
@@ -171,7 +178,7 @@ function Dashboard() {
         );
         // Update the countProperties state with the response data
         setCountProperties(response.data.data.counts);
-         console.log(response.data.data.counts)
+        console.log(response.data.data.counts);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -189,8 +196,8 @@ function Dashboard() {
         );
         // Update the countProperties state with the response data
         setCountTenants(response.data.data.tenant);
-        console.log("Count count",response.data.data.counts)
-        console.log("Count tenants",response.data.data.tenant)
+        console.log("Count count", response.data.data.counts);
+        console.log("Count tenants", response.data.data.tenant);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -224,6 +231,13 @@ function Dashboard() {
     return null; // You should return something when using map to avoid React warnings.
   });
 
+  let route = {
+    WaitingForProperty: "WaitingForProperty",
+    CurrentlyViewing: "CurrentlyViewing",
+    Shortlisted: "Shortlisted",
+    Deactivate: "Deactivate",
+  };
+
   return (
     <>
       <CommonHeader title="My Dashboard" color="#52796F" />
@@ -255,7 +269,7 @@ function Dashboard() {
           {/* Listing */}
           <div className="flex justify-center items-center text-[#52796F]">
             <FaHouse className="text-[1.7rem]" />
-            <p className="px-[0.6rem] text-[1.4rem] font-bold">Listing</p>
+            <p className="px-[0.6rem] text-[1.4rem] font-bold">Listings</p>
           </div>
           {/* tenant */}
           <div className="flex justify-center items-center">
@@ -398,7 +412,7 @@ function Dashboard() {
                 {/* waiting for property */}
                 <Link
                   className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%] flex-col"
-                  to="/AllTenantOne"
+                  to={`/AllTenantOne?route=${route.WaitingForProperty}`}
                 >
                   {/* icon */}
                   <div className="flex justify-center items-center pb-[0.5rem]">
@@ -415,7 +429,7 @@ function Dashboard() {
                 {/* currently viewing */}
                 <Link
                   className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%] flex-col"
-                  to="/AllTenantOne"
+                  to={`/AllTenantOne?route=${route.CurrentlyViewing}`}
                 >
                   {/* icon */}
                   <div className="flex justify-center items-center pb-[0.5rem]">
@@ -432,7 +446,7 @@ function Dashboard() {
                 {/* shortlisted */}
                 <Link
                   className="p-[0.5rem] bg-[#FFFFFF] rounded-[0.8rem] flex justify-between items-center w-[100%] flex-col"
-                  to="/AllTenantOne"
+                  to={`/AllTenantOne?route=${route.Shortlisted}`}
                 >
                   {/* icon */}
                   <div className="flex justify-center items-center pb-[0.5rem]">

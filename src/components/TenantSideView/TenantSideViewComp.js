@@ -106,6 +106,8 @@ function TenantSideViewComp({ boards, boardId }) {
     navigate(-1);
   };
 
+  console.log("TID from -> " + globalTenantId);
+
   const shortlist = async (propertyid, index) => {
     // event.preventDefault();
     // setClick(true);
@@ -227,40 +229,42 @@ function TenantSideViewComp({ boards, boardId }) {
                   </div>
                   <p className="text-[0.9rem]"> (incl. Maintenance )</p>
                 </div>
-                <div className="flex justify-center items-center">
-                  <div className="mr-[-30px] flex justify-center items-center">
-                    {isClickArray[index] ? (
-                      <p
-                        style={{
-                          fontStyle: "Glida Display",
-                          fontSize: "16px",
-                          color: "#B30808",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        Shortlisted
-                      </p>
-                    ) : (
-                      <p
-                        style={{
-                          fontStyle: "Glida Display",
-                          fontSize: "16px",
-                          color: "#B30808",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        Shortlist{" "}
-                      </p>
-                    )}
+                {globalTenantId && (
+                  <div className="flex justify-center items-center">
+                    <div className="mr-[-30px] flex justify-center items-center">
+                      {isClickArray[index] ? (
+                        <p
+                          style={{
+                            fontStyle: "Glida Display",
+                            fontSize: "16px",
+                            color: "#B30808",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Shortlisted
+                        </p>
+                      ) : (
+                        <p
+                          style={{
+                            fontStyle: "Glida Display",
+                            fontSize: "16px",
+                            color: "#B30808",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Shortlist{" "}
+                        </p>
+                      )}
+                    </div>
+                    <div className="mr-[-30px]">
+                      <Heart
+                        height={8}
+                        isClick={isClickArray[index]}
+                        onClick={() => shortlist(property._id, index)}
+                      />
+                    </div>
                   </div>
-                  <div className="mr-[-30px]">
-                    <Heart
-                      height={8}
-                      isClick={isClickArray[index]}
-                      onClick={() => shortlist(property._id, index)}
-                    />
-                  </div>
-                </div>
+                )}
               </div>
               {/* features */}
               <div className="grid grid-cols-4">

@@ -15,7 +15,7 @@ function TenantSideView() {
   const tenantId = queryParameters.get("tenantId");
   globalTenantId = tenantId;
   const boardId = queryParameters.get("boardId");
-  console.log(tenantId);
+  console.log("TId -> " + tenantId);
 
   const [responseDataBoard, setResponseDataBoard] = useState([]);
   const [responseDataTenant, setResponseDataTenant] = useState([]);

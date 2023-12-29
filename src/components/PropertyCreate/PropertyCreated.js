@@ -62,6 +62,13 @@ function PropertyCreated() {
   //     fetchPosts();
   //   }, []);
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
+
   return (
     <>
       <CommonHeader title="Property Created" color="#52796F" />
@@ -77,15 +84,57 @@ function PropertyCreated() {
         </p>
         <p className="text-[2.1rem] font-bold text-[#52796F]">{houseConfig}</p>
         <p className="text-[1.3rem] font-semibold">({furnishingType})</p>
-        <p className="text-[1.3rem] font-semibold pt-[2rem]">
-          <u>Rent Details</u>
-        </p>
-        <p className="text-[2.1rem] font-bold text-[#52796F]">
-          {rentAmount} /month
-        </p>
-        <p className="text-[1.3rem] font-semibold">
-          ({rentDeposit} INR Deposit)
-        </p>
+        {rentAmount & saleAmount ? (
+          <>
+            <p className="text-[1.3rem] font-semibold pt-[2rem]">
+              <u>Rent Details</u>
+            </p>
+            <p className="text-[2.1rem] font-bold text-[#52796F]">
+              {rentAmount} /month
+            </p>
+            <p className="text-[1.3rem] font-semibold">
+              ({rentDeposit} INR Deposit)
+            </p>
+            <p className="text-[1.3rem] font-semibold pt-[2rem]">
+              <u>Sale Details</u>
+            </p>
+            <p className="text-[2.1rem] font-bold text-[#52796F]">
+              {saleAmount} INR
+            </p>
+            <p className="text-[1.3rem] font-semibold">
+              ({saleDeposit} INR Deposit)
+            </p>
+          </>
+        ) : (
+          <>
+            {rentAmount && (
+              <>
+                <p className="text-[1.3rem] font-semibold pt-[2rem]">
+                  <u>Rent Details</u>
+                </p>
+                <p className="text-[2.1rem] font-bold text-[#52796F]">
+                  {rentAmount} /month
+                </p>
+                <p className="text-[1.3rem] font-semibold">
+                  ({rentDeposit} INR Deposit)
+                </p>
+              </>
+            )}
+            {saleAmount && (
+              <>
+                <p className="text-[1.3rem] font-semibold pt-[2rem]">
+                  <u>Sale Details</u>
+                </p>
+                <p className="text-[2.1rem] font-bold text-[#52796F]">
+                  {saleAmount}
+                </p>
+                <p className="text-[1.3rem] font-semibold">
+                  ({saleDeposit} INR Deposit)
+                </p>
+              </>
+            )}
+          </>
+        )}
       </div>
       {/* <div
         className="login-page form"

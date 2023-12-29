@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { Component, useState, useEffect, useRef } from "react";
 import CommonHeader from "../CommonHeader";
 import CommonBtn from "../CommonButton";
 import CommonTopButton from "../CommonTopButton";
@@ -17,7 +17,8 @@ import TenantComp from "./TenantComp";
 
 function AllTenantOne() {
   const [archiveData, setArchiveData] = useState(false);
-
+  const queryParameters = new URLSearchParams(window.location.search);
+  const route = queryParameters.get("route");
   const [ActivebgColor, setActivebgColor] = useState("#D2D7D6");
   const [ActiveBorderColor, setBorderColor] = useState("#A9C0BA");
   const [activeColor, setColor] = useState("#77A8A4");
@@ -80,7 +81,15 @@ function AllTenantOne() {
     console.log(condition);
     filterTenants(condition); // Trigger the filtering
   };
+
+  useEffect(() => {
+    if (filteredTenants.length !== 0 && route !== null) {
+      console.log("active -> " + activeCondition);
+      handlePageAvailable(route);
+    }
+  }, [filteredTenants, route]);
   // console.log(activeCondition);
+  const prevRouteRef = useRef(null);
 
   // Filter function to filter tenants based on the active condition
   const filterTenants = (condition) => {
@@ -252,15 +261,15 @@ function AllTenantOne() {
           </div>
         </div>
 
-        <SearchBar
+        {/* <SearchBar
           onSearch={handleSearch}
           placeholder="Search by Tenant name"
-        />
+        /> */}
 
-        <div className="p-[1rem] text-[1.2rem]">
+        {/* <div className="p-[1rem] text-[1.2rem]">
           <p className="font-bold py-[1rem]">Hey {name},</p>
           <p> Here are all the tenants that you have onboarded</p>
-        </div>
+        </div> */}
         {/* 
         {archiveData ? (
           <>

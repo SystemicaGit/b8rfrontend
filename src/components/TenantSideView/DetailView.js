@@ -37,22 +37,49 @@ import sofa from "../Assets/Images/AgentDashboard/Sofa.png";
 import house_Config from "../Assets/Images/AgentDashboard/House_Config.png";
 import floors from "../Assets/Images/AgentDashboard/floors.png";
 import key from "../Assets/Images/AgentDashboard/key.png";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { useBoardState } from "./boardState";
 import { globalTenantId } from "./TenantSideView";
-
+import { MdBed } from "react-icons/md";
+import { MdChair } from "react-icons/md";
+import { LuParkingCircle } from "react-icons/lu";
+import { LuParkingCircleOff } from "react-icons/lu";
+import {
+  MdOutlineSecurity,
+  MdPower,
+  MdOutlineSportsHandball,
+} from "react-icons/md";
+import { FaCartShopping } from "react-icons/fa6";
+import { BiSwim } from "react-icons/bi";
+import { CgGym } from "react-icons/cg";
+import { RxDimensions } from "react-icons/rx";
+import { HiMiniBuildingOffice } from "react-icons/hi2";
+import { RiParkingBoxFill } from "react-icons/ri";
+import { FaBath } from "react-icons/fa6";
+import { MdBalcony, MdOutlineCleaningServices } from "react-icons/md";
+import { LuArmchair } from "react-icons/lu";
+import { TbAirConditioning } from "react-icons/tb";
+import { GiRoastChicken } from "react-icons/gi";
+import { BiSolidCalendarEdit } from "react-icons/bi";
+import { MdVpnKey } from "react-icons/md";
+import { HiCurrencyRupee } from "react-icons/hi2";
+import { FaUserLock } from "react-icons/fa";
+import { GrHostMaintenance } from "react-icons/gr";
+import { BsFillHouseLockFill } from "react-icons/bs";
+import { FaSearch } from "react-icons/fa";
+import { GoClockFill } from "react-icons/go";
 
 function DetailView() {
   const queryParameters = new URLSearchParams(window.location.search);
   const boardId = queryParameters.get("boardId");
   const propertyId = queryParameters.get("propertyId");
-  const propertyIndex =queryParameters.get("index");
-    console.log(boardId);
+  const propertyIndex = queryParameters.get("index");
+  console.log(boardId);
 
- // const [isClick, setClick] = useState(false);
+  // const [isClick, setClick] = useState(false);
   const [responseDataProperty, setResponseDataProperty] = useState([]);
   //boards = responseDataProperty;
-  const[shortListStatus, setshortListStatus ] = useState(false)
+  const [shortListStatus, setshortListStatus] = useState(false);
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
   const [booleanValues, setBooleanValues] = useState([]); // Store boolean values here
@@ -73,7 +100,6 @@ function DetailView() {
   };
 
   useEffect(() => {
-    
     const fetchTenantDetails = async () => {
       setLoading(true);
       //console.log("wuhssufeeteiUUUUU");
@@ -87,11 +113,12 @@ function DetailView() {
 
         // const responseData = response.data.data.board.propertyId;
         const responseDataProperty = response.data.data.board.propertyId;
-        console.log("REsponse",response);
+        console.log("REsponse", response);
         // const responseDataFilter = response.data.data.board.propertyId.propertyDetails;
         const responseData =
-        response.data.data.board.propertyId[propertyIndex].propertyDetails.featureInfo;
-        console.log("Response from this api",responseData);
+          response.data.data.board.propertyId[propertyIndex].propertyDetails
+            .featureInfo;
+        console.log("Response from this api", responseData);
         const booleanValues = [];
         // responseData.forEach((tenant) => {
         for (const key in responseData) {
@@ -110,15 +137,14 @@ function DetailView() {
 
         // Update the formData state with the response data
         setResponseDataProperty(filteredProperties);
-      } 
-      catch (error) {
+      } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
         setLoading(false); // Set loading to false when the request is complete
       }
     };
 
-  fetchTenantDetails(); // Call the fetch function
+    fetchTenantDetails(); // Call the fetch function
   }, [boardId]);
 
   console.log(responseDataProperty);
@@ -138,28 +164,24 @@ function DetailView() {
     bathroom: "Bathroom",
   };
 
-//////////////////////////////////
-  const shortlist = async (propertyid,propertIndex) => {
-  
+  //////////////////////////////////
+  const shortlist = async (propertyid, propertIndex) => {
     setIsClickArray((prevState) => {
       const updatedIsClickArray = [...prevState];
       updatedIsClickArray[propertIndex] = !isClickArray[propertIndex];
-     console.log(isClickArray)
-     return updatedIsClickArray;
-      
+      console.log(isClickArray);
+      return updatedIsClickArray;
     });
-   
-
 
     try {
-      console.log("Final pid",propertyid)
+      console.log("Final pid", propertyid);
       console.log("Recieved BId", boardId);
       const response = await axios.put(
         `https://b8rliving.com/board/shortlist/${boardId}`,
-        {propertyid,shortListStatus,globalTenantId},
+        { propertyid, shortListStatus, globalTenantId },
         axiosConfig
       );
-      console.log("Response fo apishortlist ",response);
+      console.log("Response fo apishortlist ", response);
       alert(response.data.message);
     } catch (error) {
       // Handle any errors that occur during the API request
@@ -168,16 +190,27 @@ function DetailView() {
       setLoading(false); // Set loading to false when the request is complete
     }
   };
-///////////////////////////////
+  ///////////////////////////////
+
+  const formateDate = (givendate) => {
+    var dateObject = new Date(givendate);
+    var options = { day: "numeric", month: "short", year: "2-digit" };
+    var formattedDate = dateObject.toLocaleDateString("en-GB", options);
+    return formattedDate;
+  };
+  function convertToCrore(number) {
+    var croreValue = number / 10000000;
+    return croreValue.toFixed(2); // Keep two decimal places
+  }
   return (
     <>
       {responseDataProperty.map((property, index) => (
         <div key={index}>
           <div
-            className="form"
+            className=""
             style={{
-              borderRadius: "9px",
-              marginTop: "10%",
+              // borderRadius: "9px",
+              // marginTop: "10%",
               backgroundRepeat: "no-repeat",
               backgroundSize: "100% 100%",
             }}
@@ -199,12 +232,26 @@ function DetailView() {
 
           /></Link> */}
 
-              <Link to={`/DetailImgView?boardId=${boardId}&propertyId=${property._id}&propertyIndex=${propertyIndex}`}><Carousel showArrows={false}>
+              <Link
+              // to={`/DetailImgView?boardId=${boardId}&propertyId=${property._id}&propertyIndex=${propertyIndex}`}
+              ></Link>
+              <Carousel
+                // showThumbs={false}
+                showArrows={true}
+                infiniteLoop={true}
+                autoPlay={true}
+                interval={1500}
+              >
                 {property.images.map((image, index) => (
                   <div key={index}>
-                    <img src={image} style={{ boxShadow:"10px 10px 10px rgba(0, 0, 0, 0.3)",
-                   borderRadius: "10px", 
-                   scale : 1 }}/>
+                    <img
+                      src={image}
+                      style={{
+                        boxShadow: "10px 10px 10px rgba(0, 0, 0, 0.3)",
+                        // borderRadius: "10px",
+                        scale: 1,
+                      }}
+                    />
                     <p
                       className="legend"
                       style={{
@@ -217,373 +264,303 @@ function DetailView() {
                     </p>
                   </div>
                 ))}
-              </Carousel></Link>
+              </Carousel>
             </div>
 
             <Link to={property.tourLink3D}>
-              <div
-                id="container"
-                style={{ marginTop: "-98px", marginLeft: "3%" }}
-              >
-                <img
-                  id="someimg"
-                  src={property.images[0]}
-                  height={25}
-                  width={10}
-                />
-                <div
-                  id="overlay"
-                  style={{
-                    color: "white",
-                    fontSize: "15px",
-                    fontWeight: "bold",
-                  }}
-                >
-                  <p>3D Virtual Tour</p>
+              <div className="px-[1rem]">
+                <div className="flex justify-center items-center flex-col">
+                  <img
+                    src={property.images[0]}
+                    className="w-[80%] opacity-50"
+                    style={{
+                      borderRadius: "1rem 1rem 0 0 ",
+                    }}
+                  />
+                  <div
+                    className="font-bold py-[0.5rem] px-[1rem] bg-[#666666] w-[80%] flex justify-center items-center"
+                    style={{
+                      borderRadius: "0 0 1rem 1rem",
+                    }}
+                  >
+                    <p className="text-white font-bold text-[1.3rem]">
+                      3D Virtual Tour
+                    </p>
+                  </div>
                 </div>
               </div>
             </Link>
-
-            {/* <div className="legend"  style={{ marginLeft:"-65%",marginTop:"-95px"}}>
-          <Link to={property.tourLink3D}>
-            <img src={property.images[0]} height={55} width={100} style={{position:"relative", background:"rgba(0, 0, 0, 0.7)", textAlign:"center", padding:"0px"}}/></Link>
-          <p style={{color:"white", fontSize:"16px", fontWeight:"bold"}}>3D Tour</p>
-        </div> */}
-
-            <div
-            //   className="containered form"
-            //   style={{
-            //     height: '300px',
-            //     borderRadius: '5px',
-            //     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-            //     background: '#DAF0EE',
-            //   }}
-            >
-               <b>
-                <h2 style={{ marginBottom: "-10px" }}> {property.houseName}</h2>
-              </b>
-              <div
-                style={{
-                 boxShadow:"2px 2px 5px rgba(0, 0, 0, 0.3)" ,
-                  marginLeft: "20px",
-                  height: "100%",
-                  width: "93%",
-                  marginRight:"20px",
-                  borderRadius: "8px",
-                  backgroundColor: "#E8E7E7",
-                  marginTop: "10px",
-                }}
-              >
-                <h3 style={{ marginLeft: "-55%", marginTop: "30px",paddingTop: "10px"}}>
-                  About the Society
-                </h3>
-                <div
-                  className=""
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    // flexWrap: "wrap",
-                    padding: "0 6%",
-                    // width: "100%",
-                    marginTop: "8px",
-                  }}
-                >
-                  {Object.entries(booleanValues).map(([key, value]) => {
-                    if (value === true) {
-                      const imageSources = {
-                        gatedSecurity: gatedSecurity,
-                        powerBackup: powerBackup,
-                        groceryStore: groceryStore,
-                        clubHouse: clubHouse,
-                        AirCondition: ac,
-                        carParking: carParking,
-                        bikeParking: bikeParking,
-                        nonVeg: nonVeg,
-                        bathroom: bathroom,
-                        swimmingPool: swimmingPool,
-                        gym: gym,
-                      };
-                      // Use the key to dynamically select the image source
-                      //<div className="imageContainer">
-                      const imageSrc = imageSources[key]; // You can set a default image source if needed
-                      
-                      // return <li key={key}>{key}</li>;
-                      return (
-                        <div
-                          className=""
-                          // style={{ disp: "3%" }}
-                        >
-                          <img 
-                            src={imageSrc}
-                            height={25}
-                            style={{ marginLeft: "1px" }}
-                          />{" "}
-                          <p style={{ fontSize: "10px" }}> {keyNames[key]} </p>{" "}
-                        </div>
-                      );
-                    }
-                    return null; // Skip false values
-                  })}
-                </div>
-              </div>
-
-              {/* <img
-            src={DetailView2}
-            alt="Tenant"
-            height={180}
-            style={{ marginLeft: "-14px", marginTop: "14px" }}
-          /> */}
+            {/* property-name */}
+            <div className="flex justify-center items-center py-[1rem]">
+              <p className="text-[#3B413D] text-[1.7rem] font-bold">
+                {property.houseName}
+              </p>
             </div>
-            <div
-            //   className="containered form"
-            //   style={{
-            //     height: '300px',
-            //     borderRadius: '5px',
-            //     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-            //     background: '#DAF0EE',
-            //   }}
-            >
+            {/* about the Society */}
+            <div className="px-[1rem]">
               <div
+                className="rounded-[0.5rem] p-[0.5rem]"
                 style={{
-                  marginLeft: "20px",
-                  height: "100%",
-                  width: "93%",
-                  backgroundColor: "#DAF0EE",
-                  borderRadius: "5px",
-                  boxShadow:"2px 2px 5px rgba(0, 0, 0, 0.3)" ,
+                  background:
+                    "linear-gradient(180deg, rgba(232, 231, 231, 0.50) 0%, rgba(232, 231, 231, 0.00) 100%)",
+                  boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25) ",
                 }}
               >
-                <h3 style={{ marginLeft: "-64%" ,paddingTop: "10px",paddingBottom: "5px"}}>House Details</h3>
-
-                <div >
-                  <div
-                    style={{ display: "flex", justifyContent: "space-around" }}
-                  >
-                    <div>
-                      <img
-                        src={house_Config}
-                        alt="Tenant"
-                        height={30}
-                        //style={{ marginLeft: "-14px", marginTop: "14px" }}
-                      />
-                      <h6 style={{ marginTop: "-1px" }}>
-                        {property.propertyDetails.propertyInfo.houseConfig}{" "}
-                      </h6>
-                      <p style={{ marginTop: "-20px", fontSize: "10px" }}>
-                        +{property.propertyDetails.featureInfo.bathrooms}{" "}
-                        Bathrooms
-                      </p>
-                    </div>
-
-                    <div>
-                      <img src={balcony} alt="Tenant" height={30} />
-                      <h6 style={{ marginTop: "-1px" }}>
-                        {property.propertyDetails.featureInfo.balconies}{" "}
-                        balconies
-                      </h6>
-                       <p style={{ marginTop: "-20px", fontSize: "10px" }}>
-                        +{property.propertyDetails.featureInfo.bathrooms}{" "}
-                        Bathrooms
-                      </p> 
-                    </div>
-
-                    <div>
-                      <img src={carParking} alt="Tenant" height={30} />
-                      <h6 style={{ marginTop: "-1px" }}>
-                        Available
-                        {/* {property.propertyDetails.featureInfo.parking}{" "} */}
-                      </h6>
-                      <p style={{ marginTop: "-20px", fontSize: "10px" }}>
-                      {property.propertyDetails.featureInfo.parking.bike} bike + {property.propertyDetails.featureInfo.parking.car}{" "}
-                        
-                      </p>
-                    </div>
-
-                    <div>
-                      <img src={space_or_area} alt="Tenant" height={30} />
-
-                      <h6 style={{ marginTop: "-1px" }}>
-                        {property.propertyDetails.featureInfo.carpetArea}{" "}sft
-                      </h6>
-                      <p style={{ marginTop: "-20px", fontSize: "10px" }}>
-                        
-                        spacious than most
-                      </p>
-                    </div>
+                <p className="text-[#3B413D] text-[1.3rem] font-bold pb-[1rem]">
+                  About the Society
+                </p>
+                <div className="grid grid-cols-4 gap-x-[0.5rem]" style={{}}>
+                  <div className="flex items-center flex-col text-center">
+                    <MdOutlineSecurity className="text-[2rem]" />
+                    <p className="pt-[0.3rem] font-semibold text-[0.9rem]">
+                      Gated Security
+                    </p>
+                    <p className="text-[#52796F] text-[0.8rem]">
+                      always secure
+                    </p>
                   </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-around",
-                      marginTop: "10%",
-                    }}
-                  >
-                    <div>
-                      <img src={sofa} alt="Tenant" height={30} />
-
-                      <h6 style={{ marginTop: "-1px" }}>
-                        {property.propertyDetails.featureInfo.furnishingType}{" "}
-                      </h6>
-                      {/* <p style={{ marginTop: "-20px", fontSize: "10px" }}>
-                        +{property.propertyDetails.featureInfo.bathrooms}{" "}
-                        Bathrooms
-                      </p> */}
-                    </div>
-
-                    <div>
-                      <img src={key} alt="Tenant" height={30} />
-
-                      <h6 style={{ marginTop: "-1px" }}>
-                        Immediate{" "}
-                      </h6>
-                      <p style={{ marginTop: "-20px", fontSize: "10px" }}>
-                        possesion Time{" "}
-                       
-                      </p>
-                    </div>
-
-                    <div>
-                      <img src={floors} alt="Tenant" height={30} />
-
-                      <h6 style={{ marginTop: "-1px" }}>
-                        Floor {property.propertyDetails.featureInfo.floors.your}{" "}
-                      </h6>
-                      <p style={{ marginTop: "-20px", fontSize: "10px" }}>
-                        Total {property.propertyDetails.featureInfo.floors.total}{" "}
-                        
-                      </p>
-                    </div>
-                  {property.propertyDetails.featureInfo.nonVeg ? (
-                    <div>
-                      <img src={nonVeg} alt="Tenant" height={30} />
-                      <h6 style={{ marginTop: "-1px" }}>Non-Veg Allowed</h6>
-                      <p style={{ marginTop: "-20px", fontSize: "10px" }}>No Food Restriction</p>
-                    </div>
-                  ) : (
-                    <div>
-                      
-                      <img src={nonVeg} alt="Tenant" height={30} />
-                      <h6 style={{ marginTop: "-1px" }}> Veg</h6>
-                      <p style={{ marginTop: "-20px", fontSize: "10px" }}>Restriction: Veg only</p>
-                    </div>)}
-
-
+                  <div className="flex items-center flex-col text-center">
+                    <MdPower className="text-[2rem]" />
+                    <p className="pt-[0.3rem] font-semibold text-[0.9rem]">
+                      24 x 7
+                    </p>
+                    <p className="text-[#52796F] text-[0.8rem]">
+                      Power Back-Up
+                    </p>
                   </div>
-                  
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-around",
-                      marginTop: "10%",
-                    }}
-                  >
-
-                  <div>
-                  <img src={rent_1} alt="Tenant" height={30} />
-
-
-                      <h6 style={{ marginTop: "-1px" }}>
-                        {property.propertyDetails.featureInfo.rentAmount}{" "}
-                      </h6>
-                      <p style={{ marginTop: "-20px", fontSize: "10px" }}>
-                       Total Rent
-                        
-                      </p>
-                    </div>
-
-                    <div>
-                    <img src={rent_1} alt="Tenant" height={30} />
-
-
-                      <h6 style={{ marginTop: "-1px" }}>
-                        {property.propertyDetails.featureInfo.rentDeposit}{" "}
-                      </h6>
-                      <p style={{ marginTop: "-20px", fontSize: "10px" }}>
-                         
-                        Security Deposit
-                      </p>
-                    </div>
-
-                    <div>
-                    <img src={calender} alt="Tenant" height={30} />
-
-
-                      <h6 style={{ marginTop: "-1px" }}>
-                        {property.propertyDetails.updatedAt.slice(0, 10)}{" "}
-                      </h6>
-                      <p style={{ marginTop: "-20px", fontSize: "10px" }}>
-                       Posted on
-                      </p>
-                    </div>
-
-                    <div>
-                    <img src={construction_year} alt="Tenant" height={30} />
-
-
-                      <h6 style={{ marginTop: "-1px" }}>
-                        {property.propertyDetails.featureInfo.constructionYear}{" "}
-                      </h6>
-                      <p style={{ marginTop: "-20px", fontSize: "10px" }}>
-                      Construction year
-                      </p>
-                    </div>
-
+                  <div className="flex items-center flex-col text-center">
+                    <MdOutlineSportsHandball className="text-[2rem]" />
+                    <p className="pt-[0.3rem] font-semibold text-[0.9rem]">
+                      Club house
+                    </p>
+                    <p className="text-[#52796F] text-[0.8rem]">
+                      with Swimming Pool
+                    </p>
                   </div>
-                  <p style={{ fontSize: "10px" }}> </p>{" "}
+                  <div className="flex items-center flex-col text-center">
+                    <FaCartShopping className="text-[2rem]" />
+                    <p className="pt-[0.3rem] font-semibold text-[0.9rem]">
+                      Grocery Store
+                    </p>
+                    <p className="text-[#52796F] text-[0.8rem]">In Campus</p>
+                  </div>
                 </div>
               </div>
-
-              <p
+            </div>
+            {/* house-details */}
+            <div className="px-[1rem] py-[1rem]">
+              <div
+                className="rounded-[0.5rem] p-[0.5rem]"
                 style={{
-                  fontStyle: "Glida Display",
-                  bottomMargin: "-50px",
-                  fontSize: "28px",
+                  background:
+                    "linear-gradient(180deg, rgba(218, 240, 238, 0.50) 0%, rgba(232, 231, 231, 0.00) 100%)",
+                  boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
                 }}
               >
-                {" "}
+                <p className="text-[#3B413D] text-[1.3rem] font-bold pb-[1rem]">
+                  House Details
+                </p>
+                <div
+                  className="grid grid-cols-4 gap-x-[0.5rem] gap-y-[1rem]"
+                  style={{}}
+                >
+                  <div className="flex items-center flex-col text-center">
+                    <MdBed className="text-[2rem]" />
+                    <p className="pt-[0.3rem] font-semibold text-[0.9rem]">
+                      {property.propertyDetails.propertyInfo.houseConfig}
+                    </p>
+                    <p className="text-[#52796F] text-[0.8rem]">
+                      + {property.propertyDetails.featureInfo.bathrooms}{" "}
+                      Bathrooms
+                    </p>
+                  </div>
+                  <div className="flex items-center flex-col text-center">
+                    <MdBalcony className="text-[2rem]" />
+                    <p className="pt-[0.3rem] font-semibold text-[0.9rem]">
+                      {property.propertyDetails.featureInfo.balconies} Balconies
+                    </p>
+                    <p className="text-[#52796F] text-[0.8rem]">
+                      Bedroom, Living
+                    </p>
+                  </div>
+                  <div className="flex items-center flex-col text-center">
+                    <RxDimensions className="text-[2rem]" />
+                    <p className="pt-[0.3rem] font-semibold text-[0.9rem]">
+                      {property.propertyDetails.featureInfo.carpetArea} sft
+                    </p>
+                    <p className="text-[#52796F] text-[0.8rem]">
+                      Spacious than most
+                    </p>
+                  </div>
+                  <div className="flex items-center flex-col text-center">
+                    <HiMiniBuildingOffice className="text-[2rem]" />
+                    <p className="pt-[0.3rem] font-semibold text-[0.9rem]">
+                      floors {property.propertyDetails.featureInfo.floors.your}
+                    </p>
+                    <p className="text-[#52796F] text-[0.8rem]">
+                      Total {property.propertyDetails.featureInfo.floors.total}
+                    </p>
+                  </div>
+                  <div className="flex items-center flex-col text-center">
+                    <MdChair className="text-[2rem]" />
+                    <p className="pt-[0.3rem] font-semibold text-[0.9rem]">
+                      {property.propertyDetails.featureInfo.furnishingType}
+                    </p>
+                    <p className="text-[#52796F] text-[0.8rem]">
+                      {property.propertyDetails.featureInfo.ac
+                        ? "with Air Conditioner"
+                        : "without Air Conditioner"}
+                    </p>
+                  </div>
+                  <div className="flex items-center flex-col text-center">
+                    <GoClockFill className="text-[2rem]" />
+                    <p className="pt-[0.3rem] font-semibold text-[0.9rem]">
+                      {new Date().getFullYear() -
+                        property.propertyDetails.featureInfo
+                          .constructionYear}{" "}
+                      year
+                    </p>
+                    <p className="text-[#52796F] text-[0.8rem]">
+                      Age of Building
+                    </p>
+                  </div>
+                  <div className="flex items-center flex-col text-center">
+                    <BiSolidCalendarEdit className="text-[2rem]" />
+                    <p className="pt-[0.3rem] font-semibold text-[0.9rem]">
+                      {formateDate(property.propertyDetails.updatedAt)}
+                    </p>
+                    <p className="text-[#52796F] text-[0.8rem]">Posted On</p>
+                  </div>
+                  <div className="flex items-center flex-col text-center">
+                    <MdVpnKey className="text-[2rem]" />
+                    <p className="pt-[0.3rem] font-semibold text-[0.9rem]">
+                      {formateDate(
+                        property.propertyDetails.featureInfo.availableFrom
+                      )}
+                    </p>
+                    <p className="text-[#52796F] text-[0.8rem]">
+                      Possession Time
+                    </p>
+                  </div>
+                  {property.propertyDetails.featureInfo.nonVeg && (
+                    <div className="flex items-center flex-col text-center">
+                      <GiRoastChicken className="text-[2rem]" />
+                      <p className="pt-[0.3rem] font-semibold text-[0.9rem]">
+                        Non-Veg Allowed
+                      </p>
+                      <p className="text-[#52796F] text-[0.8rem]">
+                        No Food Restriction
+                      </p>
+                    </div>
+                  )}
+                </div>
+                <p className="text-[#3B413D] text-[1.3rem] font-bold py-[1rem]">
+                  Price Details
+                </p>
+                <div className="grid grid-cols-4 gap-x-[0.5rem]" style={{}}>
+                  {property.propertyDetails.featureInfo.rentAmount > 1 && (
+                    <>
+                      <div className="flex items-center flex-col text-center">
+                        <HiCurrencyRupee className="text-[2rem]" />
+                        <p className="pt-[0.3rem] font-semibold text-[0.9rem]">
+                          {property.propertyDetails.featureInfo.rentAmount}{" "}
+                          /month
+                        </p>
+                        <p className="text-[#52796F] text-[0.8rem]">
+                          Total Rent
+                        </p>
+                      </div>
+                      <div className="flex items-center flex-col text-center">
+                        <HiCurrencyRupee className="text-[2rem]" />
+                        <p className="pt-[0.3rem] font-semibold text-[0.9rem]">
+                          {property.propertyDetails.featureInfo.rentDeposit} INR
+                        </p>
+                        <p className="text-[#52796F] text-[0.8rem]">
+                          Security Deposit
+                        </p>
+                      </div>
+                    </>
+                  )}
+                  {property.propertyDetails.featureInfo.saleAmount > 1 && (
+                    <>
+                      <div className="flex items-center flex-col text-center">
+                        <HiCurrencyRupee className="text-[2rem]" />
+                        <p className="pt-[0.3rem] font-semibold text-[0.9rem]">
+                          {convertToCrore(
+                            property.propertyDetails.featureInfo.saleAmount
+                          )}{" "}
+                          Cr
+                        </p>
+                        <p className="text-[#52796F] text-[0.8rem]">
+                          Sale Amount
+                        </p>
+                      </div>
+                      <div className="flex items-center flex-col text-center">
+                        <HiCurrencyRupee className="text-[2rem]" />
+                        <p className="pt-[0.3rem] font-semibold text-[0.9rem]">
+                          {property.propertyDetails.featureInfo.saleDeposit} INR
+                        </p>
+                        <p className="text-[#52796F] text-[0.8rem]">
+                          Token Deposit
+                        </p>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+            {/* shortlist */}
+            <div className="flex justify-center items-center flex-col pt-[4rem] pb-[2rem]">
+              <p className="text-[1.5rem] font-bold text-center">
                 Loved this property?
               </p>
-              <div className="Apps">
-                <Heart isClick={isClickArray[propertyIndex]} onClick={() => shortlist(propertyId,propertyIndex)} />
-              </div>
-
-              {isClickArray[propertyIndex] ? (
-                <p
-                  style={{
-                    fontStyle: "Glida Display",
-                    fontSize: "28px",
-                    color: "#B30808",
-                    fontWeight: "bold",
-                    color: "#B30808",
-                  }}
-                >
-                  {" "}
-                  Shortlisted{" "}
-                </p>
-                
-              ) : (
-                <p
-                  style={{
-                    fontStyle: "Glida Display",
-                    fontSize: "28px",
-                    color: "#B30808",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {" "}
-                  Shortlist{" "}
-                </p>
+              {globalTenantId && (
+                <>
+                  <Heart
+                    isClick={isClickArray[propertyIndex]}
+                    onClick={() => shortlist(propertyId, propertyIndex)}
+                  />
+                  {isClickArray[propertyIndex] ? (
+                    <p
+                      className="text-[#52796F] font-bold text-[1.4rem]"
+                      style={{
+                        fontStyle: "Glida Display",
+                      }}
+                    >
+                      Shortlisted
+                    </p>
+                  ) : (
+                    <p
+                      className="text-[#B30808] font-bold text-[1.4rem]"
+                      style={{
+                        fontStyle: "Glida Display",
+                      }}
+                    >
+                      Shortlist
+                    </p>
+                  )}
+                </>
               )}
-              
-
-              <Link to="/TenantSideView"></Link><button onClick={handleClick} className="newBtn">See other properties</button>
             </div>
+            {/* btn */}
+            <div className="flex justify-center items-center pb-[1rem]">
+              <button
+                className="bg-[#3B413DB2] font-bold text-[1.2rem] rounded-[0.6rem]"
+                onClick={handleClick}
+              >
+                <p className="text-white px-[2rem] py-[0.5rem]">
+                  See other properties
+                </p>
+              </button>
+            </div>
+            {/* footer */}
             <Footer />
+            <div className="mb-[0.5rem]" />
           </div>
         </div>
       ))}
     </>
   );
 }
-  
+
 export default DetailView;

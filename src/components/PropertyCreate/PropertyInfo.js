@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, useEffect, useState } from "react";
 import PropertyInfocss from "./PropertyInfo.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -70,6 +70,29 @@ function PropertyInfo() {
   const [isCheckRent, setisCheckRent] = useState(Boolean);
   const [isCheckSale, setisCheckSale] = useState(Boolean);
 
+  // scroll-to-top
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [checkedStateOne]);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [checkedStateTwo]);
+
   const [formData, setFormData] = useState({
     status: "Pending",
     houseName: "",
@@ -113,7 +136,7 @@ function PropertyInfo() {
         rentAmount: 1,
         rentDeposit: 1,
         rentMaintenance: 1,
-        lockInPeriod: "",
+        lockInPeriod: 1,
         saleAmount: 1,
         saleDeposit: 1,
         saleMaintenance: 1,
@@ -135,10 +158,7 @@ function PropertyInfo() {
   //   setFormData((prevState) => ({ ...prevState, [name]: value }));
   // };
   const navigate = useNavigate();
-  const handleClick = () => {
-    // Now you can navigate programmatically to other pages using navigate
-    navigate(-1);
-  };
+
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
     setFormData((prevState) => {
@@ -438,7 +458,7 @@ function PropertyInfo() {
                 .rentAmount;
             const saleAmountConst =
               response.data.data.property.propertyDetails[0].featureInfo
-                .rentAmount;
+                .saleAmount;
             console.log("Rent Amount:", rentAmountConst);
             if (rentAmountConst > 1 && saleAmountConst > 1) {
               window.location.href = `/PropertyCreated?name=${formData.houseName}&furnishingType=${formData.propertyData.featureInfo.furnishingType}&rentAmount=${formData.propertyData.featureInfo.rentAmount}&rentDeposit=${formData.propertyData.featureInfo.rentDeposit}&saleAmount=${formData.propertyData.featureInfo.saleAmount}&saleDeposit=${formData.propertyData.featureInfo.saleDeposit}&houseConfig=${formData.propertyData.propertyInfo.houseConfig}`;
@@ -453,7 +473,7 @@ function PropertyInfo() {
         })
         .catch((error) => {
           console.log(error.response.data.message);
-          alert(error.response.data.message);
+          toast.error(error.response.data.message);
           // handle the error
         });
       console.log("Finale In state:", formData);
@@ -548,7 +568,7 @@ function PropertyInfo() {
                 What is the House type?{" "}
                 <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
               </label>
-              <div className="px-[1.25rem]">
+              <div className="">
                 <select
                   id="houseType"
                   name="houseType"
@@ -558,6 +578,7 @@ function PropertyInfo() {
                     backgroundColor: "white",
                     padding: "10px",
                     borderRadius: "5px",
+                    width: "100%",
                     border: "1px solid #52796F",
                   }}
                 >
@@ -594,7 +615,7 @@ function PropertyInfo() {
                 What is the house configuration?{" "}
                 <span style={{ color: "red", fontSize: "1.5rem" }}>*</span>
               </label>
-              <div className="px-[1.25rem]">
+              <div className="">
                 <select
                   id="houseConfig"
                   name="houseConfig"
@@ -603,6 +624,7 @@ function PropertyInfo() {
                   style={{
                     backgroundColor: "white",
                     padding: "10px",
+                    width: "100%",
                     borderRadius: "5px",
                     border: "1px solid #52796F",
                   }}
@@ -643,6 +665,7 @@ function PropertyInfo() {
                 style={{
                   backgroundColor: "white",
                   padding: "10px",
+                  width: "100%",
                   borderRadius: "5px",
                   border: "1px solid #52796F",
                 }}
@@ -673,6 +696,7 @@ function PropertyInfo() {
                   backgroundColor: "white",
                   padding: "10px",
                   borderRadius: "5px",
+                  width: "100%",
                   border: "1px solid #52796F",
                 }}
               ></input>
@@ -703,6 +727,7 @@ function PropertyInfo() {
                   backgroundColor: "white",
                   padding: "10px",
                   borderRadius: "5px",
+                  width: "100%",
                   border: "1px solid #52796F",
                 }}
               ></input>
@@ -733,6 +758,7 @@ function PropertyInfo() {
                   backgroundColor: "white",
                   padding: "10px",
                   borderRadius: "5px",
+                  width: "100%",
                   border: "1px solid #52796F",
                 }}
               ></input>
@@ -762,6 +788,7 @@ function PropertyInfo() {
                 style={{
                   backgroundColor: "white",
                   padding: "10px",
+                  width: "100%",
                   borderRadius: "5px",
                   border: "1px solid #52796F",
                 }}
@@ -798,6 +825,7 @@ function PropertyInfo() {
                       borderRadius: "0px",
                     }}
                     // checked={rentChecked}
+                    checked={formData.propertyData.propertyInfo.purposeRent}
                     onChange={handleChange}
                   />
                   <label for="purposeRent">For Rent</label>
@@ -815,13 +843,21 @@ function PropertyInfo() {
                     name="purposeSale"
                     value={formData.propertyData.propertyInfo.purposeSale}
                     // checked={saleChecked}
+                    checked={formData.propertyData.propertyInfo.purposeSale}
                     onChange={handleChange}
                   />
                   <label htmlFor="purposeSale">For Sale</label>
                 </div>
               </div>
-              <div className="flex justify-center items-center px-[1rem]">
-                <CommonBtn title="Save & Next" margin="70px" />
+              <div className="flex justify-around items-center px-[1rem]">
+                <div
+                  onClick={() => {
+                    navigate(-1);
+                  }}
+                >
+                  <BackButton title="Back" />
+                </div>
+                <CommonBtn title="Save & Next" margin="70px" type="submit" />
               </div>
             </form>
             <Footer />
@@ -1047,7 +1083,7 @@ function PropertyInfo() {
               /> */}
               {/* <br></br> */}
               {/* <br></br> */}
-              <div className="flex justify-center items-center">
+              <div className="flex justify-around items-center">
                 {/* <div>
                   <BackButton
                     title="Back"
@@ -1055,11 +1091,19 @@ function PropertyInfo() {
                     onClick={handleClick}
                   />
                 </div> */}
-
+                <div
+                  onClick={() => {
+                    setCheckedStateTwo(!checkedStateTwo);
+                    setCheckedStateOne(!checkedStateOne);
+                  }}
+                >
+                  <BackButton title="Back" />
+                </div>
                 <CommonBtn
                   title="Save and next"
                   margin="40%"
                   fontweight="bolder"
+                  type="submit"
                 />
               </div>
             </form>
@@ -2309,8 +2353,21 @@ function PropertyInfo() {
                 <p></p>
               )}
 
-              <div className="flex justify-center items-center py-[1rem]">
-                <CommonBtn title="Submit" margin="50%" fontweight="bolder" />
+              <div className="flex justify-around items-center py-[1rem]">
+                <div
+                  onClick={() => {
+                    setCheckedStateThree(!checkedStateThree);
+                    setCheckedStateTwo(!checkedStateTwo);
+                  }}
+                >
+                  <BackButton title="Back" />
+                </div>
+                <CommonBtn
+                  title="Submit"
+                  margin="50%"
+                  fontweight="bolder"
+                  type="submit"
+                />
               </div>
             </form>
           </div>
