@@ -171,6 +171,7 @@ function OTPscreen() {
           axios
             .post("https://b8rliving.com/tenant/login", {
               phoneNumber: formData.phone,
+              boardId : boardId,
             })
             .then((response) => {
               // console.log(response.data);
@@ -188,6 +189,7 @@ function OTPscreen() {
               localStorage.setItem("token", token);
               localStorage.removeItem("name");
               localStorage.setItem("phone", phone);
+              localStorage.removeItem("isClickArray")
               axios.get(
                 `https://b8rliving.com/tenant/board/${response.data.data.tenant._id}`,
                 axiosConfig
