@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { Component, useState, useEffect, useRef } from "react";
 import CommonHeader from "../CommonHeader";
 import CommonBtn from "../CommonButton";
 import CommonTopButton from "../CommonTopButton";
@@ -17,7 +17,8 @@ import TenantComp from "./TenantComp";
 
 function AllTenantOne() {
   const [archiveData, setArchiveData] = useState(false);
-
+  const queryParameters = new URLSearchParams(window.location.search);
+  const route = queryParameters.get("route");
   const [ActivebgColor, setActivebgColor] = useState("#D2D7D6");
   const [ActiveBorderColor, setBorderColor] = useState("#A9C0BA");
   const [activeColor, setColor] = useState("#77A8A4");
@@ -38,7 +39,6 @@ function AllTenantOne() {
 
   const token = localStorage.getItem("token");
   // console.log(token);
-
   let axiosConfig = {
     headers: {
       "Content-Type": "application/json;charset=UTF-8",
@@ -54,8 +54,8 @@ function AllTenantOne() {
       axios
         .get("https://b8rliving.com/tenant", axiosConfig)
         .then((response) => {
-          console.log("Tenatas api ka data ",response.data.data.tenants);
-          // this is tenants model ka data 
+          console.log("Tenatas api ka data ", response.data.data.tenants);
+          // this is tenants model ka data
           // var myArrayPropertyCount = response.data.data.properties;
           setResponseTenat(response.data.data.tenants);
           setFilteredTenants(response.data.data.tenants);
@@ -81,6 +81,15 @@ function AllTenantOne() {
     console.log(condition);
     filterTenants(condition); // Trigger the filtering
   };
+
+  useEffect(() => {
+    if (filteredTenants.length !== 0 && route !== null) {
+      console.log("active -> " + activeCondition);
+      handlePageAvailable(route);
+    }
+  }, [filteredTenants, route]);
+  // console.log(activeCondition);
+  const prevRouteRef = useRef(null);
 
   // Filter function to filter tenants based on the active condition
   const filterTenants = (condition) => {
@@ -180,33 +189,49 @@ function AllTenantOne() {
           <div className="grid grid-cols-2 gap-[1rem]">
             <div>
               <CommonTopButton
-                bgColor={isActive1 ? "#52796F" : "#D2D7D6"}
+                bgColor={
+                  activeCondition === "WaitingForProperty"
+                    ? "#52796F"
+                    : "#D2D7D6"
+                }
                 borderColor="#DAF0EE"
-                color={isActive1 ? "#FFFFFF" : "#77A8A4"}
+                color={
+                  activeCondition === "WaitingForProperty"
+                    ? "#FFFFFF"
+                    : "#77A8A4"
+                }
                 text="Waiting For Property"
                 onclicked={() => handlePageAvailable("WaitingForProperty")}
               />
             </div>
             <div>
               <CommonTopButton
-                bgColor={isActive3 ? "#52796F" : "#D2D7D6"}
+                bgColor={
+                  activeCondition === "Shortlisted" ? "#52796F" : "#D2D7D6"
+                }
                 borderColor="#DAF0EE"
-                color={isActive3 ? "#FFFFFF" : "#77A8A4"}
+                color={
+                  activeCondition === "Shortlisted" ? "#FFFFFF" : "#77A8A4"
+                }
                 text="Shortlisted"
                 onclicked={() => handlePageAvailable("Shortlisted")}
               />
             </div>
             <div>
               <CommonTopButton
-                bgColor={isActive2 ? "#52796F" : "#D2D7D6"}
+                bgColor={
+                  activeCondition === "CurrentlyViewing" ? "#52796F" : "#D2D7D6"
+                }
                 borderColor="#DAF0EE"
-                color={isActive2 ? "#FFFFFF" : "#77A8A4"}
+                color={
+                  activeCondition === "CurrentlyViewing" ? "#FFFFFF" : "#77A8A4"
+                }
                 text="Currently Viewing"
-                onclicked={() => handlePageAvailable("WaitingForProperty")}
+                onclicked={() => handlePageAvailable("CurrentlyViewing")}
               />
             </div>
             <div>
-              {archiveData ? (
+              {/* {archiveData ? (
                 <CommonTopButton
                   bgColor="#52796F"
                   borderColor="#DAF0EE"
@@ -222,20 +247,29 @@ function AllTenantOne() {
                   text="Archived"
                   onclicked={() => handlePageAvailable("Deactivate")}
                 />
-              )}
+              )} */}
+              <CommonTopButton
+                bgColor={
+                  activeCondition === "Deactivate" ? "#52796F" : "#D2D7D6"
+                }
+                borderColor="#DAF0EE"
+                color={activeCondition === "Deactivate" ? "#FFFFFF" : "#77A8A4"}
+                text="Archived"
+                onclicked={() => handlePageAvailable("Deactivate")}
+              />
             </div>
           </div>
         </div>
 
-        <SearchBar
+        {/* <SearchBar
           onSearch={handleSearch}
           placeholder="Search by Tenant name"
-        />
+        /> */}
 
-        <div className="p-[1rem] text-[1.2rem]">
-          <p className="font-bold py-[1rem]">Hey Yash,</p>
+        {/* <div className="p-[1rem] text-[1.2rem]">
+          <p className="font-bold py-[1rem]">Hey {name},</p>
           <p> Here are all the tenants that you have onboarded</p>
-        </div>
+        </div> */}
         {/* 
         {archiveData ? (
           <>

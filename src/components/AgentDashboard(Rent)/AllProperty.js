@@ -103,7 +103,7 @@ function AllProperty() {
         setIsActive1(true);
         setresponseArchiveProperties(
           responseArchiveProperties.filter(
-            (property) => property.closeListingReason = "Rented On B8R"
+            (property) => (property.closeListingReason = "Rented On B8R")
           )
         );
         break;
@@ -111,7 +111,7 @@ function AllProperty() {
         setIsActive2(true);
         setresponseArchiveProperties(
           responseArchiveProperties.filter(
-            (property) => property.closeListingReason = "Delisted Owner"
+            (property) => (property.closeListingReason = "Delisted Owner")
           )
         );
         break;
@@ -119,7 +119,7 @@ function AllProperty() {
         setIsActive3(true);
         setresponseArchiveProperties(
           responseArchiveProperties.filter(
-            (property) => property.closeListingReason = "Rented Outside"
+            (property) => (property.closeListingReason = "Rented Outside")
           )
         );
         break;
@@ -137,62 +137,62 @@ function AllProperty() {
       <div
         className="form"
         style={{
-          borderRadius: "16px",
-          marginTop: "10%",
+          // borderRadius: "16px",
+          // marginTop: "10%",
           backgroundRepeat: "no-repeat",
-          backgroundImage: `url(${oneBg})`,
+          // backgroundImage: `url(${oneBg})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "100% 100%",
         }}
       >
         <CommonHeader title="All Properties" color="#52796F" />
+        <div className="px-[0.5rem] gap-x-[0.5rem]">
+          <div
+            className="pt-[2rem] py-[1rem]"
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <div>
+              {archiveData ? (
+                <CommonTopButton
+                  bgColor="#D2D7D6"
+                  borderColor="#DAF0EE"
+                  color="#77A8A4"
+                  text="Available Properties"
+                  onclicked={handlePageAvailable}
+                />
+              ) : (
+                <CommonTopButton
+                  bgColor="#52796F"
+                  borderColor="#DAF0EE"
+                  color="#DAF0EE"
+                  text="Available Properties"
+                  onclicked={handlePageAvailable}
+                />
+              )}
+            </div>
+            <div>
+              {archiveData ? (
+                <CommonTopButton
+                  bgColor="#52796F"
+                  borderColor="#DAF0EE"
+                  color="#DAF0EE"
+                  text="Archived Properties"
+                  onclicked={handlePageAvailable}
+                />
+              ) : (
+                <CommonTopButton
+                  bgColor="#D2D7D6"
+                  borderColor="#DAF0EE"
+                  color="#77A8A4"
+                  text="Archived Properties"
+                  onclicked={handlePageAvailable}
+                />
+              )}
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginBottom: "20px",
-          }}
-        >
-          <div style={{ marginRight: "8px" }}>
-            {archiveData ? (
-              <CommonTopButton
-                bgColor="#D2D7D6"
-                borderColor="#DAF0EE"
-                color="#77A8A4"
-                text="Available Properties"
-                onclicked={handlePageAvailable}
-              />
-            ) : (
-              <CommonTopButton
-                bgColor="#52796F"
-                borderColor="#DAF0EE"
-                color="#DAF0EE"
-                text="Available Properties"
-                onclicked={handlePageAvailable}
-              />
-            )}
-          </div>
-          <div>
-            {archiveData ? (
-              <CommonTopButton
-                bgColor="#52796F"
-                borderColor="#DAF0EE"
-                color="#DAF0EE"
-                text="Archived Properties"
-                onclicked={handlePageAvailable}
-              />
-            ) : (
-              <CommonTopButton
-                bgColor="#D2D7D6"
-                borderColor="#DAF0EE"
-                color="#77A8A4"
-                text="Archived Properties"
-                onclicked={handlePageAvailable}
-              />
-            )}
-
-            {/* <CommonTopButton
+              {/* <CommonTopButton
               text="Archived Properties"
               bgColor= {setActivebgColor}
               borderColor= {setBorderColor}
@@ -200,8 +200,9 @@ function AllProperty() {
               onclicked={handlePage}
 
             /> */}
+            </div>
+            {/* Listing */}
           </div>
-          {/* Listing */}
         </div>
 
         {/* <SearchBar onSearch={handleSearch} placeholder="Search by Property name"/> */}

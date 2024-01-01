@@ -17,6 +17,36 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useBoardState } from "./boardState";
 import { globalTenantId } from "./TenantSideView";
+import { HiOutlineCurrencyRupee } from "react-icons/hi";
+import { IoHeartOutline } from "react-icons/io5";
+import { IoHeartSharp } from "react-icons/io5";
+import { MdBed } from "react-icons/md";
+import { MdChair } from "react-icons/md";
+import { LuParkingCircle } from "react-icons/lu";
+import { LuParkingCircleOff } from "react-icons/lu";
+import {
+  MdOutlineSecurity,
+  MdPower,
+  MdOutlineSportsHandball,
+} from "react-icons/md";
+import { FaCartShopping } from "react-icons/fa6";
+import { BiSwim } from "react-icons/bi";
+import { CgGym } from "react-icons/cg";
+import { RxDimensions } from "react-icons/rx";
+import { HiMiniBuildingOffice } from "react-icons/hi2";
+import { RiParkingBoxFill } from "react-icons/ri";
+import { FaBath } from "react-icons/fa6";
+import { MdBalcony, MdOutlineCleaningServices } from "react-icons/md";
+import { LuArmchair } from "react-icons/lu";
+import { TbAirConditioning } from "react-icons/tb";
+import { GiRoastChicken } from "react-icons/gi";
+import { BiSolidCalendarEdit } from "react-icons/bi";
+import { MdVpnKey } from "react-icons/md";
+import { HiCurrencyRupee } from "react-icons/hi2";
+import { FaUserLock } from "react-icons/fa";
+import { GrHostMaintenance } from "react-icons/gr";
+import { BsFillHouseLockFill } from "react-icons/bs";
+import { FaSearch } from "react-icons/fa";
 
 // import ActiveLeads from "./ActiveLeads";
 
@@ -25,14 +55,13 @@ function TenantSideViewComp({ boards, boardId }) {
   // console.log(token);
   //const shortListStatus = false;
   const [isClick, setClick] = useState(false);
-  const[shortListStatus, setshortListStatus ] = useState(false)
+  const [shortListStatus, setshortListStatus] = useState(false);
   const [loading, setLoading] = useState(false);
   // Initialize isClick state as an array with the same length as boards
   const { isClickArray, setIsClickArray } = useBoardState(boards.length);
-  //const ClickArray 
-console.log("isClickArray",isClickArray);
-//console.log("boardLength", boards.length)
- 
+  //const ClickArray
+  console.log("isClickArray", isClickArray);
+  //console.log("boardLength", boards.length)
 
   let axiosConfig = {
     headers: {
@@ -77,29 +106,28 @@ console.log("isClickArray",isClickArray);
     navigate(-1);
   };
 
-  const shortlist = async (propertyid,index) => {
+  console.log("TID from -> " + globalTenantId);
+
+  const shortlist = async (propertyid, index) => {
     // event.preventDefault();
     // setClick(true);
 
-    if(isClickArray[index])
-    {setClick(!isClick)
-      setshortListStatus(true)
-   }
-    
-    else{
-      setClick(false)
-      setshortListStatus(false)
-      
+    if (isClickArray[index]) {
+      setClick(!isClick);
+      setshortListStatus(true);
+    } else {
+      setClick(false);
+      setshortListStatus(false);
     }
     //setIsClickArray
-  /*  
+    /*  
    if(isClick){
       alert("Property shortlisted  ")
     }
     else{
     alert("Property removed from shortlist")}
-   */ 
-   // console.log("Received Id:", propertyid);
+   */
+    // console.log("Received Id:", propertyid);
     //console.log("Recieved BId", boardId);
 
     setIsClickArray((prevState) => {
@@ -108,26 +136,30 @@ console.log("isClickArray",isClickArray);
       //if(updatedIsClickArray[index]){
       //setClick(!isClick)}
       //else{
-        //setClick(isClick)
-     // }
+      //setClick(isClick)
+      // }
       //console.log(isClickArray)
       //console.log(updatedIsClickArray)
       return updatedIsClickArray;
-      
     });
-    
-
 
     try {
-     // console.log("Final pid",propertyid)
-     // console.log("Recieved BId", boardId);
-     console.log("PropertyId",propertyid,"shortliststatus",shortListStatus,"tenantId",globalTenantId)
+      // console.log("Final pid",propertyid)
+      // console.log("Recieved BId", boardId);
+      console.log(
+        "PropertyId",
+        propertyid,
+        "shortliststatus",
+        shortListStatus,
+        "tenantId",
+        globalTenantId
+      );
       const response = await axios.put(
         `https://b8rliving.com/board/shortlist/${boardId}`,
-        {propertyid,shortListStatus,globalTenantId},
+        { propertyid, shortListStatus, globalTenantId },
         axiosConfig
       );
-      console.log("Response fo apishortlist ",response);
+      console.log("Response fo apishortlist ", response);
       alert(response.data.message);
     } catch (error) {
       // Handle any errors that occur during the API request
@@ -143,175 +175,134 @@ console.log("isClickArray",isClickArray);
     <>
       {/* Mapping */}
       {boards.map((property, index) => (
-     
-        <div key={index} >
-         
+        <div key={index} className="px-[0.5rem] my-[1rem]">
           <div
+            className="py-[0.5rem] bg-[#DAF0EE] rounded-[0.3rem] p-[0.5rem]"
             style={{
-              display: "flex",
-              flexDirection: "column",
-              backgroundColor: "#B6E1DD",
-              borderRadius: "20px",
-              margin: "2%",
-              //height :"350px",
+              boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
             }}
           >
-            <div
-              style={{
-                height: "50%",
-                width: "100%",
-                borderRadius: "20px",
-                color: "#A4DAD5",
-                
-               
-              }}
+            {/* carousel */}
+            <Link
+              to={`/DetailView?boardId=${boardId}&propertyId=${property._id}&index=${index}`}
             >
-              <Link
-                to={`/DetailView?boardId=${boardId}&propertyId=${property._id}&index=${index}`}
+              <Carousel
+                showThumbs={false}
+                showArrows={true}
+                infiniteLoop={true}
+                autoPlay={true}
+                interval={1500}
               >
-                <Carousel showThumbs={false} showArrows={true}>
-                  {property.images.map((image, index) => (
-                    <div key={index}>
-                      <img src={image} style={ {
-                    width: '95%', // 
-                    height: '95%', //
-                    objectFit: 'cover', //
-                    borderRadius: '10px', 
-                    marginTop : '10px',
-  }}   />
-                      <p
-                        className="legend"
-                        style={{
-                          
-                        
-                          color: "#FFFFF",
-                          fontSize: "16px",
-                          fontWeight: "bolder",
-                      
-                        }}
-                      >
-                        {property.houseName}
-                      </p>
+                {property.images.map((image, index) => (
+                  <div key={index}>
+                    <img
+                      src={image}
+                      style={{
+                        objectFit: "cover",
+                        borderRadius: "10px",
+                      }}
+                    />
+                    <p
+                      className="legend"
+                      style={{
+                        color: "#FFFFF",
+                        fontSize: "16px",
+                        fontWeight: "bolder",
+                      }}
+                    >
+                      {property.houseName}
+                    </p>
+                  </div>
+                ))}
+              </Carousel>
+            </Link>
+            {/* other-item */}
+            <div className="pt-[0.5rem]">
+              {/* rent & shortlist */}
+              <div className="flex justify-between items-center">
+                <div className="flex justify-center items-center flex-col">
+                  <div className="flex justify-center items-center">
+                    <HiOutlineCurrencyRupee className="text-[1.4rem] font-bold" />
+                    <p className="font-bold text-[1.1rem]">
+                      {property.propertyDetails.featureInfo.rentAmount} /month
+                    </p>
+                  </div>
+                  <p className="text-[0.9rem]"> (incl. Maintenance )</p>
+                </div>
+                {globalTenantId && (
+                  <div className="flex justify-center items-center">
+                    <div className="mr-[-30px] flex justify-center items-center">
+                      {isClickArray[index] ? (
+                        <p
+                          style={{
+                            fontStyle: "Glida Display",
+                            fontSize: "16px",
+                            color: "#B30808",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Shortlisted
+                        </p>
+                      ) : (
+                        <p
+                          style={{
+                            fontStyle: "Glida Display",
+                            fontSize: "16px",
+                            color: "#B30808",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Shortlist{" "}
+                        </p>
+                      )}
                     </div>
-                  ))}
-                </Carousel>
-              </Link>
-              {/* For Images */}
-              {/* <img src={homeDown} alt="Los Angeles" /> */}
-            </div>
-
-            {/* For Details */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              <div
-                style={{
-                  textAlign: "centre",
-                  ItemAlign: "centre",
-                  display: "flex",
-                  flexDirection: "row",
-                }}
-              >
-                <img style={{ marginTop: "21px" , marginRight :"5px", marginLeft :"3px"}} src={Rupee} height={19} />
-                <h4
-                  style={{
-                    textAlign: "centre",
-                    ItemAlign: "centre",
-                    display: "flex",
-                    flexDirection: "row",
-                  }}
-                >
-                  {property.propertyDetails.featureInfo.rentAmount} /month
-                  <h6 style={{ marginTop: "0px",fontSize: '10px',marginLeft: '5px' }}> (incl. Maintenance )</h6>
-                </h4>
+                    <div className="mr-[-30px]">
+                      <Heart
+                        height={8}
+                        isClick={isClickArray[index]}
+                        onClick={() => shortlist(property._id, index)}
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
-              <div className="Apps" 
-              style={{ marginBottom: "1px",
-               display: "flex", flexDirection: "row-reverse", 
-               zoom: "0.7" }}>
-
-      <Heart height={10} isClick={isClickArray[index]} onClick={() => shortlist(property._id,index)  } />
-     
- {isClickArray[index] ? (
-  
-    <p
-      style={{
-        fontStyle: "Glida Display",
-        fontSize: "20px",
-        color: "#B30808",
-        fontWeight: "bold",
-        margin: "40px -30px 0 10px",
-      }}
-    >
-      
-      Shortlisted
-    </p>
-  ) : (
-    <p
-      style={{
-        fontStyle: "Glida Display",
-        fontSize: "20px",
-        color: "#B30808",
-        fontWeight: "bold",
-        margin: "40px -30px 0 10px",
-      }}
-    >
-      Shortlist{" "}
-    </p>
-  )}
-</div>
-</div>
-
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-around",
-              }}
-            >
-              <div style={{ display: "flex", flexDirection: "row" }}>
-                <img src={space} height={17}/>
-                <h5 style={{ marginTop: "1px", marginLeft: "4px" }}>
-                  {"  "}
-                  {property.propertyDetails.featureInfo.carpetArea} sqft
-                </h5>
-              </div>
-
-              <div style={{ display: "flex", flexDirection: "row" }}>
-                <img src={HouseConfig} height={17} />
-                <h5 style={{ marginTop: "0px" , marginLeft: "4px"}}>
-                  {" "}
-                  {property.propertyDetails.propertyInfo.houseConfig}{" "}
-                </h5>
-              </div>
-
-              <div style={{ display: "flex", flexDirection: "row" }}>
-                <img src={Sofa} height={17} />
-                <h5 style={{ marginTop: "0px", marginLeft: "4px" }}>
-                  {" "}
-                  {property.propertyDetails.featureInfo.furnishingType}{" "}
-                </h5>
-              </div>
-
-              <div style={{ display: "flex", flexDirection: "row" }}>
-                <img src={Parking} height={17} />
-                <h5 style={{ marginTop: "0px", marginLeft: "4px" }}>
-                  {" "}
-                  {property.propertyDetails.featureInfo.parking.car != "" ||
-                  property.propertyDetails.featureInfo.parking.bike > 0
-                    ? "Available"
-                    : "No"}
-                </h5>
+              {/* features */}
+              <div className="grid grid-cols-4">
+                <div className="flex justify-center items-center flex-col">
+                  <RxDimensions className="text-[1.5rem] mb-[0.2rem]" />
+                  <p className="font-bold text-center">
+                    {property.propertyDetails.featureInfo.carpetArea} sqft
+                  </p>
+                </div>
+                <div className="flex justify-center items-center flex-col">
+                  <MdBed className="text-[1.5rem] mb-[0.2rem]" />
+                  <p className="font-bold text-center">
+                    {property.propertyDetails.propertyInfo.houseConfig}
+                  </p>
+                </div>
+                <div className="flex justify-center items-center flex-col">
+                  <MdChair className="text-[1.5rem] mb-[0.2rem]" />
+                  <p className="font-bold text-center">
+                    {property.propertyDetails.featureInfo.furnishingType}
+                  </p>
+                </div>
+                <div className="flex justify-center items-center flex-col">
+                  <LuParkingCircle className="text-[1.5rem] mb-[0.2rem]" />
+                  <p className="font-bold text-center">
+                    {property.propertyDetails.featureInfo.parking.car != "" ||
+                    property.propertyDetails.featureInfo.parking.bike > 0
+                      ? "Available"
+                      : "No"}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-          <div style={{padding : "3px"}}></div>
         </div>
       ))}
+      {/* <div className="px-[0.5rem]">
+      
+      </div> */}
     </>
   );
 }

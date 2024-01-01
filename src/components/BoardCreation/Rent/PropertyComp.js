@@ -26,6 +26,7 @@ const PropertyComp = ({
   responseDataTenantBoard,
   name,
   boardId,
+  boardData,
 }) => {
   const [visibleItems, setVisibleItems] = useState(3);
   const token = localStorage.getItem("token");
@@ -207,6 +208,14 @@ const PropertyComp = ({
     setVisibleItems(visibleItems + 3);
   };
 
+  useEffect(() => {
+    if (boardData.length !== 0) {
+      setAddedItems(boardData.map((data) => data._id));
+    }
+  }, [boardData]);
+
+  // console.log(addedItems);
+  // console.log(boardData);
   // console.log(responseDataProperty);
   return (
     <>
@@ -283,7 +292,7 @@ const PropertyComp = ({
                       </div>
                     </div>
                     {/* last-section */}
-                    <div className="flex font-bold text-[#3B413D] gap-x-[2rem] text-center">
+                    <div className="flex font-bold text-[#3B413D] gap-x-[1.5rem] text-center">
                       {/* <div style={{ marginLeft: "-25px" }}>
                       <img src={space} alt="space" />
                       <text style={{ fontSize: "10px" }}>
@@ -311,28 +320,28 @@ const PropertyComp = ({
                         ? "Available"
                         : "No"}
                     </text> */}
-                      <div className="flex flex-col items-center">
+                      <div className="flex flex-col justify-center items-center">
                         <RxDimensions className="text-[1.5rem] mx-[0.3rem]" />
-                        <p className="text-[0.9rem]">
+                        <p className="text-[0.9rem] text-center">
                           {values.propertyDetails.featureInfo.carpetArea} sft
                         </p>
                       </div>
-                      <div className="flex flex-col items-center">
+                      <div className="flex flex-col justify-center items-center">
                         <MdBed className="text-[1.5rem] mx-[0.3rem]" />
-                        <p className="text-[0.9rem]">
+                        <p className="text-[0.9rem] text-center">
                           {values.propertyDetails.propertyInfo.houseConfig}
                         </p>
                       </div>
                       {values.propertyDetails.featureInfo.parking.car > 0 &&
                       values.propertyDetails.featureInfo.parking.bike > 0 ? (
-                        <div className="flex flex-col items-center">
+                        <div className="flex flex-col justify-center items-center">
                           <LuParkingCircle className="text-[1.5rem] mx-[0.3rem]" />
-                          <p className="text-[0.9rem]">Available</p>
+                          <p className="text-[0.9rem] text-center">Available</p>
                         </div>
                       ) : (
-                        <div className="flex flex-col items-center">
+                        <div className="flex flex-col justify-center items-center">
                           <LuParkingCircleOff className="text-[1.5rem] mx-[0.3rem]" />
-                          <p className="text-[0.9rem]">Not Available</p>
+                          <p className="text-[0.9rem] text-center">No</p>
                         </div>
                       )}
                     </div>

@@ -6,7 +6,8 @@ import "./commonButton.css";
 
 function CommonButton(props) {
   // console.log(props.title);
-  const { title, margin, fontweight, color, bgColor, isHeight, width } = props;
+  const { title, margin, fontweight, color, bgColor, isHeight, width, type } =
+    props;
 
   const [isBColor, setIsBColor] = useState(false);
   // const [isColor, setIsColor] = useState("");
@@ -22,6 +23,7 @@ function CommonButton(props) {
         // }}
       >
         <button
+          type={type}
           className="flex text-white justify-center items-center border-[#daf0ee] border-2 rounded-[0.5rem] px-[0.6rem] py-[0.2rem] commonbtn"
           style={{
             background: bgColor ? `${bgColor}` : "#52796f",

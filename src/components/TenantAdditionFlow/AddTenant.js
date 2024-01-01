@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AddTenantcss from "./AddTenant.css";
 import PropertDI from "./PropertyDI.css";
@@ -67,6 +67,22 @@ function AddTenant() {
   const [checkedStateOne, setCheckedStateOne] = useState(true);
   const [checkedStateTwo, setCheckedStateTwo] = useState(false);
   const [checkedStateThree, setCheckedStateThree] = useState(false);
+
+  // scrollToTop
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [checkedStateOne]);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [checkedStateTwo]);
 
   const [formData, setFormData] = useState({
     phoneNumber: "",
@@ -184,7 +200,7 @@ function AddTenant() {
   };
 
   const navigate = useNavigate();
-  const handleClick = () => {
+  const handleBack = () => {
     // Now you can navigate programmatically to other pages using navigate
     navigate(-1);
   };
@@ -349,11 +365,23 @@ function AddTenant() {
                 />
               </div>
 
-              <div className="flex justify-center items-center py-[1rem]">
+              <div className="flex justify-around items-center py-[1rem]">
                 {/* <div onClick={handleClick}>
                   <BackButton title="Back" margin="" fontweight="bolder" />
                 </div> */}
-                <CommonBtn title="Submit" margin="50%" fontweight="bolder" />
+                <button
+                  onClick={() => {
+                    navigate(-1);
+                  }}
+                >
+                  <BackButton title="Back" />
+                </button>
+                <CommonBtn
+                  title="Next"
+                  margin="50%"
+                  fontweight="bolder"
+                  type="submit"
+                />
               </div>
             </form>
             <Footer />
@@ -396,7 +424,7 @@ function AddTenant() {
                 <select
                   name="stayDuration"
                   id="stayduration"
-                  value={formData.stayDuration}
+                  value={formData.tenantData.stayDuration}
                   onChange={handleChange}
                   style={{
                     backgroundColor: "white",
@@ -434,7 +462,7 @@ function AddTenant() {
                   id="numberOfMonth"
                   min="1"
                   max="12"
-                  value={formData.numberOfMonth}
+                  value={formData.tenantData.numberOfMonth  }
                   onChange={handleChange}
                   maxLength="2"
                   name="numberOfMonth"
@@ -469,7 +497,7 @@ function AddTenant() {
                 <select
                   id="houseConfiguration"
                   name="houseConfiguration"
-                  value={formData.houseConfiguration}
+                  value={formData.tenantData.houseConfiguration}
                   onChange={handleChange}
                   style={{
                     backgroundColor: "white",
@@ -547,7 +575,7 @@ function AddTenant() {
                 <select
                   id="houseType"
                   name="houseType"
-                  value={formData.houseType}
+                  value={formData.tenantData.houseType}
                   onChange={handleChange}
                   style={{
                     backgroundColor: "white",
@@ -593,7 +621,7 @@ function AddTenant() {
                   type="text"
                   id="preferredLocation"
                   name="preferredLocation"
-                  value={formData.preferredLocation}
+                  value={formData.tenantData.preferredLocation}
                   onChange={handleChange}
                   style={{
                     backgroundColor: "white",
@@ -624,7 +652,7 @@ function AddTenant() {
                     <input
                       type="number"
                       id="rent"
-                      value={formData.rent}
+                      value={formData.tenantData.rent}
                       onChange={handleChange}
                       name="rent"
                       placeholder="-number only*-"
@@ -657,7 +685,7 @@ function AddTenant() {
                     <input
                       type="date"
                       id="moveIn"
-                      value={formData.moveIn}
+                      value={formData.tenantData.moveIn}
                       onChange={handleChange}
                       name="moveIn"
                       // placeholder="username"
@@ -681,16 +709,21 @@ function AddTenant() {
             <button className="CommonnButton" style={{  fontWeight: "1000" , textAlign: "left", fontStyle: "normal", width: "55%" }}>Save and Next <img className="vectorSignIn" src={vector} alt="fireSpot"/></button>
             </div> */}
 
-              <div className="flex justify-center items-center py-[1rem]">
-                {/* <div>
-                  <BackButton
-                    title="Back"
-                    margin=""
-                    fontweight="bolder"
-                    onClick={handleClick}
-                  />
-                </div> */}
-                <CommonBtn title="Submit" margin="50%" fontweight="bolder" />
+              <div className="flex justify-around items-center py-[1rem]">
+                <button
+                  onClick={() => {
+                    setCheckedStateTwo(!checkedStateTwo);
+                    setCheckedStateOne(!checkedStateOne);
+                  }}
+                >
+                  <BackButton title="Back" />
+                </button>
+                <CommonBtn
+                  title="Next"
+                  margin="50%"
+                  fontweight="bolder"
+                  type="submit"
+                />
               </div>
 
               <Footer />
@@ -1005,12 +1038,21 @@ function AddTenant() {
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-center items-center py-[1rem]">
+                <div className="flex justify-around items-center py-[1rem]">
+                  <button
+                    onClick={() => {
+                      setCheckedStateThree(!checkedStateThree);
+                      setCheckedStateTwo(!checkedStateTwo);
+                    }}
+                  >
+                    <BackButton title="Back" />
+                  </button>
                   <CommonBtn
                     title="Submit"
                     margin="25%"
                     fontweight="bolder"
                     color="#DAF0EE"
+                    type="submit"
                   />
                 </div>
               </form>

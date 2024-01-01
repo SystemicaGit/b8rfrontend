@@ -8,12 +8,15 @@ import Footer from "../../Footer";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { FaHandshake } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 function BoardCreated() {
   const queryParameters = new URLSearchParams(window.location.search);
   const boardId = queryParameters.get("boardId");
   const path = queryParameters.get("path");
   // console.log(boardId);
+
+  const navigate = useNavigate();
 
   const [responseDataBoard, setResponseDataBoard] = useState([]);
   const [responseDataTenant, setResponseDataTenant] = useState([]);
@@ -155,6 +158,13 @@ function BoardCreated() {
               margin="90px"
             />
           </p>
+          <button
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            <CommonBtn title="View Board" margin="90px" />
+          </button>
         </div>
         <div className="mb-[3rem]" />
         <Footer />

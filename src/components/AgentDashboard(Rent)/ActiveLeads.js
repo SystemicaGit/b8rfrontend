@@ -96,12 +96,12 @@ function ActiveLeads() {
 
         {/* <SearchBar onSearch={handleSearch} placeholder="Search by Tenant Name"/> */}
 
-        <div className="px-[1rem] pt-[2rem] pb-[1rem] text-[1.3rem]">
+        {/* <div className="px-[1rem] pt-[2rem] pb-[1rem] text-[1.3rem]">
           <p className="pb-[1rem]">
             Hey,<b>{name}</b>
           </p>
           <p className=""> Here are all the tenants that you have onboarded </p>
-        </div>
+        </div> */}
 
         <TenantComp props={responsePendingTenants} name={name} />
 
